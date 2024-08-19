@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -20,7 +21,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Today_MusicTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -28,9 +28,9 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     NavHost(navController = navController, startDestination = "poster_list") {
 
-                        composable("poster_list") { PosterListScreen(navController = navController) }
-                        composable("detail_page") { DetailPageScreen(navController = navController) }
-                        composable("write_post") { WritePostScreen(navController = navController) }
+                        composable(Screen.PosterList.route) { PosterListScreen(navController) }
+                        composable(Screen.DetailPage.route) { DetailPageScreen(navController) }
+                        composable(Screen.WritePost.route) { WritePostScreen(navController) }
 
                     }
                 }
