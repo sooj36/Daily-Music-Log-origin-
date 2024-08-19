@@ -6,10 +6,13 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.sooj.today_music.presentation.DetailPageScreen
+import com.sooj.today_music.presentation.PosterListScreen
+import com.sooj.today_music.presentation.WritePostScreen
 import com.sooj.today_music.ui.theme.Today_MusicTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,25 +25,17 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    val navController = rememberNavController()
+                    NavHost(navController = navController, startDestination = "poster_list") {
+
+                        composable("poster_list") { PosterListScreen(navController = navController) }
+                        composable("detail_page") { DetailPageScreen(navController = navController) }
+                        composable("write_post") { WritePostScreen(navController = navController) }
+
+                    }
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    Today_MusicTheme {
-        Greeting("Android")
-    }
-}
