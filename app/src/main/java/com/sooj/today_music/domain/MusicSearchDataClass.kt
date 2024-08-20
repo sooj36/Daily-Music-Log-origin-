@@ -1,12 +1,14 @@
 package com.sooj.today_music.domain
 
+import com.google.gson.annotations.SerializedName
+
 data class MusicSearchDataClass(
-    val track : Track
+    @SerializedName("track") val track : Track
 )
 
 
 data class Track (
-    val name : String,
-    val artist : String,
-    val image: Image
+    @SerializedName("name") val name : String,
+    @SerializedName("artist") val artist : String,
+    @SerializedName("image") val image: String = ""
 )
