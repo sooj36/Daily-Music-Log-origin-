@@ -19,3 +19,6 @@ interface ApiService2 {
         @Query("format") format: String = "json"
     ): MusicSearchDataClass
 }
+
+
+// /2.0/?method=track.search&track=Believe&api_key=YOUR_API_KEY&format=json
