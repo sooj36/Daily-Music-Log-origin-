@@ -6,6 +6,7 @@ plugins {
     id("dagger.hilt.android.plugin")
 }
 
+
 android {
     namespace = "com.sooj.today_music"
     compileSdk = 34
