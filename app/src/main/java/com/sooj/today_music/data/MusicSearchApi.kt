@@ -6,4 +6,5 @@ import retrofit2.http.GET
 interface MusicSearchApi {
     @GET("2.0")
     suspend fun getMusicSearch() : List<MusicSearchDataClass>
+
 }
