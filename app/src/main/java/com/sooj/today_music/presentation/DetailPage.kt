@@ -28,8 +28,8 @@ fun DetailPageScreen(navController: NavController) {
 
             Column {
                 Text(text = "TITLE", modifier = Modifier.fillMaxWidth(), fontSize = 15.sp) // 노래제목
-                Image(painterResource(id = R.drawable.ic_launcher_foreground) , contentDescription = null)
-                Text(text = "2024-08-19")
+                Image(painterResource(id = R.drawable.ic_launcher_foreground) , contentDescription = null) // 앨범 포스터
+                Text(text = "2024-08-19") // 등록시간
             }
         }
     }

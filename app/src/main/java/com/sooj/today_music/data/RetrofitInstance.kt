@@ -14,11 +14,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 //}
 
 object RetrofitInstance {
-    val api : ApiService by lazy {
+    val api : ApiService2 by lazy {
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        retrofit.create(ApiService::class.java)
+        retrofit.create(ApiService2::class.java)
     }
 }
