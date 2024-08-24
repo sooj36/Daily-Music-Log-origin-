@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    SearchPageScreen(musicViewModel)
+                    SearchPageScreen()
 //                    val navController = rememberNavController()
 //                    NavHost(navController = navController, startDestination = "poster_list") {
 //

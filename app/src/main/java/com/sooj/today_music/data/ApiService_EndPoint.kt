@@ -11,7 +11,7 @@ interface ApiService_EndPoint {
     suspend fun getMusicSearch(
         @Query("method") method: String = "track.search",
         @Query("track") track: String = "",
-        @Query("api_key") api_key: String,
+        @Query("api_key") apiKey: String,
         @Query("format") format: String = "json",
     ): Response<MusicModel_dc>
 }

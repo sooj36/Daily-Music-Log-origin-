@@ -34,13 +34,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.sooj.today_music.R
 
 @Composable
-fun SearchPageScreen(viewModel: SearchViewModel) {
-
-
+fun SearchPageScreen() {
+    val musicViewModel = viewModel<SearchViewModel>()
+    val searchList by musicViewModel.searchList
     Box(modifier = Modifier.fillMaxSize()) {
         Column {
             Spacer(modifier = Modifier.height(8.dp))
@@ -101,7 +102,7 @@ fun SearchPageScreen(viewModel: SearchViewModel) {
                 Spacer(modifier = Modifier.width(8.dp))
 
                 Button(onClick = {
-                    viewModel.getMusic(track)
+                    musicViewModel.getMusic(track)
                 }) {
                     Modifier
                         .weight(2f)
@@ -111,11 +112,27 @@ fun SearchPageScreen(viewModel: SearchViewModel) {
 
                 }
             } // row
-            LazyVerticalGrid(columns = GridCells.Fixed(2),
-                modifier = Modifier.padding(9.dp)
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                modifier = Modifier
+                    .padding(9.dp)
                     .fillMaxSize()
                     .background(Color.Transparent),
-                content =  { }) // https://www.youtube.com/watch?v=pzSWTNK9h7M&t=1860s
+                ) { items(searchList.size) {index ->
+                val track = searchList[index]
+                Column(modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxWidth()) {
+                    // 앨범 이미지
+//                    Image(painter = rememberImageP, contentDescription = )
+                    // 트랙명
+                    Text(text = track.name.toString())
+                    // 아티스트명
+                    Text(text = track.artist.toString())
+                }
+            }
+
+            }
         }
     }
 }
