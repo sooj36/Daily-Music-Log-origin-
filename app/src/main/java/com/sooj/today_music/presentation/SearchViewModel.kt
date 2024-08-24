@@ -6,18 +6,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sooj.today_music.BuildConfig
-import com.sooj.today_music.data.ApiService_EndPoint
 import com.sooj.today_music.data.RetrofitInstance_build
-import com.sooj.today_music.domain.Constant
-import com.sooj.today_music.domain.Track
-import kotlinx.coroutines.flow.StateFlow
+import com.sooj.today_music.domain.Album
 import kotlinx.coroutines.launch
 
 
 class SearchViewModel : ViewModel() {
 
-    private val _searchList = mutableStateOf<List<Track>>(emptyList())
-    val searchList : State<List<Track>> = _searchList
+//    private val _searchList = mutableStateOf<List<Track2>>(emptyList())
+//    val searchList: State<List<Track2>> = _searchList
+
+    private val _infoList = mutableStateOf<List<Album>>(emptyList())
+    val infoList: State<List<Album>> get() = _infoList
 
     private val musicApi = RetrofitInstance_build.musicApi
 
@@ -26,30 +26,41 @@ class SearchViewModel : ViewModel() {
 
         // coroutines
         viewModelScope.launch {
-            val response = musicApi.getMusicSearch(
-                "track.search",
+            val response2 = musicApi.getMusicSearch(
+                "track.info",
                 track,
                 BuildConfig.LAST_FM_API_KEY,
-                "json" )
+                "json"
+            )
+            val response = musicApi.getMusicSearch(
+                "track.getInfo",
+                BuildConfig.LAST_FM_API_KEY,
+                "jannabi",
+                track,
+                "json"
+            )
             if (response.isSuccessful) {
-                // 응답 성공 시,
-                val musicModel = response.body()
-                Log.d("API RESPONSE," ,musicModel.toString())
+                response.body()?.track?.album?.let { info ->
+                    _infoList.value = listOf(info)
+                }
+                val infoModel = response.body()
+                Log.d("API RESPONSE," , infoModel.toString())
 
-                response.body()?.results?.trackmatches?.track?.let { tracks ->
-                    _searchList.value = tracks /** searchlist에 값을 할당*/
-
-                    tracks.forEach {track ->
-                        Log.d("API RESPONSE foreach", "Track: ${track.name}, Artist: ${track.artist}")
-                    }
-                } // track
-
-
-
-
+//                // 응답 성공 시,
+//                val musicModel = response.body()
+//                Log.d("API RESPONSE," ,musicModel.toString())
+//
+//                response.body()?.results?.trackmatches?.track?.let { tracks ->
+//                    _searchList.value = tracks /** searchlist에 값을 할당*/
+//
+//                    tracks.forEach {track ->
+//                        Log.d("API RESPONSE foreach", "Track: ${track.name}, Artist: ${track.artist}")
+//                    } // track2
             } else {
-                Log.i("Response 에러", response.message())
-                Log.e("API Error", "Error code: ${response.code()}, message: ${response.message()}")
+                Log.e(
+                    "response error",
+                    "Error Code : ${response.code()}, message:${response.message()}"
+                )
             }
         }
     }

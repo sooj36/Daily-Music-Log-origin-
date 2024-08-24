@@ -37,6 +37,7 @@ data class Album(
     val image: List<Image>
 )
 
+
 data class Image(
     @SerializedName("#text") val url: String,
     val size : String
