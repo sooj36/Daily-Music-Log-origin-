@@ -15,10 +15,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Button
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,26 +34,31 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.sooj.today_music.R
-import com.sooj.today_music.Screen
 
 @Composable
-fun WritePostScreen(navController: NavController) {
+fun SearchPageScreen(viewModel: SearchViewModel) {
+
+
     Box(modifier = Modifier.fillMaxSize()) {
         Column {
             Spacer(modifier = Modifier.height(8.dp))
             Image(painterResource(id = R.drawable.back), contentDescription = "back",
                 modifier = Modifier
-                    .clickable { navController.popBackStack() }
+                    .clickable {
+//                        navController.popBackStack()
+                    }
                     .size(24.dp))
             Spacer(modifier = Modifier.height(16.dp))
 
-            Row(modifier = Modifier.fillMaxWidth(),
+            Row(
+                modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.End
             ) {
-                Button(onClick = { navController.navigate(Screen.PosterList.route) }) {
+                Button(onClick = {
+//                    navController.navigate(Screen.PosterList.route)
+                }) {
                     Text(text = "추가")
                 }
             }
@@ -62,14 +69,15 @@ fun WritePostScreen(navController: NavController) {
                 modifier = Modifier.padding(start = 8.dp, end = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                var text by remember { mutableStateOf("") }
-
+                var track by remember {
+                    mutableStateOf("")
+                }
                 BasicTextField(modifier = Modifier
                     .width(80.dp)
                     .weight(8f)
                     .border(color = Color.Transparent, width = 1.dp)
                     .background(Color.LightGray),
-                    value = text, onValueChange = { text = it },
+                    value = track, onValueChange = { track = it },
                     textStyle = TextStyle(color = Color.Black, fontSize = 15.sp),
                     singleLine = true,
                     decorationBox = { innerTextField ->
@@ -77,19 +85,24 @@ fun WritePostScreen(navController: NavController) {
                             modifier = Modifier
                                 .padding(8.dp)
                         ) {
-                            if (text.isEmpty()) {
+                            if (track.isEmpty()) {
                                 Text(
                                     text = "오늘의 노래를 검색하세요", style = TextStyle(color = Color.Gray)
                                 )
+                            } else {
+                                // 음악 검색
+//                                viewModel.getMusic(track)
                             }
                             innerTextField() // 실제 텍스트 입력 필드
                         }
-                    }
+                    } // decorationBox
                 )
 
                 Spacer(modifier = Modifier.width(8.dp))
 
-                Button(onClick = { /*TODO*/ }) {
+                Button(onClick = {
+                    viewModel.getMusic(track)
+                }) {
                     Modifier
                         .weight(2f)
                         .background(Color.Black)
@@ -97,17 +110,19 @@ fun WritePostScreen(navController: NavController) {
                     // 검색 api 진입 버튼
 
                 }
-            }
-//
-
+            } // row
+            LazyVerticalGrid(columns = GridCells.Fixed(2),
+                modifier = Modifier.padding(9.dp)
+                    .fillMaxSize()
+                    .background(Color.Transparent),
+                content =  { }) // https://www.youtube.com/watch?v=pzSWTNK9h7M&t=1860s
         }
     }
-
 }
 
 @Preview
 @Composable
 fun WritePostPreview() {
     val navController = rememberNavController()
-    WritePostScreen(navController)
+//    SearchPageScreen(navController)
 }
