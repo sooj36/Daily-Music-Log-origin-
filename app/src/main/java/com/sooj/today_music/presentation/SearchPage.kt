@@ -1,5 +1,7 @@
 package com.sooj.today_music.presentation
 
+import android.util.Log
+import android.widget.ImageView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -29,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,6 +39,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
+import coil.compose.rememberImagePainter
+import coil.request.ImageRequest
 import com.sooj.today_music.R
 
 @Composable
@@ -118,20 +124,29 @@ fun SearchPageScreen() {
                     .padding(9.dp)
                     .fillMaxSize()
                     .background(Color.Transparent),
-                ) { items(searchList.size) {index ->
-                val track = searchList[index]
-                Column(modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth()) {
-                    // 앨범 이미지
-//                    Image(painter = rememberImageP, contentDescription = )
-                    // 트랙명
-                    Text(text = track.name.toString())
-                    // 아티스트명
-                    Text(text = track.artist.toString())
+            ) {
+                items(searchList.size) { index ->
+                    val track = searchList[index]
+                    Column(
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .fillMaxWidth(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        // 앨범 이미지
+                        AsyncImage(model = ImageRequest.Builder(LocalContext.current)
+                            .data(track.image?.find { it.size == "extralarge" }?.url).build(),
+                            contentDescription = null
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        // 트랙명
+                        Text(text = track.name.toString(), fontSize = 16.sp)
+                        // 아티스트명
+                        Text(text = track.artist.toString(), fontSize = 16.sp)
+                    }
+                    Log.d("화면", "${AsyncImage(model = track.image, contentDescription = null)}")
                 }
-            }
-
             }
         }
     }
