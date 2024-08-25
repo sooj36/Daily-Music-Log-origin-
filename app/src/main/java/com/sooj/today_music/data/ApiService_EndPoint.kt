@@ -1,7 +1,6 @@
 package com.sooj.today_music.data
 
 
-import com.sooj.today_music.domain.MusicInfoModel_dc
 import com.sooj.today_music.domain.MusicModel_dc
 import retrofit2.Response
 import retrofit2.http.GET
@@ -10,17 +9,17 @@ import retrofit2.http.Query
 interface ApiService_EndPoint {
     @GET("/2.0")
     suspend fun getMusicSearch(
-//        @Query("method") method: String = "track.getInfo",
-//        @Query("track") track: String = "",
-//        @Query("api_key") apiKey: String,
-//        @Query("format") format: String = "json",
-
-        @Query("method") method: String = "track.getInfo",
-        @Query("api_key") apiKey: String,
-        @Query("artist") artist: String,
+        @Query("method") method: String = "track.search",
         @Query("track") track: String = "",
-        @Query("format") format: String = "json"
-    ): Response<MusicInfoModel_dc>
+        @Query("api_key") apiKey: String,
+        @Query("format") format: String = "json",
+//
+//        @Query("method") method: String = "track.getInfo",
+//        @Query("api_key") apiKey: String,
+//        @Query("artist") artist: String,
+//        @Query("track") track: String = "",
+//        @Query("format") format: String = "json"
+    ): Response<MusicModel_dc>
 }
 
 

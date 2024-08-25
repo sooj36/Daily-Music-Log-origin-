@@ -22,10 +22,10 @@ data class OpenSearchQuery(
 )
 
 data class Trackmatches(
-    val track: List<Track2>?
+    val track: List<Track>?
 )
 
-data class Track2(
+data class Track(
     val name: String?,
     val artist: String?,
     val url: String?,

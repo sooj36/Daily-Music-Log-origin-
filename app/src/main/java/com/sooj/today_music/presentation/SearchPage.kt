@@ -44,8 +44,8 @@ import com.sooj.today_music.R
 @Composable
 fun SearchPageScreen() {
     val musicViewModel = viewModel<SearchViewModel>()
-//    val searchList by musicViewModel.searchList
-    val infoList by musicViewModel.infoList
+    val searchList by musicViewModel.searchList
+    /** val infoList by musicViewModel.infoList */
     Box(modifier = Modifier.fillMaxSize()) {
         Column {
             Spacer(modifier = Modifier.height(8.dp))
@@ -123,46 +123,47 @@ fun SearchPageScreen() {
                     .fillMaxSize()
                     .background(Color.Transparent),
             ) {
-//                items(searchList.size) { index ->
-//                    val track = searchList[index]
-//                    Column(
-//                        modifier = Modifier
-//                            .padding(8.dp)
-//                            .fillMaxWidth(),
-//                        verticalArrangement = Arrangement.Center,
-//                        horizontalAlignment = Alignment.CenterHorizontally
-//                    ) {
-//                        // 앨범 이미지
-//                        AsyncImage(model = ImageRequest.Builder(LocalContext.current)
-//                            .data(track.image?.find { it.size == "extralarge" }?.url).build(),
-//                            contentDescription = null
-//                        )
-//                        Spacer(modifier = Modifier.height(8.dp))
-//                        // 트랙명
-//                        Text(text = track.name.toString(), fontSize = 16.sp)
-//                        // 아티스트명
-//                        Text(text = track.artist.toString(), fontSize = 16.sp)
-//                    }
-//                    Log.d("화면", "${AsyncImage(model = track.image, contentDescription = null)}")
-//                } // search
-
-                items(infoList.size) {index ->
-                    val trackinfo = infoList[index]
-                    Column(modifier = Modifier
-                        .padding(8.dp)
-                        .fillMaxWidth(),
+                items(searchList.size) { index ->
+                    val track = searchList[index]
+                    Column(
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .fillMaxWidth(),
                         verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally) {
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
                         // 앨범 이미지
                         AsyncImage(
                             model = ImageRequest.Builder(LocalContext.current)
-                                .data(trackinfo.image?.find { it.size == "large" }?.url).build(),
+                                .data(track.image?.find { it.size == "extralarge" }?.url).build(),
                             contentDescription = null
                         )
-                        Text(text = trackinfo.title, fontSize = 16.sp)
-                        Text(text = trackinfo.artist, fontSize = 13.sp)
+                        Spacer(modifier = Modifier.height(8.dp))
+                        // 트랙명
+                        Text(text = track.name.toString(), fontSize = 16.sp)
+                        // 아티스트명
+                        Text(text = track.artist.toString(), fontSize = 16.sp)
                     }
+                    Log.d("화면", "${AsyncImage(model = track.image, contentDescription = null)}")
+                } // search
+
+                /** items(infoList.size) {index ->
+                val trackinfo = infoList[index]
+                Column(modifier = Modifier
+                .padding(8.dp)
+                .fillMaxWidth(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally) {
+                // 앨범 이미지
+                AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                .data(trackinfo.image?.find { it.size == "large" }?.url).build(),
+                contentDescription = null
+                )
+                Text(text = trackinfo.title, fontSize = 16.sp)
+                Text(text = trackinfo.artist, fontSize = 13.sp)
                 }
+                } // infolist.size */
             }
         }
     }
