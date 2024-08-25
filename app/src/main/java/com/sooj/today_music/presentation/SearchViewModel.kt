@@ -15,9 +15,14 @@ import kotlinx.coroutines.launch
 class SearchViewModel : ViewModel() {
     private val _searchList = mutableStateOf<List<Track>>(emptyList())
     val searchList: State<List<Track>> get() = _searchList
+
+//    val repository  = SearchRepository()
+// 오류 이유 : SearchRepository 를 초기화할때 발생하는 문제로, 객체로 사용하려 했지만,
+//    companion object이 없어서 발생
+
     /** _searchList.value <-- _searchList 값 가져와 외부에 노출
      * val searchList: State<List<Track>> get() = _searchList
-    get() 커스텀 게터*/
+    get() 커스텀 게터 */
 
     /** private val _infoList = mutableStateOf<List<Album>>(emptyList())
     val infoList: State<List<Album>> get() = _infoList */
