@@ -7,14 +7,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sooj.today_music.BuildConfig
 import com.sooj.today_music.data.RetrofitInstance_build
+import com.sooj.today_music.domain.SearchRepository
 import com.sooj.today_music.domain.Track
 import kotlinx.coroutines.launch
 
 
 class SearchViewModel : ViewModel() {
-
     private val _searchList = mutableStateOf<List<Track>>(emptyList())
-    val searchList: State<List<Track>> = _searchList
+    val searchList: State<List<Track>> get() = _searchList
+    /** _searchList.value <-- _searchList 값 가져와 외부에 노출
+     * val searchList: State<List<Track>> get() = _searchList
+    get() 커스텀 게터*/
 
     /** private val _infoList = mutableStateOf<List<Album>>(emptyList())
     val infoList: State<List<Album>> get() = _infoList */

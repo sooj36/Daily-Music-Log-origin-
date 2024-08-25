@@ -105,17 +105,17 @@ fun SearchPageScreen(navController : NavController) {
                 }
             } // row
             LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
+                columns = GridCells.Fixed(3),
                 modifier = Modifier
-                    .padding(9.dp)
+                    .padding(5.dp)
                     .fillMaxSize()
-                    .background(Color.Transparent),
+                    .background(Color.Gray),
             ) {
                 items(searchList.size) { index ->
                     val track = searchList[index]
                     Column(
                         modifier = Modifier
-                            .padding(8.dp)
+                            .padding(5.dp)
                             .fillMaxWidth()
                             .clickable {
                                 //
