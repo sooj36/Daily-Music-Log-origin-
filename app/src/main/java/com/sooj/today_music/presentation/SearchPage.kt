@@ -19,7 +19,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,6 +35,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -56,18 +61,6 @@ fun SearchPageScreen() {
                     }
                     .size(24.dp))
             Spacer(modifier = Modifier.height(16.dp))
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End
-            ) {
-                Button(onClick = {
-//                    navController.navigate(Screen.PosterList.route)
-                }) {
-                    Text(text = "추가")
-                }
-            }
-
 
             Spacer(modifier = Modifier.height(8.dp))
             Row(
@@ -105,14 +98,8 @@ fun SearchPageScreen() {
 
                 Spacer(modifier = Modifier.width(8.dp))
 
-                Button(onClick = {
-                    musicViewModel.getMusic(text)
-                }) {
-                    Modifier
-                        .weight(2f)
-                        .background(Color.Black)
-                    Text(text = "검색")
-                    // 검색 api 진입 버튼
+                IconButton(onClick = { musicViewModel.getMusic(text) }) {
+                    Image(imageVector = Icons.Default.Search, contentDescription = "search")
 
                 }
             } // row
@@ -128,24 +115,35 @@ fun SearchPageScreen() {
                     Column(
                         modifier = Modifier
                             .padding(8.dp)
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .clickable {
+                                //
+                            },
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        // 앨범 이미지
+                        /** 앨범 이미지 */
                         AsyncImage(
                             model = ImageRequest.Builder(LocalContext.current)
                                 .data(track.image?.find { it.size == "extralarge" }?.url).build(),
                             contentDescription = null
                         )
                         Spacer(modifier = Modifier.height(8.dp))
-                        // 트랙명
-                        Text(text = track.name.toString(), fontSize = 16.sp)
-                        // 아티스트명
-                        Text(text = track.artist.toString(), fontSize = 16.sp)
+                        /** 트랙명 */
+                        Text(
+                            text = track.name.toString(),
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                        /** 아티스트명 */
+                        Text(
+                            text = track.artist.toString(),
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.SemiBold
+                        )
                     }
                     Log.d("화면", "${AsyncImage(model = track.image, contentDescription = null)}")
-                } // search
+                } // index
 
                 /** items(infoList.size) {index ->
                 val trackinfo = infoList[index]
