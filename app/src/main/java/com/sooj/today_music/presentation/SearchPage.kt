@@ -41,13 +41,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.sooj.today_music.R
 
 @Composable
-fun SearchPageScreen() {
+fun SearchPageScreen(navController : NavController) {
     val musicViewModel = viewModel<SearchViewModel>()
     val searchList by musicViewModel.searchList
     /** val infoList by musicViewModel.infoList */
@@ -57,7 +58,7 @@ fun SearchPageScreen() {
             Image(painterResource(id = R.drawable.back), contentDescription = "back",
                 modifier = Modifier
                     .clickable {
-//                        navController.popBackStack()
+                        navController.popBackStack()
                     }
                     .size(24.dp))
             Spacer(modifier = Modifier.height(16.dp))
@@ -171,5 +172,5 @@ fun SearchPageScreen() {
 @Composable
 fun WritePostPreview() {
     val navController = rememberNavController()
-//    SearchPageScreen(navController)
+    SearchPageScreen(navController)
 }

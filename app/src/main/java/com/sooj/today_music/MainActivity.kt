@@ -22,24 +22,26 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val musicViewModel = ViewModelProvider(this)[SearchViewModel::class.java] // 초기화, 인스턴스 생성
+            val musicViewModel =
+                ViewModelProvider(this)[SearchViewModel::class.java] // 초기화, 인스턴스 생성
             Today_MusicTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    SearchPageScreen()
-//                    val navController = rememberNavController()
-//                    NavHost(navController = navController, startDestination = "poster_list") {
-//
-//                        composable(Screen.PosterList.route) { PosterListScreen(navController) }
-//                        composable(Screen.DetailPage.route) { DetailPageScreen(navController) }
-//                        composable(Screen.WritePost.route) { SearchPageScreen(navController) }
+                    val navController = rememberNavController()
+//                    SearchPageScreen(navController)
+                    NavHost(navController = navController, startDestination = "poster_list") {
+
+                        composable(Screen.PosterList.route) { PosterListScreen(navController) }
+                        composable(Screen.DetailPage.route) { DetailPageScreen(navController) }
+                        composable(Screen.WritePost.route) { SearchPageScreen(navController) }
 
                     }
                 }
             }
         }
     }
+}
 
 
