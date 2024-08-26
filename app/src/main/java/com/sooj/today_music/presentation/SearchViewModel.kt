@@ -1,6 +1,7 @@
 package com.sooj.today_music.presentation
 
 import android.util.Log
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -18,8 +19,14 @@ class SearchViewModel @Inject constructor(
     /** viewmodel 생성 시 Hilt가 알아서 repo 제공해주고, 이 주입받은 repo통해 데이터 처리*/
 ) : ViewModel() {
 
+    // 검색
     private val _searchList = mutableStateOf<List<Track>>(emptyList())
     val searchList: State<List<Track>> get() = _searchList
+
+    // 선택
+    private val _selectedTrack = mutableStateOf<Track?>(null)
+    val selectedTrack : State<Track?> get() = _selectedTrack
+
 
     /** _searchList.value <-- _searchList 값 가져와 외부에 노출
      * val searchList: State<List<Track>> get() = _searchList
@@ -76,5 +83,10 @@ class SearchViewModel @Inject constructor(
 //                )
 //            }
 //        } //viewModelScope
+    }
+
+    // 선택한 트랙
+    fun selectTrack(track: Track) {
+        _selectedTrack.value = track
     }
 }

@@ -120,7 +120,10 @@ fun SearchPageScreen(navController: NavController) {
                             .padding(5.dp)
                             .fillMaxWidth()
                             .clickable {
-                                //
+                                // 클릭 시, Viewmodel에 선택된 트랙 저장
+                                       musicViewModel.selectedTrack
+                                // 다른 페이지로 이동
+                                navController.navigate("poster_list")
                             },
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
