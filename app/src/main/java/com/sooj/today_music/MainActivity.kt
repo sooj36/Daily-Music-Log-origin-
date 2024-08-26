@@ -17,7 +17,9 @@ import com.sooj.today_music.presentation.PosterListScreen
 import com.sooj.today_music.presentation.SearchPageScreen
 import com.sooj.today_music.presentation.SearchViewModel
 import com.sooj.today_music.ui.theme.Today_MusicTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

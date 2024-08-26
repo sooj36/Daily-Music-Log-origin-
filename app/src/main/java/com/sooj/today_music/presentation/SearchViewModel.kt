@@ -9,10 +9,12 @@ import com.sooj.today_music.BuildConfig
 import com.sooj.today_music.data.RetrofitInstance_build
 import com.sooj.today_music.domain.SearchRepository
 import com.sooj.today_music.domain.Track
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-
-class SearchViewModel : ViewModel() {
+@HiltViewModel
+class SearchViewModel @Inject constructor()  : ViewModel() {
     private val _searchList = mutableStateOf<List<Track>>(emptyList())
     val searchList: State<List<Track>> get() = _searchList
 
