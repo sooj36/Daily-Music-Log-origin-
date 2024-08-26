@@ -15,6 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor()  : ViewModel() {
+
     private val _searchList = mutableStateOf<List<Track>>(emptyList())
     val searchList: State<List<Track>> get() = _searchList
 
