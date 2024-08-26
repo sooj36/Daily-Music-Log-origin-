@@ -2,6 +2,8 @@ package com.sooj.today_music.domain
 
 import com.google.gson.annotations.SerializedName
 
+/**  음악 정보 API  */
+
 //data class MusicInfoModel_dc(
 //    val track: Track
 //)
