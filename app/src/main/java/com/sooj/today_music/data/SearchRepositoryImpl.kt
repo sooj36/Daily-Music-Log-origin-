@@ -18,13 +18,20 @@ class SearchRepositoryImpl @Inject constructor(
 ) : SearchRepository {
     override suspend fun getTrackInfo(track: String): List<Track> {
         val response = musicapi.getMusicSearch(
-            "track.search", "", BuildConfig.LAST_FM_API_KEY, "json"
+            "track.search", track, BuildConfig.LAST_FM_API_KEY, "json"
         )
 
         if (response.isSuccessful) {
             // 응답 성공 시,
+            val musicModel = response.body()
+            Log.d("API RESPONSE", "MusicModel: ${musicModel?.results}")
+
+            // 응답 성공 시,
             val track = response.body()?.results?.trackmatches?.track
+            Log.d("RESPONSE SUCCES", "SUCCESS ${response.body()}")
+            Log.d("RESPONSE Track value", "SUCCESS ${response.code()}")
             return track ?: emptyList()
+
         } else {
             // 에러 처리
             Log.e("ERROR", "ERROR CODE = ${response.code()}")

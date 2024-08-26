@@ -12,18 +12,12 @@ import retrofit2.http.Query
 
 
 interface ApiService_EndPoint {
-    @GET("/2.0")
+    @GET("2.0/")
     suspend fun getMusicSearch(
         @Query("method") method: String = "track.search",
         @Query("track") track: String = "",
         @Query("api_key") apiKey: String,
         @Query("format") format: String = "json",
-//
-//        @Query("method") method: String = "track.getInfo",
-//        @Query("api_key") apiKey: String,
-//        @Query("artist") artist: String,
-//        @Query("track") track: String = "",
-//        @Query("format") format: String = "json"
     ): Response<MusicModel_dc>
 }
 

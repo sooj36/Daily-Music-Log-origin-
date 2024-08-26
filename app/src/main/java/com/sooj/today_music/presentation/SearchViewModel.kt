@@ -33,7 +33,7 @@ class SearchViewModel @Inject constructor(
     val infoList: State<List<Album>> get() = _infoList */
 
 //    private val musicApi2 = RetrofitInstance_build.musicApi
-    private val musicApi = NetworkModule.RetrofitInstance_build()
+//    private val musicApi = NetworkModule.RetrofitInstance_build() <- retrofit 인스턴스 생성하지 말고 di 통해 사용할 것
 
     fun getMusic(track: String) {
         Log.i("track", track)

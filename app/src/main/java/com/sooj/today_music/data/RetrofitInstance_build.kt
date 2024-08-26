@@ -9,7 +9,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 import javax.inject.Singleton
-
+/** Retrofit 인스턴스 제공
+ * endpoint 객체를 dagger hilt 통해 의존성 주입하여 제공 */
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
@@ -49,9 +50,3 @@ object RetrofitInstance_build {
 //
 //    val musicApi : ApiService_EndPoint = getInstance().create(ApiService_EndPoint::class.java)
 //}
-
-
-// Retrofit 설정 담고 있는 객체
-
-/** Retrofit 인스턴스 선언과 접근 방식 차이
- * */
