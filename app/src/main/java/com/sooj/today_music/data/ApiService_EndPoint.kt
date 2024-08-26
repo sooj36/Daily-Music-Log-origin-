@@ -2,10 +2,15 @@ package com.sooj.today_music.data
 
 
 import com.sooj.today_music.domain.MusicModel_dc
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 // 인터페이스를 구현한 Retrofit API 인스턴스
+
+
 interface ApiService_EndPoint {
     @GET("/2.0")
     suspend fun getMusicSearch(
