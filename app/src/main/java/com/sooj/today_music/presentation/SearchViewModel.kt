@@ -11,6 +11,7 @@ import com.sooj.today_music.domain.SearchRepository
 import com.sooj.today_music.domain.Track
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.plus
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,7 +21,7 @@ class SearchViewModel @Inject constructor(
 ) : ViewModel() {
 
     // 검색
-    private val _searchList = mutableStateOf<List<Track>>(emptyList())
+    private val _searchList = mutableStateOf<List<Track>>(emptyList()) // 여러개의 객체 담고 있어서 List
     val searchList: State<List<Track>> get() = _searchList
 
     // 선택
@@ -49,8 +50,18 @@ class SearchViewModel @Inject constructor(
                 Log.e("VIEWMODEL ERROR !!", "ERROR FETCHING TRACK INFO ${e.message}")
             }
         }
+    }
 
-        // coroutines( data 의존성 있는 경우) //
+    // 선택한 트랙
+    fun selectTrack(track: Track) {
+        viewModelScope.launch {
+
+        }
+        _selectedTrack.value = track
+        Log.d("선택한 트랙", "SELECTED TRACK : ${_selectedTrack.value}")
+    }
+
+// coroutines( data 의존성 있는 경우) //
 //        viewModelScope.launch {
 //            val response = musicApi.getMusicSearch(
 //                "track.search",
@@ -83,10 +94,4 @@ class SearchViewModel @Inject constructor(
 //                )
 //            }
 //        } //viewModelScope
-    }
-
-    // 선택한 트랙
-    fun selectTrack(track: Track) {
-        _selectedTrack.value = track
-    }
 }

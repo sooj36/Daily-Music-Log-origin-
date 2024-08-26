@@ -53,6 +53,9 @@ fun SearchPageScreen(navController: NavController) {
     /**    val musicViewModel = viewModel<SearchViewModel>() */
     val musicViewModel: SearchViewModel = hiltViewModel()
     val searchList by musicViewModel.searchList
+    val select by musicViewModel.selectedTrack
+
+
     /** val infoList by musicViewModel.infoList */
     Box(modifier = Modifier.fillMaxSize()) {
         Column {
@@ -121,7 +124,8 @@ fun SearchPageScreen(navController: NavController) {
                             .fillMaxWidth()
                             .clickable {
                                 // 클릭 시, Viewmodel에 선택된 트랙 저장
-                                       musicViewModel.selectedTrack
+                                musicViewModel.selectTrack(track)
+
                                 // 다른 페이지로 이동
                                 navController.navigate("poster_list")
                             },
