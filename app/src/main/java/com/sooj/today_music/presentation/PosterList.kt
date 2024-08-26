@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.BlendMode.Companion.Screen
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -23,9 +24,7 @@ import androidx.navigation.compose.rememberNavController
 @Composable
 fun PosterListScreen(navController: NavController) {
     /**  ViewModel  */
-    val musicViewModel = viewModel<SearchViewModel>()
-    //
-    //
+    val musicViewModel: SearchViewModel = hiltViewModel()
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column {

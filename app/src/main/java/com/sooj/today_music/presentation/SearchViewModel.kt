@@ -16,7 +16,7 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val repository: SearchRepository
     /** viewmodel 생성 시 Hilt가 알아서 repo 제공해주고, 이 주입받은 repo통해 데이터 처리*/
-)  : ViewModel() {
+) : ViewModel() {
 
     private val _searchList = mutableStateOf<List<Track>>(emptyList())
     val searchList: State<List<Track>> get() = _searchList
@@ -42,7 +42,7 @@ class SearchViewModel @Inject constructor(
             try {
                 val trackInfo = repository.getTrackInfo(track)
                 _searchList.value = trackInfo
-            } catch (e : Exception) {
+            } catch (e: Exception) {
                 Log.e("VIEWMODEL ERROR !!", "ERROR FETCHING TRACK INFO ${e.message}")
             }
         }
