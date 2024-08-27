@@ -2,6 +2,7 @@ package com.sooj.today_music.presentation
 
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -55,7 +56,9 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
             ) {
                 items(1) {
                     selectedTrack?.let { trackInfo ->
-                        Column {
+                        Column(modifier = Modifier.clickable {
+                            navController.navigate("detail_page")
+                        }) {
                             AsyncImage(
                                 model = trackInfo.image?.find { it.size == "large" }?.url,
                                 contentDescription = null,

@@ -41,7 +41,7 @@ class MainActivity : ComponentActivity() {
                     NavHost(navController = navController, startDestination = "poster_list") {
                         
                         composable(Screen.PosterList.route) { PosterListScreen(navController, musicViewModel) }
-                        composable(Screen.DetailPage.route) { DetailPageScreen(navController) }
+                        composable(Screen.DetailPage.route) { DetailPageScreen(navController, musicViewModel) }
                         composable(Screen.WritePost.route) { SearchPageScreen(navController, musicViewModel) }
 
                     }
