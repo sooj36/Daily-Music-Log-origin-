@@ -72,7 +72,7 @@ fun PosterListScreen(navController: NavController) {
                         Column {
                             Text(text = trackInfo.artist ?: "알수없는 아티스트")
                             AsyncImage(
-                                model = trackInfo.image?.find { it.size == "extralarge" }?.url,
+                                model = trackInfo.image?.find { it.size == "large" }?.url,
                                 contentDescription = null,
                                 modifier = Modifier.height(200.dp)
                             )
