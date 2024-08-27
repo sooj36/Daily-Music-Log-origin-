@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -43,22 +45,31 @@ fun DetailPageScreen(navController: NavController, musicViewModel: SearchViewMod
                         .size(30.dp))
             }
             LazyVerticalGrid(
-                columns = GridCells.Fixed(3),
+                columns = GridCells.Fixed(1),
                 modifier = Modifier
                     .fillMaxSize()
                     .background(Color.Gray)
-                    .padding(8.dp)
+                    .padding(8.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalArrangement = Arrangement.Center
             ) {
-                items(1) {
+                item(1) {
                     clickedTrack?.let { clickedInfo ->
-                        Column(modifier = Modifier.padding(end = 8.dp)) {
+                        Column(modifier = Modifier
+                            .padding(end = 8.dp)
+                            .fillMaxSize()) {
                             AsyncImage(
-                                model = clickedInfo.image?.find { it.size == "large" }?.url,
+                                model = clickedInfo.image?.find { it.size == "extralarge" }?.url,
                                 contentDescription = null,
-                                modifier = Modifier.height(160.dp)
+                                modifier = Modifier.fillMaxWidth()
                             )
-                            Text(text = clickedInfo.artist ?: "알 수 없 는 아티스트")
-                            Text(text = clickedInfo.name ?: "알 수 없 는 제목")
+                            Text(text = clickedInfo.artist ?: "알 수 없 는 아티스트", modifier = Modifier.fillMaxWidth())
+                            Text(text = clickedInfo.name ?: "알 수 없 는 제목", modifier = Modifier.fillMaxWidth())
+                            Text(text = "오늘의 노래를 선택한 이유는 ?")
+                            Button(onClick = { /*TODO*/ }) {
+                                Text(text = "EDIT/")
+                                
+                            }
                         }
                     }
                 }
