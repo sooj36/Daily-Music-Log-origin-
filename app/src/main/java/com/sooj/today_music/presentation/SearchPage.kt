@@ -50,7 +50,6 @@ import com.sooj.today_music.R
 
 @Composable
 fun SearchPageScreen(navController: NavController, musicViewModel : SearchViewModel) {
-//    val musicViewModel = hiltViewModel<SearchViewModel>()
     val searchList by musicViewModel.searchList
 
     /** val infoList by musicViewModel.infoList */
@@ -109,9 +108,10 @@ fun SearchPageScreen(navController: NavController, musicViewModel : SearchViewMo
             LazyVerticalGrid(
                 columns = GridCells.Fixed(3),
                 modifier = Modifier
-                    .padding(5.dp)
+                    .padding(10.dp)
                     .fillMaxSize()
                     .background(Color.Gray),
+
             ) {
                 items(searchList.size) { index ->
                     val track = searchList[index]

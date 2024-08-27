@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Text
@@ -36,34 +38,29 @@ fun DetailPageScreen(navController: NavController, musicViewModel: SearchViewMod
         Column {
             Row {
                 Image(painterResource(id = R.drawable.back), contentDescription = "back",
-                    modifier = Modifier.clickable { navController.popBackStack() })
+                    modifier = Modifier
+                        .clickable { navController.popBackStack() }
+                        .size(30.dp))
             }
-
-            Column {
-                Text(text = "TITLE", modifier = Modifier.fillMaxWidth(), fontSize = 15.sp) // 노래제목
-                Image(
-                    painterResource(id = R.drawable.ic_launcher_foreground),
-                    contentDescription = null
-                ) // 앨범 포스터
-                Text(text = "2024-08-19") // 등록시간
-            }
-        }
-    }
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(3),
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Gray)) {
-        items(1) {
-            clickedTrack?.let { clickedInfo ->
-                Column {
-                    AsyncImage(
-                        model = clickedInfo.image?.find { it.size == "large" }?.url,
-                        contentDescription = null,
-                        modifier = Modifier.height(160.dp)
-                    )
-                    Text(text = clickedInfo.artist ?: "알 수 없 는 아티스트")
-                    Text(text = clickedInfo.name ?: "알 수 없 는 제목")
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(3),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Gray)
+                    .padding(8.dp)
+            ) {
+                items(1) {
+                    clickedTrack?.let { clickedInfo ->
+                        Column(modifier = Modifier.padding(end = 8.dp)) {
+                            AsyncImage(
+                                model = clickedInfo.image?.find { it.size == "large" }?.url,
+                                contentDescription = null,
+                                modifier = Modifier.height(160.dp)
+                            )
+                            Text(text = clickedInfo.artist ?: "알 수 없 는 아티스트")
+                            Text(text = clickedInfo.name ?: "알 수 없 는 제목")
+                        }
+                    }
                 }
             }
         }
