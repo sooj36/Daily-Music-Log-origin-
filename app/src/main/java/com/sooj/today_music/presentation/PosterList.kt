@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.BlendMode.Companion.Screen
 import androidx.compose.ui.graphics.Color
@@ -27,26 +28,24 @@ import coil.compose.AsyncImage
 
 @Composable
 fun PosterListScreen(navController: NavController) {
-    /**  ViewModel  */
-    val musicViewModel: SearchViewModel = hiltViewModel()
 
-    /** 선택된 트랙 가져오기 */
-    val selectedTrack by musicViewModel.selectedTrack
-    Log.d("선택 트랙 가져오기", "${musicViewModel.selectedTrack}")
-
-    // 선택된 트랙을 로그로 확인
-    LaunchedEffect(selectedTrack) {
-        Log.d("로그 가져온 것", "현재 선택된 트랙: $selectedTrack")
-        Log.d("선택 트랙 가져오기22", "${musicViewModel.selectedTrack}")
-        //
-        //
-        //
-        //
-        //
-        // 수정 할 부분
-        // SearchPage에서 데이터는 잘 저장되었지만,
-        // POSTERLIST페이지로 가져오는 과정에서 선택한 트랙을 가져오지 못함
-    }
+//    /** 선택된 트랙 가져오기 */
+//    val selectedTrack by musicViewModel.selectedTrack
+//    Log.d("선택 트랙 가져오기", "${musicViewModel.selectedTrack}")
+//
+//    // 선택된 트랙을 로그로 확인
+//    LaunchedEffect(selectedTrack) {
+//        Log.d("로그 가져온 것", "현재 선택된 트랙: $selectedTrack")
+//        Log.d("선택 트랙 가져오기22", "${musicViewModel.selectedTrack}")
+//        //
+//        //
+//        //
+//        //
+//        //
+//        // 수정 할 부분
+//        // SearchPage에서 데이터는 잘 저장되었지만,
+//        // POSTERLIST페이지로 가져오는 과정에서 선택한 트랙을 가져오지 못함
+//    }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column {
@@ -68,22 +67,23 @@ fun PosterListScreen(navController: NavController) {
                     .background(Color.LightGray)
             ) {
                 items(1) {
-                    selectedTrack?.let { trackInfo ->
-                        Column {
-                            Text(text = trackInfo.artist ?: "알수없는 아티스트")
-                            AsyncImage(
-                                model = trackInfo.image?.find { it.size == "large" }?.url,
-                                contentDescription = null,
-                                modifier = Modifier.height(200.dp)
-                            )
-                            Text(text = trackInfo.name ?: "알 수 없 는 제 목")
-                        } ?: kotlin.run { 
-                            Text(text = "선택 트랙 없음")
-                        }
+                    /**  selectedTrack?.let { trackInfo ->
+                    Column {
+                    Text(text = trackInfo.artist ?: "알수없는 아티스트")
+                    AsyncImage(
+                    model = trackInfo.image?.find { it.size == "large" }?.url,
+                    contentDescription = null,
+                    modifier = Modifier.height(200.dp)
+                    )
+                    Text(text = trackInfo.name ?: "알 수 없 는 제 목")
+                    } ?: kotlin.run {
+                    Text(text = "선택 트랙 없음")
                     }
-                }
-            } //
-        } // column
+                    }
+                    } */
+                } //
+            } // column
+        }
     }
 }
 

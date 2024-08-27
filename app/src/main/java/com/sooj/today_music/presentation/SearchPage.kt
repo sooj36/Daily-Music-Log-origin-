@@ -53,8 +53,6 @@ fun SearchPageScreen(navController: NavController) {
     /**    val musicViewModel = viewModel<SearchViewModel>() */
     val musicViewModel: SearchViewModel = hiltViewModel()
     val searchList by musicViewModel.searchList
-    val select by musicViewModel.selectedTrack
-
 
     /** val infoList by musicViewModel.infoList */
     Box(modifier = Modifier.fillMaxSize()) {
