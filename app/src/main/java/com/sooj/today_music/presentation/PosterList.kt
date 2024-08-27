@@ -32,10 +32,12 @@ fun PosterListScreen(navController: NavController) {
 
     /** 선택된 트랙 가져오기 */
     val selectedTrack by musicViewModel.selectedTrack
+    Log.d("선택 트랙 가져오기", "${musicViewModel.selectedTrack}")
 
     // 선택된 트랙을 로그로 확인
     LaunchedEffect(selectedTrack) {
         Log.d("로그 가져온 것", "현재 선택된 트랙: $selectedTrack")
+        Log.d("선택 트랙 가져오기22", "${musicViewModel.selectedTrack}")
         //
         //
         //

@@ -153,7 +153,6 @@ fun SearchPageScreen(navController: NavController) {
                             fontWeight = FontWeight.SemiBold
                         )
                     }
-                    Log.d("화면", "${AsyncImage(model = track.image, contentDescription = null)}")
                 } // index
 
                 /** items(infoList.size) {index ->
