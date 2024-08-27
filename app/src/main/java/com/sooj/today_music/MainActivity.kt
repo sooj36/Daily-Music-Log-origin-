@@ -37,11 +37,12 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
+                    val musicViewModel = hiltViewModel<SearchViewModel>()
                     NavHost(navController = navController, startDestination = "poster_list") {
                         
-                        composable(Screen.PosterList.route) { PosterListScreen(navController, hiltViewModel()) }
+                        composable(Screen.PosterList.route) { PosterListScreen(navController, musicViewModel) }
                         composable(Screen.DetailPage.route) { DetailPageScreen(navController) }
-                        composable(Screen.WritePost.route) { SearchPageScreen(navController) }
+                        composable(Screen.WritePost.route) { SearchPageScreen(navController, musicViewModel) }
 
                     }
                 }

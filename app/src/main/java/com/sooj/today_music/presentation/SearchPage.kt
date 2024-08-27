@@ -49,8 +49,8 @@ import coil.request.ImageRequest
 import com.sooj.today_music.R
 
 @Composable
-fun SearchPageScreen(navController: NavController) {
-    val musicViewModel = hiltViewModel<SearchViewModel>()
+fun SearchPageScreen(navController: NavController, musicViewModel : SearchViewModel) {
+//    val musicViewModel = hiltViewModel<SearchViewModel>()
     val searchList by musicViewModel.searchList
 
     /** val infoList by musicViewModel.infoList */
@@ -122,7 +122,10 @@ fun SearchPageScreen(navController: NavController) {
                             .clickable {
                                 // 클릭 시, Viewmodel에 선택된 트랙 저장
                                 musicViewModel.selectTrack(track)
-                                Log.d("VIEWMODEL에 선택 트랙 저장", "저장된 ${musicViewModel.selectedTrack.value}")
+                                Log.d(
+                                    "VIEWMODEL에 선택 트랙 저장",
+                                    "저장된 ${musicViewModel.selectedTrack.value}"
+                                )
 
                                 // 다른 페이지로 이동
                                 navController.navigate("poster_list")
@@ -133,7 +136,7 @@ fun SearchPageScreen(navController: NavController) {
                         /** 앨범 이미지 */
                         AsyncImage(
                             model = ImageRequest.Builder(LocalContext.current)
-                                .data(track.image?.find { it.size == "extralarge" }?.url).build(),
+                                .data(track.image?.find { it.size == "small" }?.url).build(),
                             contentDescription = null
                         )
                         Spacer(modifier = Modifier.height(8.dp))
@@ -178,5 +181,5 @@ fun SearchPageScreen(navController: NavController) {
 @Composable
 fun WritePostPreview() {
     val navController = rememberNavController()
-    SearchPageScreen(navController)
+    SearchPageScreen(navController, hiltViewModel())
 }
