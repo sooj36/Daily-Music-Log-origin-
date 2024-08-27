@@ -27,25 +27,27 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 
 @Composable
-fun PosterListScreen(navController: NavController) {
+fun PosterListScreen(navController: NavController, musicViewModel: SearchViewModel) {
+//    val musicViewModel = hiltViewModel<SearchViewModel>()
+    val selectedTrackInfo = musicViewModel.selectedTrack
+    Log.d("선택 트랙 가져오기", "${musicViewModel.selectedTrack}")
+    /** 선택된 트랙 가져오기 */
+    val selectedTrack by musicViewModel.selectedTrack
+    Log.d("선택 트랙 가져오기", "${musicViewModel.selectedTrack}")
 
-//    /** 선택된 트랙 가져오기 */
-//    val selectedTrack by musicViewModel.selectedTrack
-//    Log.d("선택 트랙 가져오기", "${musicViewModel.selectedTrack}")
-//
-//    // 선택된 트랙을 로그로 확인
-//    LaunchedEffect(selectedTrack) {
-//        Log.d("로그 가져온 것", "현재 선택된 트랙: $selectedTrack")
-//        Log.d("선택 트랙 가져오기22", "${musicViewModel.selectedTrack}")
-//        //
-//        //
-//        //
-//        //
-//        //
-//        // 수정 할 부분
-//        // SearchPage에서 데이터는 잘 저장되었지만,
-//        // POSTERLIST페이지로 가져오는 과정에서 선택한 트랙을 가져오지 못함
-//    }
+    // 선택된 트랙을 로그로 확인
+    LaunchedEffect(selectedTrack) {
+        Log.d("로그 가져온 것", "현재 선택된 트랙: $selectedTrack")
+        Log.d("선택 트랙 가져오기22", "${musicViewModel.selectedTrack}")
+        //
+        //
+        //
+        //
+        //
+        // 수정 할 부분
+        // SearchPage에서 데이터는 잘 저장되었지만,
+        // POSTERLIST페이지로 가져오는 과정에서 선택한 트랙을 가져오지 못함
+    }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column {
@@ -91,5 +93,5 @@ fun PosterListScreen(navController: NavController) {
 @Composable
 fun PosterListPreview() {
     val navController = rememberNavController()
-    PosterListScreen(navController)
+    PosterListScreen(navController, hiltViewModel())
 }

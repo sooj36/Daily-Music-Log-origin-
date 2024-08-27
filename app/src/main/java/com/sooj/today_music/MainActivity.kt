@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -36,10 +37,9 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-//                    SearchPageScreen(navController)
                     NavHost(navController = navController, startDestination = "poster_list") {
-
-                        composable(Screen.PosterList.route) { PosterListScreen(navController) }
+                        
+                        composable(Screen.PosterList.route) { PosterListScreen(navController, hiltViewModel()) }
                         composable(Screen.DetailPage.route) { DetailPageScreen(navController) }
                         composable(Screen.WritePost.route) { SearchPageScreen(navController) }
 
