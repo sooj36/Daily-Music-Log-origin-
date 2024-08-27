@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.BlendMode.Companion.Screen
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -53,24 +54,22 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
                     .background(Color.LightGray)
             ) {
                 items(1) {
-                     selectedTrack?.let { trackInfo ->
-                    Column {
-                    Text(text = trackInfo.artist ?: "알수없는 아티스트")
-                    AsyncImage(
-                    model = trackInfo.image?.find { it.size == "large" }?.url,
-                    contentDescription = null,
-                    modifier = Modifier.height(200.dp)
-                    )
-                    Text(text = trackInfo.name ?: "알 수 없 는 제 목")
-                    } ?: kotlin.run {
-                    Text(text = "선택 트랙 없음")
+                    selectedTrack?.let { trackInfo ->
+                        Column {
+                            AsyncImage(
+                                model = trackInfo.image?.find { it.size == "large" }?.url,
+                                contentDescription = null,
+                                modifier = Modifier.height(200.dp)
+                            )
+                            Text(text = trackInfo.artist ?: "알수없는 아티스트", fontSize = 24.sp)
+                            Text(text = trackInfo.name ?: "알 수 없 는 제 목", fontSize = 20.sp)
+                        }
                     }
-                    }
-                    }
-                } //
-            } // column
-        }
+                }
+            }
+        } // column
     }
+}
 
 @Preview
 @Composable
