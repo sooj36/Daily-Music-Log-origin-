@@ -136,7 +136,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel : SearchViewMo
                         /** 앨범 이미지 */
                         AsyncImage(
                             model = ImageRequest.Builder(LocalContext.current)
-                                .data(track.image?.find { it.size == "small" }?.url).build(),
+                                .data(track.image?.find { it.size == "extralarge" }?.url).build(),
                             contentDescription = null
                         )
                         Spacer(modifier = Modifier.height(8.dp))

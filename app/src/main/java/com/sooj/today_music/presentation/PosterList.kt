@@ -53,7 +53,7 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
                     .background(Color.LightGray)
             ) {
                 items(1) {
-                    /**  selectedTrack?.let { trackInfo ->
+                     selectedTrack?.let { trackInfo ->
                     Column {
                     Text(text = trackInfo.artist ?: "알수없는 아티스트")
                     AsyncImage(
@@ -66,12 +66,11 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
                     Text(text = "선택 트랙 없음")
                     }
                     }
-                    } */
+                    }
                 } //
             } // column
         }
     }
-}
 
 @Preview
 @Composable
