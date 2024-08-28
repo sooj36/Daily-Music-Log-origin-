@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 /**  음악 정보 API  */
 
-data class MusicInfoModel_dc(
+data class MusicGetInfoModel_dc(
     val track: Track2
 )
 

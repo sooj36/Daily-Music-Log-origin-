@@ -2,7 +2,7 @@ package com.sooj.today_music.domain
 
 import com.google.gson.annotations.SerializedName
 
-data class MusicModel_dc(
+data class MusicSearchModel_dc(
     val results: Results?
 )
 

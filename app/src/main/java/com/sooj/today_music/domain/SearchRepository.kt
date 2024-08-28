@@ -5,6 +5,8 @@ import retrofit2.Response
 
 interface SearchRepository {
     suspend fun getTrackInfo(track: String): List<Track>
+
+    suspend fun getPostInfo(track: String) : List<Album>
 }
 
 

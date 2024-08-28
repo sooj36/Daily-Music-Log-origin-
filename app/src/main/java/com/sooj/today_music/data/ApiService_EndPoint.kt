@@ -2,11 +2,8 @@ package com.sooj.today_music.data
 
 
 import com.sooj.today_music.BuildConfig
-import com.sooj.today_music.domain.MusicInfoModel_dc
-import com.sooj.today_music.domain.MusicModel_dc
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import com.sooj.today_music.domain.MusicGetInfoModel_dc
+import com.sooj.today_music.domain.MusicSearchModel_dc
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -15,21 +12,21 @@ import retrofit2.http.Query
 
 interface ApiService_EndPoint {
     @GET("2.0/")
-    suspend fun getMusicSearch(
+    suspend fun getTrackSearch(
         @Query("method") method: String = "track.search",
         @Query("track") track: String = "",
         @Query("api_key") apiKey :String = BuildConfig.LAST_FM_API_KEY,
         @Query("format") format: String = "json",
-    ): Response<MusicModel_dc>
+    ): Response<MusicSearchModel_dc>
 
     @GET("2.0/")
-    suspend fun getPost(
+    suspend fun getPostInfo(
         @Query("method") method: String = "track.getInfo",
         @Query("api_key") apiKey: String = BuildConfig.LAST_FM_API_KEY,
         @Query("artist") artist : String,
         @Query("track") track: String = "",
         @Query("format") format: String = "json"
-    ) : Response<MusicInfoModel_dc>
+    ) : Response<MusicGetInfoModel_dc>
 }
 
 

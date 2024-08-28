@@ -43,15 +43,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.sooj.today_music.BuildConfig
-import com.sooj.today_music.domain.MusicInfoModel_dc
-import okhttp3.Request
-import okhttp3.OkHttpClient
-import com.google.gson.Gson
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 @Composable
@@ -141,16 +132,17 @@ fun SearchPageScreen(navController: NavController, musicViewModel: SearchViewMod
                     ) {
                         var albumImage: String? by remember { mutableStateOf(null) }
 
-                        coroutineScope.launch {
-                            val musicInfo = getApiMethod(trackName, artistName)
-                            albumImage =
-                                musicInfo?.track?.album?.image?.firstOrNull() { it.size == "large" }?.url
-                        }
-                        if (albumImage != null) {
-                            AsyncImage(model = albumImage, contentDescription = null)
-                        } else {
-                            Text(text = "이미지 로딩 실패")
-                        }
+//                        //수정필요
+//                        coroutineScope.launch {
+//                            val musicInfo = getApiMethod(trackName, artistName)
+//                            albumImage =
+//                                musicInfo?.track?.album?.image?.firstOrNull() { it.size == "large" }?.url
+//                        }
+//                        if (albumImage != null) {
+//                            AsyncImage(model = albumImage, contentDescription = null)
+//                        } else {
+//                            Text(text = "이미지 로딩 실패")
+//                        }
                         /** 앨범 이미지 <기존>*/
                         AsyncImage(
                             model = ImageRequest.Builder(LocalContext.current)
@@ -177,39 +169,39 @@ fun SearchPageScreen(navController: NavController, musicViewModel: SearchViewMod
     }
 }
 
-
-///// layer 나눌 부분
-suspend fun getApiMethod(trackName: String, artistName: String): MusicInfoModel_dc? {
-    return withContext(Dispatchers.IO) {
-        try {
-            /** API URL 생성 */
-            val url = "http://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${BuildConfig.LAST_FM_API_KEY}&artist=${artistName}&track=${trackName}&format=json"
-
-            Log.d("ImageInfo", "trackName: $trackName, artistName: $artistName")
-
-            val client = OkHttpClient()
-            val gson = Gson()
-
-            /** OKHTTP 이용한 API 요청 */
-            val request = Request.Builder()
-                .url(url)
-                .build()
-
-            /** API 호출 및 응답 처리*/
-            client.newCall(request).execute().use { response ->
-                if (!response.isSuccessful) {
-                    return@withContext null
-                }
-                val responseBody = response.body?.string()
-                return@withContext gson.fromJson(responseBody, MusicInfoModel_dc::class.java)
-            }
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return@withContext null
-        }
-    }
-} // getApiMethod
+//
+/////// layer 나눌 부분
+//suspend fun getApiMethod(trackName: String, artistName: String): MusicInfoModel_dc? {
+//    return withContext(Dispatchers.IO) {
+//        try {
+//            /** API URL 생성 */
+//            val url = "http://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${BuildConfig.LAST_FM_API_KEY}&artist=${artistName}&track=${trackName}&format=json"
+//
+//            Log.d("ImageInfo", "trackName: $trackName, artistName: $artistName")
+//
+//            val client = OkHttpClient()
+//            val gson = Gson()
+//
+//            /** OKHTTP 이용한 API 요청 */
+//            val request = Request.Builder()
+//                .url(url)
+//                .build()
+//
+//            /** API 호출 및 응답 처리*/
+//            client.newCall(request).execute().use { response ->
+//                if (!response.isSuccessful) {
+//                    return@withContext null
+//                }
+//                val responseBody = response.body?.string()
+//                return@withContext gson.fromJson(responseBody, MusicInfoModel_dc::class.java)
+//            }
+//
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//            return@withContext null
+//        }
+//    }
+//} // getApiMethod
 
 @Preview
 @Composable
