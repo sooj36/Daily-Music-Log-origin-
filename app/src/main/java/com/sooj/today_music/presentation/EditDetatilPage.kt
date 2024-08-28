@@ -81,8 +81,8 @@ fun EditDetailPageScreen(navController: NavController, musicViewModel: SearchVie
 
                 }
             } // box
-            IconButton(onClick = { navController.popBackStack() }) {
-                Image(imageVector = Icons.Default.Edit, contentDescription = "back")
+            IconButton(onClick = { navController.navigate("detail_page") }) {
+                Image(imageVector = Icons.Default.Edit, contentDescription = "edit")
             } //column
         }
     }

@@ -84,7 +84,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel : SearchViewMo
                         ) {
                             if (text.isEmpty()) {
                                 Text(
-                                    text = "오늘의 노래를 검색하세요", style = TextStyle(color = Color.Gray)
+                                    text = "오늘의 노래를 검색하세요(띄어쓰기 유의)", style = TextStyle(color = Color.Gray)
                                 )
                             } else {
                                 // 음악 검색

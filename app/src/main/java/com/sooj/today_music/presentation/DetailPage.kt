@@ -265,8 +265,8 @@ fun DetailPageScreen(navController: NavController, musicViewModel: SearchViewMod
                     )
                 }
             } // box
-            IconButton(onClick = { navController.popBackStack() }) {
-                Image(imageVector = Icons.Default.Edit, contentDescription = "back")
+            IconButton(onClick = { navController.navigate("edit_detail_page") }) {
+                Image(imageVector = Icons.Default.Edit, contentDescription = "edit")
             } //column
         }
     }
