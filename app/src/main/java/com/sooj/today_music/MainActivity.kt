@@ -16,6 +16,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.sooj.today_music.presentation.DetailPageScreen
+import com.sooj.today_music.presentation.EditDetailPageScreen
 import com.sooj.today_music.presentation.PosterListScreen
 import com.sooj.today_music.presentation.SearchPageScreen
 import com.sooj.today_music.presentation.SearchViewModel
@@ -39,11 +40,11 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     val musicViewModel = hiltViewModel<SearchViewModel>()
                     NavHost(navController = navController, startDestination = "poster_list") {
-                        
+
                         composable(Screen.PosterList.route) { PosterListScreen(navController, musicViewModel) }
                         composable(Screen.DetailPage.route) { DetailPageScreen(navController, musicViewModel) }
                         composable(Screen.WritePost.route) { SearchPageScreen(navController, musicViewModel) }
-
+                        composable(Screen.EditDetailPage.route) { EditDetailPageScreen(navController, musicViewModel)}
                     }
                 }
             }
