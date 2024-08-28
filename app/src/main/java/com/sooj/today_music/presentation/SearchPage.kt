@@ -1,5 +1,6 @@
 package com.sooj.today_music.presentation
 
+import android.graphics.ImageDecoder.ImageInfo
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -47,7 +48,16 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.sooj.today_music.BuildConfig
 import com.sooj.today_music.R
+import com.sooj.today_music.domain.MusicInfoModel_dc
+import okhttp3.Request
+import okhttp3.OkHttpClient
+import okhttp3.Call
+import okhttp3.Response
+import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
+
 
 @Composable
 fun SearchPageScreen(navController: NavController, musicViewModel: SearchViewModel) {
@@ -113,6 +123,10 @@ fun SearchPageScreen(navController: NavController, musicViewModel: SearchViewMod
                 ) {
                 items(searchList.size) { index ->
                     val track = searchList[index]
+                    val trackName = track.name ?: return@items
+                    val artistName = track.artist ?: return@items
+
+                    /////////////////////////////
                     Column(
                         modifier = Modifier
                             .padding(5.dp)
@@ -131,6 +145,8 @@ fun SearchPageScreen(navController: NavController, musicViewModel: SearchViewMod
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
+
+
                         /** 앨범 이미지 */
                         AsyncImage(
                             model = ImageRequest.Builder(LocalContext.current)
@@ -154,6 +170,33 @@ fun SearchPageScreen(navController: NavController, musicViewModel: SearchViewMod
                 } // index
             }
         }
+    }
+}
+
+fun ImageInfo(trackName: String, artistName: String): MusicInfoModel_dc? {
+    // API URL 생성
+    val url = "http://ws.audioscrobbler.com/2.0/?method=track.getInfo" +
+            "&api_key=${BuildConfig.LAST_FM_API_KEY}" +
+            "&artist=${artistName}" +
+            "&track=${trackName}" +
+            "&format=json"
+
+    val client = OkHttpClient()
+    val gson = Gson()
+
+    // OKHTTP 이용한 API 요청
+    val request = Request.Builder()
+        .url(url)
+        .build()
+
+    // API 호출 및 응답 처리
+    client.newCall(request).execute().use { response ->
+        if (!response.isSuccessful) {
+            return null
+        }
+
+        val responseBody = response.body?.string()
+        return gson.fromJson(responseBody, MusicInfoModel_dc::class.java)
     }
 }
 
