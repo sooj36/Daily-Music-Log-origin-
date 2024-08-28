@@ -37,7 +37,7 @@ class SearchRepositoryImpl @Inject constructor(
     }
 
 
-    override suspend fun getPostInfo(track: String): List<Album> {
+    override suspend fun getPostInfo(track: String): List<Track2> {
         val searchRespose = musicapi.getTrackSearch(
             "track.search", track, BuildConfig.LAST_FM_API_KEY, "json"
         )
@@ -55,16 +55,20 @@ class SearchRepositoryImpl @Inject constructor(
                     "track.getInfo", BuildConfig.LAST_FM_API_KEY, artistName, trackName, "json"
                 )
 
+                // post 응답 성공 시 //
                 if (postResponse.isSuccessful) {
-                    postResponse.body()?.track?.album
+                    val postList = postResponse.body()?.track
+                    postList  // 이 부분이 Album 객체로 가정하고 반환합니다.
                 } else {
                     Log.e("PostInfo 에러", "PostInfo 에러 코드는 ${postResponse.code()}")
                     null
                 }
-            } // map not null
+            }.flatten() // 여러 개의 리스트를 하나로 평탄화
+            return getAlbumPost
+
         } else {
             Log.e("", "")
+            return emptyList()
         }
-        return emptyList() // 수정해야함요
     }
 }

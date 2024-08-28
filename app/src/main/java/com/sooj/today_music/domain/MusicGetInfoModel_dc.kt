@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 /**  음악 정보 API  */
 
 data class MusicGetInfoModel_dc(
-    val track: Track2
+    val track: List<Track2>
 )
 
 data class Track2(
@@ -17,7 +17,7 @@ data class Track2(
     val listeners: String,
     val playcount: String,
     val artist: Artist,
-    val album: Album,
+    val album: List<Album>,
 )
 
 data class Streamable(
