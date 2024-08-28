@@ -50,7 +50,7 @@ import coil.request.ImageRequest
 import com.sooj.today_music.R
 
 @Composable
-fun SearchPageScreen(navController: NavController, musicViewModel : SearchViewModel) {
+fun SearchPageScreen(navController: NavController, musicViewModel: SearchViewModel) {
     val searchList by musicViewModel.searchList
 
     /** val infoList by musicViewModel.infoList */
@@ -84,7 +84,8 @@ fun SearchPageScreen(navController: NavController, musicViewModel : SearchViewMo
                         ) {
                             if (text.isEmpty()) {
                                 Text(
-                                    text = "오늘의 노래를 검색하세요(띄어쓰기 유의)", style = TextStyle(color = Color.Gray)
+                                    text = "오늘의 노래를 검색하세요(띄어쓰기 유의)",
+                                    style = TextStyle(color = Color.Gray)
                                 )
                             } else {
                                 // 음악 검색
@@ -109,7 +110,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel : SearchViewMo
                     .fillMaxSize()
                     .background(Color.LightGray),
 
-            ) {
+                ) {
                 items(searchList.size) { index ->
                     val track = searchList[index]
                     Column(
@@ -151,24 +152,6 @@ fun SearchPageScreen(navController: NavController, musicViewModel : SearchViewMo
                         )
                     }
                 } // index
-
-                /** items(infoList.size) {index ->
-                val trackinfo = infoList[index]
-                Column(modifier = Modifier
-                .padding(8.dp)
-                .fillMaxWidth(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally) {
-                // 앨범 이미지
-                AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                .data(trackinfo.image?.find { it.size == "large" }?.url).build(),
-                contentDescription = null
-                )
-                Text(text = trackinfo.title, fontSize = 16.sp)
-                Text(text = trackinfo.artist, fontSize = 13.sp)
-                }
-                } // infolist.size */
             }
         }
     }

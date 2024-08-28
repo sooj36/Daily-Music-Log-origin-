@@ -1,6 +1,7 @@
 package com.sooj.today_music.data
 
 
+import com.sooj.today_music.domain.MusicInfoModel_dc
 import com.sooj.today_music.domain.MusicModel_dc
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -19,6 +20,15 @@ interface ApiService_EndPoint {
         @Query("api_key") apiKey: String,
         @Query("format") format: String = "json",
     ): Response<MusicModel_dc>
+
+    @GET("2.0/")
+    suspend fun getPost(
+        @Query("method") method: String = "track.getInfo",
+        @Query("api_key") apiKey: String,
+        @Query("artist") artist : String,
+        @Query("track") track: String = "",
+        @Query("format") format: String = "json"
+    ) : Response<MusicInfoModel_dc>
 }
 
 
