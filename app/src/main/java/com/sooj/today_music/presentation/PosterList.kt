@@ -13,7 +13,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBackIos
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.WbIncandescent
 import androidx.compose.material3.Button
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -43,26 +48,27 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
     Box(modifier = Modifier.fillMaxSize()) {
         Column {
             Spacer(modifier = Modifier.height(24.dp))
-            Image(
-                painterResource(id = R.drawable.back), contentDescription = "back",
-                modifier = Modifier
-                    .clickable {
-                        navController.popBackStack()
-                    }
-                    .size(30.dp))
 
-            Button(onClick = { navController.navigate("write_post") }) {
-                Text(text = "포스팅")
+            IconButton(onClick = { navController.popBackStack() }) {
+                Image(imageVector = Icons.Default.ArrowBackIos, contentDescription = "back")
+            }
+//            Button(onClick = { navController.navigate("write_post") }) {
+//                Text(text = "포스팅")
+//            }
+
+            IconButton(onClick = { navController.navigate("write_post") }) {
+                Image(imageVector = Icons.Default.WbIncandescent, contentDescription = "posting")
+
             }
             Text(text = " P O S T E R  L I S T S C R E E N ")
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(15.dp))
 
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 modifier = Modifier
                     .fillMaxSize()
                     .background(Color.LightGray)
-                    .padding(8.dp)
+                    .padding(15.dp)
             ) {
                 items(1) {
                     selectedTrack?.let { trackInfo ->
@@ -70,7 +76,7 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
                             navController.navigate("detail_page")
                         }) {
                             AsyncImage(
-                                model = trackInfo.image?.find { it.size == "medium" }?.url,
+                                model = trackInfo.image?.find { it.size == "extralarge" }?.url,
                                 contentDescription = null,
                             )
                             Text(text = trackInfo.artist ?: "알수없는 아티스트", fontSize = 24.sp)

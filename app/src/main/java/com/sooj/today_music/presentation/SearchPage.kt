@@ -20,6 +20,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.IconButton
@@ -56,15 +57,11 @@ fun SearchPageScreen(navController: NavController, musicViewModel : SearchViewMo
     Box(modifier = Modifier.fillMaxSize()) {
         Column {
             Spacer(modifier = Modifier.height(8.dp))
-            Image(painterResource(id = R.drawable.back), contentDescription = "back",
-                modifier = Modifier
-                    .clickable {
-                        navController.popBackStack()
-                    }
-                    .size(24.dp))
+            IconButton(onClick = { navController.popBackStack() }) {
+                Image(imageVector = Icons.Default.ArrowBackIos, contentDescription = "back")
+            }
             Spacer(modifier = Modifier.height(16.dp))
 
-            Spacer(modifier = Modifier.height(8.dp))
             Row(
                 modifier = Modifier.padding(start = 8.dp, end = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
@@ -108,9 +105,9 @@ fun SearchPageScreen(navController: NavController, musicViewModel : SearchViewMo
             LazyVerticalGrid(
                 columns = GridCells.Fixed(3),
                 modifier = Modifier
-                    .padding(10.dp)
+                    .padding(30.dp)
                     .fillMaxSize()
-                    .background(Color.Gray),
+                    .background(Color.LightGray),
 
             ) {
                 items(searchList.size) { index ->
