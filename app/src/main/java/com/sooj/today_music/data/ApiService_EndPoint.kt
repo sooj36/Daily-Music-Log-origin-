@@ -1,6 +1,7 @@
 package com.sooj.today_music.data
 
 
+import com.sooj.today_music.BuildConfig
 import com.sooj.today_music.domain.MusicInfoModel_dc
 import com.sooj.today_music.domain.MusicModel_dc
 import dagger.Module
@@ -17,14 +18,14 @@ interface ApiService_EndPoint {
     suspend fun getMusicSearch(
         @Query("method") method: String = "track.search",
         @Query("track") track: String = "",
-        @Query("api_key") apiKey: String,
+        @Query("api_key") apiKey :String = BuildConfig.LAST_FM_API_KEY,
         @Query("format") format: String = "json",
     ): Response<MusicModel_dc>
 
     @GET("2.0/")
     suspend fun getPost(
         @Query("method") method: String = "track.getInfo",
-        @Query("api_key") apiKey: String,
+        @Query("api_key") apiKey: String = BuildConfig.LAST_FM_API_KEY,
         @Query("artist") artist : String,
         @Query("track") track: String = "",
         @Query("format") format: String = "json"

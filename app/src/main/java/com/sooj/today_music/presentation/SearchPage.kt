@@ -1,6 +1,5 @@
 package com.sooj.today_music.presentation
 
-import android.graphics.ImageDecoder.ImageInfo
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -15,7 +14,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -23,45 +21,43 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Button
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.sooj.today_music.BuildConfig
-import com.sooj.today_music.R
 import com.sooj.today_music.domain.MusicInfoModel_dc
 import okhttp3.Request
 import okhttp3.OkHttpClient
-import okhttp3.Call
-import okhttp3.Response
 import com.google.gson.Gson
-import com.google.gson.JsonSyntaxException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 @Composable
 fun SearchPageScreen(navController: NavController, musicViewModel: SearchViewModel) {
     val searchList by musicViewModel.searchList
+    val coroutineScope = rememberCoroutineScope() // 코루틴 스코프를 기억
 
     /** val infoList by musicViewModel.infoList */
     Box(modifier = Modifier.fillMaxSize()) {
@@ -110,7 +106,6 @@ fun SearchPageScreen(navController: NavController, musicViewModel: SearchViewMod
 
                 IconButton(onClick = { musicViewModel.getMusic(text) }) {
                     Image(imageVector = Icons.Default.Search, contentDescription = "search")
-
                 }
             } // row
             LazyVerticalGrid(
@@ -119,8 +114,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: SearchViewMod
                     .padding(30.dp)
                     .fillMaxSize()
                     .background(Color.LightGray),
-
-                ) {
+            ) {
                 items(searchList.size) { index ->
                     val track = searchList[index]
                     val trackName = track.name ?: return@items
@@ -145,9 +139,19 @@ fun SearchPageScreen(navController: NavController, musicViewModel: SearchViewMod
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
+                        var albumImage: String? by remember { mutableStateOf(null) }
 
-
-                        /** 앨범 이미지 */
+                        coroutineScope.launch {
+                            val musicInfo = getApiMethod(trackName, artistName)
+                            albumImage =
+                                musicInfo?.track?.album?.image?.firstOrNull() { it.size == "large" }?.url
+                        }
+                        if (albumImage != null) {
+                            AsyncImage(model = albumImage, contentDescription = null)
+                        } else {
+                            Text(text = "이미지 로딩 실패")
+                        }
+                        /** 앨범 이미지 <기존>*/
                         AsyncImage(
                             model = ImageRequest.Builder(LocalContext.current)
                                 .data(track.image?.find { it.size == "extralarge" }?.url).build(),
@@ -173,32 +177,39 @@ fun SearchPageScreen(navController: NavController, musicViewModel: SearchViewMod
     }
 }
 
-fun ImageInfo(trackName: String, artistName: String): MusicInfoModel_dc? {
-    // API URL 생성
-    val url = "http://ws.audioscrobbler.com/2.0/?method=track.getInfo" +
-            "&api_key=${BuildConfig.LAST_FM_API_KEY}" +
-            "&artist=${artistName}" +
-            "&track=${trackName}" +
-            "&format=json"
 
-    val client = OkHttpClient()
-    val gson = Gson()
+///// layer 나눌 부분
+suspend fun getApiMethod(trackName: String, artistName: String): MusicInfoModel_dc? {
+    return withContext(Dispatchers.IO) {
+        try {
+            /** API URL 생성 */
+            val url = "http://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${BuildConfig.LAST_FM_API_KEY}&artist=${artistName}&track=${trackName}&format=json"
 
-    // OKHTTP 이용한 API 요청
-    val request = Request.Builder()
-        .url(url)
-        .build()
+            Log.d("ImageInfo", "trackName: $trackName, artistName: $artistName")
 
-    // API 호출 및 응답 처리
-    client.newCall(request).execute().use { response ->
-        if (!response.isSuccessful) {
-            return null
+            val client = OkHttpClient()
+            val gson = Gson()
+
+            /** OKHTTP 이용한 API 요청 */
+            val request = Request.Builder()
+                .url(url)
+                .build()
+
+            /** API 호출 및 응답 처리*/
+            client.newCall(request).execute().use { response ->
+                if (!response.isSuccessful) {
+                    return@withContext null
+                }
+                val responseBody = response.body?.string()
+                return@withContext gson.fromJson(responseBody, MusicInfoModel_dc::class.java)
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return@withContext null
         }
-
-        val responseBody = response.body?.string()
-        return gson.fromJson(responseBody, MusicInfoModel_dc::class.java)
     }
-}
+} // getApiMethod
 
 @Preview
 @Composable
