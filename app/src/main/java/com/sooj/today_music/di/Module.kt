@@ -1,11 +1,9 @@
 package com.sooj.today_music.di
 
-import com.sooj.today_music.data.ApiService_EndPoint
 import com.sooj.today_music.data.SearchRepositoryImpl
 import com.sooj.today_music.domain.SearchRepository
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
@@ -29,7 +27,7 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun provideSearchRepository(
+    abstract fun bindsSearchRepository(
         searchRepositoryImpl: SearchRepositoryImpl
     ) : SearchRepository
 }
