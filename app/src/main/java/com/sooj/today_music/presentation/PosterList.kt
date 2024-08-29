@@ -59,9 +59,9 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
         Column {
             Spacer(modifier = Modifier.height(16.dp))
 
-            IconButton(onClick = { navController.popBackStack() }) {
-                Image(imageVector = Icons.Default.ArrowBackIos, contentDescription = "back")
-            }
+//            IconButton(onClick = { navController.popBackStack() }) {
+//                Image(imageVector = Icons.Default.Mus, contentDescription = "back")
+//            }
             Row(
                 modifier = Modifier,
                 verticalAlignment = Alignment.CenterVertically,
@@ -86,10 +86,10 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
                     .background(Color.LightGray)
                     .padding(start = 8.dp, end = 8.dp)
             ) {
-                items(1) {
+                items(30) {
                     selectedTrack?.let { trackInfo ->
                         Column(modifier = Modifier
-                            .padding(top = 5.dp, bottom = 5.dp)
+                            .padding(5.dp)
                             .clickable {
                             navController.navigate("detail_page")
                         }) {

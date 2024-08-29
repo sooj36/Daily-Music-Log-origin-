@@ -20,6 +20,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIos
+import androidx.compose.material.icons.filled.LibraryMusic
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -61,7 +62,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: SearchViewMod
         Column {
             Spacer(modifier = Modifier.height(8.dp))
             IconButton(onClick = { navController.popBackStack() }) {
-                Image(imageVector = Icons.Default.ArrowBackIos, contentDescription = "back")
+                Image(imageVector = Icons.Default.LibraryMusic, contentDescription = "list")
             }
             Spacer(modifier = Modifier.height(16.dp))
 
