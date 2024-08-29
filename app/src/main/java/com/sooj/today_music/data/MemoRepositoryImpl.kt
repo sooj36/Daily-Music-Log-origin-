@@ -8,12 +8,16 @@ import javax.inject.Inject
 class MemoRepositoryImpl @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ) : MemoRepository {
-    override suspend fun saveMemo(memo: String) {
-        TODO("Not yet implemented")
+
+    companion object {
+        private const val MEMO_KEY = "memo_key"
+    }
+
+    override suspend fun saveMemo(content: String) {
+        sharedPreferences.edit().putString(MEMO_KEY, content).apply()
     }
 
     override suspend fun getMemo(): String {
-        TODO("Not yet implemented")
-        return ""
+        return sharedPreferences.getString(MEMO_KEY, "") ?: ""
     }
 }
