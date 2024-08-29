@@ -52,9 +52,6 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
             IconButton(onClick = { navController.popBackStack() }) {
                 Image(imageVector = Icons.Default.ArrowBackIos, contentDescription = "back")
             }
-//            Button(onClick = { navController.navigate("write_post") }) {
-//                Text(text = "포스팅")
-//            }
 
             IconButton(onClick = { navController.navigate("write_post") }) {
                 Image(imageVector = Icons.Default.WbIncandescent, contentDescription = "posting")
