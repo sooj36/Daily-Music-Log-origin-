@@ -30,6 +30,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -38,6 +39,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.sooj.today_music.R
 
 @Composable
@@ -69,17 +71,21 @@ fun DetailPageScreen(navController: NavController, musicViewModel: SearchViewMod
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     AsyncImage(
-                        model = clickedTrack?.image?.find { it.size == "large" }?.url,
+                        model =  clickedTrack?.image?.find { it.size == "extralarge" }?.url?.takeIf { it.isNotEmpty() }
+                            ?: R.drawable.yumi ,
                         contentDescription = null,
                         modifier = Modifier.fillMaxWidth()
                     )
+
                     Text(
                         text = clickedTrack?.artist ?: "알 수 없 는 아티스트",
                         modifier = Modifier.fillMaxWidth()
+                            .size(19.dp)
                     )
                     Text(
                         text = clickedTrack?.name ?: "알 수 없 는 제목",
                         modifier = Modifier.fillMaxWidth()
+                            .size(17.dp)
                     )
                     Text(
                         text = "Hello, hello\n" +

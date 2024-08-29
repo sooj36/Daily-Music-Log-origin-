@@ -33,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -43,6 +44,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.sooj.today_music.R
 
 
 @Composable
@@ -51,7 +53,11 @@ fun SearchPageScreen(navController: NavController, musicViewModel: SearchViewMod
     val coroutineScope = rememberCoroutineScope() // 코루틴 스코프를 기억
 
     /** val infoList by musicViewModel.infoList */
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(start = 8.dp, end = 8.dp)
+    ) {
         Column {
             Spacer(modifier = Modifier.height(8.dp))
             IconButton(onClick = { navController.popBackStack() }) {
@@ -100,9 +106,8 @@ fun SearchPageScreen(navController: NavController, musicViewModel: SearchViewMod
                 }
             } // row
             LazyVerticalGrid(
-                columns = GridCells.Fixed(3),
+                columns = GridCells.Fixed(4),
                 modifier = Modifier
-                    .padding(30.dp)
                     .fillMaxSize()
                     .background(Color.LightGray),
             ) {
@@ -146,9 +151,19 @@ fun SearchPageScreen(navController: NavController, musicViewModel: SearchViewMod
                         /** 앨범 이미지 <기존>*/
                         AsyncImage(
                             model = ImageRequest.Builder(LocalContext.current)
-                                .data(track.image?.find { it.size == "extralarge" }?.url).build(),
+                                .data(
+                                    track?.image?.find { it.size == "extralarge" }?.url?.takeIf { it.isNotEmpty() }
+                                        ?: R.drawable.yumi // URL이 비어 있으면 기본 이미지 리소스를 사용
+                                )
+                                .build(),
                             contentDescription = null
                         )
+
+//                        AsyncImage(
+//                            model = ImageRequest.Builder(LocalContext.current)
+//                                .data(track.image?.find { it.size == "extralarge" }?.url).build(),
+//                            contentDescription = null
+//                        )
                         Spacer(modifier = Modifier.height(8.dp))
                         /** 트랙명 */
                         Text(
