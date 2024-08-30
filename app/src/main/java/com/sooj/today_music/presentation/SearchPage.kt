@@ -51,7 +51,6 @@ import com.sooj.today_music.R
 @Composable
 fun SearchPageScreen(navController: NavController, musicViewModel: SearchViewModel) {
     val searchList by musicViewModel.searchList
-    val coroutineScope = rememberCoroutineScope() // 코루틴 스코프를 기억
 
     /** val infoList by musicViewModel.infoList */
     Box(
@@ -136,19 +135,6 @@ fun SearchPageScreen(navController: NavController, musicViewModel: SearchViewMod
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        var albumImage: String? by remember { mutableStateOf(null) }
-
-//                        //수정필요
-//                        coroutineScope.launch {
-//                            val musicInfo = getApiMethod(trackName, artistName)
-//                            albumImage =
-//                                musicInfo?.track?.album?.image?.firstOrNull() { it.size == "large" }?.url
-//                        }
-//                        if (albumImage != null) {
-//                            AsyncImage(model = albumImage, contentDescription = null)
-//                        } else {
-//                            Text(text = "이미지 로딩 실패")
-//                        }
                         /** 앨범 이미지 <기존>*/
                         AsyncImage(
                             model = ImageRequest.Builder(LocalContext.current)

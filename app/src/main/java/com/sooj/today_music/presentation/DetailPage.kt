@@ -1,6 +1,5 @@
 package com.sooj.today_music.presentation
 
-import android.text.style.BackgroundColorSpan
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -48,9 +47,14 @@ import coil.request.ImageRequest
 import com.sooj.today_music.R
 
 @Composable
-fun DetailPageScreen(navController: NavController, musicViewModel: SearchViewModel) {
+fun DetailPageScreen(
+    navController: NavController,
+                     musicViewModel: SearchViewModel,
+//                     memoViewModel: memoViewModel = hiltViewModel()
+) {
     /** 클릭한 트랙 가져오기 */
     val clickedTrack by musicViewModel.selectedTrack
+//    val getMemo by memoViewModel.memoContent
     Log.d("클릭한 트랙 가져오기", "클릭 정보 : ${clickedTrack}")
     val scrollState = rememberScrollState()
 
@@ -84,7 +88,8 @@ fun DetailPageScreen(navController: NavController, musicViewModel: SearchViewMod
                         model = clickedTrack?.image?.find { it.size == "extralarge" }?.url?.takeIf { it.isNotEmpty() }
                             ?: R.drawable.yumi,
                         contentDescription = null,
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
                             .padding(bottom = 10.dp)
                     )
 
@@ -104,7 +109,8 @@ fun DetailPageScreen(navController: NavController, musicViewModel: SearchViewMod
                     )
                     Card(
                         shape = RoundedCornerShape(30.dp),
-                        modifier = Modifier.background(Color.Transparent)
+                        modifier = Modifier
+                            .background(Color.Transparent)
                             .padding(20.dp)
                     ) {
                         Text(
@@ -177,11 +183,4 @@ fun DetailPageScreen(navController: NavController, musicViewModel: SearchViewMod
 
         }
     }
-}
-
-@Preview
-@Composable
-fun DetailPagePreview() {
-    val navController = rememberNavController()
-    DetailPageScreen(navController, hiltViewModel())
 }

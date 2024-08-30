@@ -2,6 +2,7 @@ package com.sooj.today_music.data
 
 import android.content.SharedPreferences
 import com.sooj.today_music.domain.MemoRepository
+
 import javax.inject.Inject
 
 
@@ -21,3 +22,5 @@ class MemoRepositoryImpl @Inject constructor(
         return sharedPreferences.getString(MEMO_KEY, "") ?: ""
     }
 }
+
+/// 메모데이터 자장 및 불러오기 기능

@@ -48,8 +48,6 @@ import com.sooj.today_music.R
 fun PosterListScreen(navController: NavController, musicViewModel: SearchViewModel) {
     /** 선택된 트랙 가져오기 */
     val selectedTrack by musicViewModel.selectedTrack
-    Log.d("선택 트랙 가져오기", "선택 트랙 정보 : ${selectedTrack}")
-
 
     Box(
         modifier = Modifier
@@ -58,10 +56,6 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
     ) {
         Column {
             Spacer(modifier = Modifier.height(16.dp))
-
-//            IconButton(onClick = { navController.popBackStack() }) {
-//                Image(imageVector = Icons.Default.Mus, contentDescription = "back")
-//            }
             Row(
                 modifier = Modifier,
                 verticalAlignment = Alignment.CenterVertically,
@@ -91,12 +85,8 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
                         Column(modifier = Modifier
                             .padding(5.dp)
                             .clickable {
-                            navController.navigate("detail_page")
-                        }) {
-//                            AsyncImage(
-//                                model = trackInfo.image?.find { it.size == "extralarge" }?.url,
-//                                contentDescription = null,
-//                            )
+                                navController.navigate("detail_page")
+                            }) {
                             AsyncImage(
                                 model = ImageRequest.Builder(LocalContext.current)
                                     .data(
