@@ -37,6 +37,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
@@ -46,6 +47,7 @@ import com.sooj.today_music.R
 @Composable
 fun EditDetailPageScreen(navController: NavController, musicViewModel: SearchViewModel) {
     val clickedTrack by musicViewModel.selectedTrack
+    val getImageUrl by musicViewModel.getAlbumImage
     Log.d("수정위한 클릭 트릭 가져오기", "정보 : ${clickedTrack}")
     val scrollState = rememberScrollState()
 
@@ -57,9 +59,11 @@ fun EditDetailPageScreen(navController: NavController, musicViewModel: SearchVie
             .padding(start = 8.dp, end = 8.dp)
     ) {
         Column {
-            Row(modifier = Modifier.fillMaxWidth(),
+            Row(
+                modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween) {
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
                 IconButton(onClick = { navController.popBackStack() }) {
                     Image(imageVector = Icons.Default.MusicVideo, contentDescription = "NoteList")
                 }
@@ -76,14 +80,13 @@ fun EditDetailPageScreen(navController: NavController, musicViewModel: SearchVie
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    AsyncImage(
-                        model = clickedTrack?.image?.find { it.size == "extralarge" }?.url?.takeIf { it.isNotEmpty() }
-                            ?: R.drawable.yumi,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 10.dp)
-                    )
+                    if (getImageUrl != null) {
+                        Log.d("이미지이미지", "이미지 URL: ${getImageUrl}")
+                        AsyncImage(model = getImageUrl, contentDescription = "image")
+                    } else {
+                        Image(painterResource(id = R.drawable.yumi), contentDescription = "error")
+                    }
+
                     Text(
                         text = clickedTrack?.artist ?: "알 수 없 는 아티스트",
                         modifier = Modifier

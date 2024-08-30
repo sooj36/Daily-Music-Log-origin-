@@ -81,7 +81,7 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
                 Text(text = " MY DAILY MUSIC RECORD <#3 ")
             }
             Spacer(modifier = Modifier.height(15.dp))
-            
+
 //            if (getImageUrl != null) {
 //                Log.d("이미지이미지", "이미지 URL: ${getImageUrl}")
 //                AsyncImage(model = getImageUrl, contentDescription = "image")
@@ -109,7 +109,10 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
                                 Log.d("이미지이미지", "이미지 URL: ${getImageUrl}")
                                 AsyncImage(model = getImageUrl, contentDescription = "image")
                             } else {
-                                Image(painterResource(id = R.drawable.yumi), contentDescription = "error")
+                                Image(
+                                    painterResource(id = R.drawable.yumi),
+                                    contentDescription = "error"
+                                )
                             }
 
 //                            AsyncImage(

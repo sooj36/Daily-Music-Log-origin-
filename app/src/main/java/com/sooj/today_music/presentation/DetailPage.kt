@@ -54,6 +54,7 @@ fun DetailPageScreen(
 ) {
     /** 클릭한 트랙 가져오기 */
     val clickedTrack by musicViewModel.selectedTrack
+    val getImageUrl by musicViewModel.getAlbumImage
 //    val getMemo by memoViewModel.memoContent
     Log.d("클릭한 트랙 가져오기", "클릭 정보 : ${clickedTrack}")
     val scrollState = rememberScrollState()
@@ -84,14 +85,12 @@ fun DetailPageScreen(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    AsyncImage(
-                        model = clickedTrack?.image?.find { it.size == "extralarge" }?.url?.takeIf { it.isNotEmpty() }
-                            ?: R.drawable.yumi,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 10.dp)
-                    )
+                    if (getImageUrl != null) {
+                        Log.d("이미지이미지", "이미지 URL: ${getImageUrl}")
+                        AsyncImage(model = getImageUrl, contentDescription = "image")
+                    } else {
+                        Image(painterResource(id = R.drawable.yumi), contentDescription = "error")
+                    }
 
                     Text(
                         text = clickedTrack?.artist ?: "알 수 없 는 아티스트",
