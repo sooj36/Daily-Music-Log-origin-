@@ -48,6 +48,7 @@ import com.sooj.today_music.R
 fun PosterListScreen(navController: NavController, musicViewModel: SearchViewModel) {
     /** 선택된 트랙 가져오기 */
     val selectedTrack by musicViewModel.selectedTrack
+    val getImageUrl by musicViewModel.getAlbumImage
 
     Box(
         modifier = Modifier
@@ -59,7 +60,8 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
             selectedTrack?.let { info ->
                 val artistName = info.artist ?: "알 수 없 는 아티스트"
                 val trackName = info.name ?: "알 수 없는 트랙묭"
-                Log.d("선택한 아티스트 및 트랙명" ,"${artistName}과 ${trackName}")
+                Log.d("선택한 아티스트 및 트랙명", "${artistName}과 ${trackName}")
+
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -79,6 +81,14 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
                 Text(text = " MY DAILY MUSIC RECORD <#3 ")
             }
             Spacer(modifier = Modifier.height(15.dp))
+            
+//            if (getImageUrl != null) {
+//                Log.d("이미지이미지", "이미지 URL: ${getImageUrl}")
+//                AsyncImage(model = getImageUrl, contentDescription = "image")
+//            } else {
+//                Image(painterResource(id = R.drawable.yumi), contentDescription = "error")
+//            }
+
 
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
@@ -94,15 +104,23 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
                             .clickable {
                                 navController.navigate("detail_page")
                             }) {
-                            AsyncImage(
-                                model = ImageRequest.Builder(LocalContext.current)
-                                    .data(
-                                        trackInfo?.image?.find { it.size == "extralarge" }?.url?.takeIf { it.isNotEmpty() }
-                                            ?: R.drawable.yumi // URL이 비어 있으면 기본 이미지 리소스를 사용
-                                    )
-                                    .build(),
-                                contentDescription = null
-                            )
+
+                            if (getImageUrl != null) {
+                                Log.d("이미지이미지", "이미지 URL: ${getImageUrl}")
+                                AsyncImage(model = getImageUrl, contentDescription = "image")
+                            } else {
+                                Image(painterResource(id = R.drawable.yumi), contentDescription = "error")
+                            }
+
+//                            AsyncImage(
+//                                model = ImageRequest.Builder(LocalContext.current)
+//                                    .data(
+//                                        trackInfo?.image?.find { it.size == "extralarge" }?.url?.takeIf { it.isNotEmpty() }
+//                                            ?: R.drawable.yumi // URL이 비어 있으면 기본 이미지 리소스를 사용
+//                                    )
+//                                    .build(),
+//                                contentDescription = null
+//                            )
                             Text(text = trackInfo.name ?: "알 수 없 는 제 목", fontSize = 19.sp)
                             Text(text = trackInfo.artist ?: "알수없는 아티스트", fontSize = 17.sp)
                         }

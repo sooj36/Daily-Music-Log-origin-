@@ -121,7 +121,10 @@ fun SearchPageScreen(navController: NavController, musicViewModel: SearchViewMod
                             .clickable {
                                 // 클릭 시, Viewmodel에 선택된 트랙 저장
                                 musicViewModel.selectTrack(track)
-                                Log.d("VIEWMODEL에 선택 트랙 저장", "저장된 ${musicViewModel.selectedTrack.value}")
+                                Log.d(
+                                    "VIEWMODEL에 선택 트랙 저장",
+                                    "저장된 ${musicViewModel.selectedTrack.value}"
+                                )
 
                                 // 다른 페이지로 이동
                                 navController.navigate("poster_list")

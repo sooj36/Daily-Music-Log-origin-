@@ -34,11 +34,11 @@ class SearchViewModel @Inject constructor(
 
     // 선택
     private val _selectedTrack = mutableStateOf<Track?>(null)
-    val selectedTrack : State<Track?> get() = _selectedTrack
+    val selectedTrack: State<Track?> get() = _selectedTrack
 
     // 선택 트랙에서 Artist, Track명으로 get.Info 가져오기
     private val _getAlbumImage = mutableStateOf<String?>(null)
-    val getAlbumImage : State<String?> get() = _getAlbumImage
+    val getAlbumImage: State<String?> get() = _getAlbumImage
 
 
     fun getMusic(track: String) {
@@ -64,32 +64,27 @@ class SearchViewModel @Inject constructor(
 
         // track객체에서 [artist] 와 [name] 값 추출
         val artistName = track.artist ?: "알 수 없 는 아 티 스트"
-        val TrackName = track.name ?: "알 수 없 는 트 랙 명 묭 뮹"
+        val trackName = track.name ?: "알 수 없 는 트 랙 명 묭 뮹"
 
-        Log.d("선택 트릭 중" , "${artistName}와 ${TrackName}")
+        Log.d("선택 트릭 중", "${artistName}와 ${trackName}")
 
+        getAlbumPostInfo()
     }
 
-    fun getAlbumPostInfo(artistName : String, TrackName : String) {
+    fun getAlbumPostInfo() {
+        val Info = _selectedTrack.value ?: return
         viewModelScope.launch {
-            val albumInfo = repository
+            val albumInfo = repository.getPostInfo(Info.name ?: "트랙", Info.artist ?: "아티스트")
+            if (albumInfo != null) {
+                Log.d("앨범 정보", "앨범은 ${albumInfo}")
+                val albumImageUrl = albumInfo.image.find { it.size == "extralarge" }?.url
+                _getAlbumImage.value = albumImageUrl
+
+            } else {
+                Log.e("앨범 정보 에러", "앨범 정보 못 가져옴")
+            }
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // coroutines( data 의존성 있는 경우) //

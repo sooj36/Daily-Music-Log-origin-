@@ -38,7 +38,9 @@ class SearchRepositoryImpl @Inject constructor(
                 "track.getInfo", BuildConfig.LAST_FM_API_KEY, artist, track, "json"
             )
             if (postResponse.isSuccessful) {
-                postResponse.body()?.track?.album
+                val album = postResponse.body()?.track?.album
+                Log.d("포스트 응답 성공 ", "성공햇슈 ${album}")
+                album
             } else {
                 Log.e("error", "api call error")
                 null
