@@ -7,12 +7,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sooj.today_music.data.NetworkModule
+import com.sooj.today_music.domain.Album
 import com.sooj.today_music.domain.SearchRepository
 import com.sooj.today_music.domain.Track
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
 import javax.inject.Inject
+
+/** _searchList.value <-- _searchList 값 가져와 외부에 노출
+ * val searchList: State<List<Track>> get() = _searchList
+get() 커스텀 게터 */
+
+/** private val _infoList = mutableStateOf<List<Album>>(emptyList())
+val infoList: State<List<Album>> get() = _infoList */
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
@@ -28,16 +36,10 @@ class SearchViewModel @Inject constructor(
     private val _selectedTrack = mutableStateOf<Track?>(null)
     val selectedTrack : State<Track?> get() = _selectedTrack
 
+    // 선택 트랙에서 Artist, Track명으로 get.Info 가져오기
+    private val _getAlbumImage = mutableStateOf<String?>(null)
+    val getAlbumImage : State<String?> get() = _getAlbumImage
 
-    /** _searchList.value <-- _searchList 값 가져와 외부에 노출
-     * val searchList: State<List<Track>> get() = _searchList
-    get() 커스텀 게터 */
-
-    /** private val _infoList = mutableStateOf<List<Album>>(emptyList())
-    val infoList: State<List<Album>> get() = _infoList */
-
-//    private val musicApi2 = RetrofitInstance_build.musicApi
-//    private val musicApi = NetworkModule.RetrofitInstance_build() <- retrofit 인스턴스 생성하지 말고 di 통해 사용할 것
 
     fun getMusic(track: String) {
         Log.i("track", track)
@@ -50,7 +52,7 @@ class SearchViewModel @Inject constructor(
                 Log.e("VIEWMODEL ERROR !!", "ERROR FETCHING TRACK INFO ${e.message}")
             }
         }
-    }
+    } // track을 기반으로 음악 정보를 검색하고, 그 결과를 viewmodel 상태로 저장
 
     // 선택한 트랙
     fun selectTrack(track: Track) {
@@ -59,7 +61,36 @@ class SearchViewModel @Inject constructor(
         }
         _selectedTrack.value = track
         Log.d("선택한 트랙", "SELECTED TRACK : ${_selectedTrack.value}")
+
+        // track객체에서 [artist] 와 [name] 값 추출
+        val artistName = track.artist ?: "알 수 없 는 아 티 스트"
+        val TrackName = track.name ?: "알 수 없 는 트 랙 명 묭 뮹"
+
+        Log.d("선택 트릭 중" , "${artistName}와 ${TrackName}")
+
     }
+
+    fun getAlbumPostInfo(artistName : String, TrackName : String) {
+        viewModelScope.launch {
+            val albumInfo = repository
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // coroutines( data 의존성 있는 경우) //
 //        viewModelScope.launch {

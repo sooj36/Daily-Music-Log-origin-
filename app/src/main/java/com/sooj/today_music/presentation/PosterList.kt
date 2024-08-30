@@ -55,6 +55,13 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
             .padding(start = 8.dp, end = 8.dp)
     ) {
         Column {
+
+            selectedTrack?.let { info ->
+                val artistName = info.artist ?: "알 수 없 는 아티스트"
+                val trackName = info.name ?: "알 수 없는 트랙묭"
+                Log.d("선택한 아티스트 및 트랙명" ,"${artistName}과 ${trackName}")
+            }
+
             Spacer(modifier = Modifier.height(16.dp))
             Row(
                 modifier = Modifier,
@@ -80,7 +87,7 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
                     .background(Color.LightGray)
                     .padding(start = 8.dp, end = 8.dp)
             ) {
-                items(30) {
+                items(1) {
                     selectedTrack?.let { trackInfo ->
                         Column(modifier = Modifier
                             .padding(5.dp)

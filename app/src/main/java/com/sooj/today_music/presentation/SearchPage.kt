@@ -113,10 +113,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: SearchViewMod
             ) {
                 items(searchList.size) { index ->
                     val track = searchList[index]
-                    val trackName = track.name ?: return@items
-                    val artistName = track.artist ?: return@items
 
-                    /////////////////////////////
                     Column(
                         modifier = Modifier
                             .padding(5.dp)
@@ -124,10 +121,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: SearchViewMod
                             .clickable {
                                 // 클릭 시, Viewmodel에 선택된 트랙 저장
                                 musicViewModel.selectTrack(track)
-                                Log.d(
-                                    "VIEWMODEL에 선택 트랙 저장",
-                                    "저장된 ${musicViewModel.selectedTrack.value}"
-                                )
+                                Log.d("VIEWMODEL에 선택 트랙 저장", "저장된 ${musicViewModel.selectedTrack.value}")
 
                                 // 다른 페이지로 이동
                                 navController.navigate("poster_list")
@@ -145,12 +139,6 @@ fun SearchPageScreen(navController: NavController, musicViewModel: SearchViewMod
                                 .build(),
                             contentDescription = null
                         )
-
-//                        AsyncImage(
-//                            model = ImageRequest.Builder(LocalContext.current)
-//                                .data(track.image?.find { it.size == "extralarge" }?.url).build(),
-//                            contentDescription = null
-//                        )
                         Spacer(modifier = Modifier.height(8.dp))
                         /** 트랙명 */
                         Text(
@@ -167,6 +155,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: SearchViewMod
                     }
                 } // index
             }
+
         }
     }
 }

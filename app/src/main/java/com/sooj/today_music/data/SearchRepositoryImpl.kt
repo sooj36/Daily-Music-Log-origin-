@@ -20,13 +20,8 @@ class SearchRepositoryImpl @Inject constructor(
 
         if (searchResponse.isSuccessful) {
             // 응답 성공 시,
-            val searchModel = searchResponse.body()
-            Log.d("API RESPONSE", "MusicModel: ${searchModel?.results}")
-
-            // 응답 성공 시,
             val searchList = searchResponse.body()?.results?.trackmatches?.track
-            Log.d("RESPONSE SUCCES", "SUCCESS ${searchResponse.body()}")
-            Log.d("RESPONSE Track value", "SUCCESS ${searchResponse.code()}")
+            Log.d("RESPONSE SUCCES", "SUCCESS ${searchResponse.body()},${searchResponse.code()}")
             return searchList ?: emptyList()
 
         } else {
@@ -36,39 +31,58 @@ class SearchRepositoryImpl @Inject constructor(
         }
     }
 
-
-    override suspend fun getPostInfo(track: String): List<Track2> {
-        val searchRespose = musicapi.getTrackSearch(
-            "track.search", track, BuildConfig.LAST_FM_API_KEY, "json"
-        )
-
-        if (searchRespose.isSuccessful) {
-            val searchList = searchRespose.body()?.results?.trackmatches?.track ?: emptyList()
-
-            // 각 트랙의 세부정보를 가져오기 위해 추가적인 API 호출 //
-            val getAlbumPost = searchList.mapNotNull { trackItem ->
-                val artistName = trackItem.artist ?: return@mapNotNull null
-                val trackName = trackItem.name ?: return@mapNotNull null
-
-                // getPostInfo API 이용해서 이미지 정보 가져오기 //
-                val postResponse = musicapi.getPostInfo(
-                    "track.getInfo", BuildConfig.LAST_FM_API_KEY, artistName, trackName, "json"
-                )
-
-                // post 응답 성공 시 //
-                if (postResponse.isSuccessful) {
-                    val postList = postResponse.body()?.track
-                    postList  // 이 부분이 Album 객체로 가정하고 반환합니다.
-                } else {
-                    Log.e("PostInfo 에러", "PostInfo 에러 코드는 ${postResponse.code()}")
-                    null
-                }
-            }.flatten() // 여러 개의 리스트를 하나로 평탄화
-            return getAlbumPost
-
-        } else {
-            Log.e("", "")
-            return emptyList()
+    override suspend fun getPostInfo(track: String, artist: String): Album? {
+        return try {
+            //getpostinfo api 호출
+            val postResponse = musicapi.getPostInfo(
+                "track.getInfo", BuildConfig.LAST_FM_API_KEY, artist, track, "json"
+            )
+            if (postResponse.isSuccessful) {
+                postResponse.body()?.track?.album
+            } else {
+                Log.e("error", "api call error")
+                null
+            }
+        } catch (e: Exception) {
+            Log.e("PostInfo Error", "Exception: ${e.message}")
+            null
         }
     }
+
+
+//    override suspend fun getPostInfo(track: String): Album {
+//        val searchResponse = musicapi.getTrackSearch(
+//            "track.search", track, BuildConfig.LAST_FM_API_KEY, "json"
+//        )
+//
+//        if (searchResponse.isSuccessful) {
+//            val searchList = searchResponse.body()?.results?.trackmatches?.track ?: emptyList()
+//
+//            // 각 트랙의 세부정보를 가져오기 위해 추가적인 API 호출 //
+//            val getAlbumPost = searchList.mapNotNull { trackItem ->
+//                val artistName = trackItem.artist ?: return@mapNotNull null
+//                val trackName = trackItem.name ?: return@mapNotNull null // 로드된 데이터들
+//
+//                // getPostInfo API 이용해서 이미지 정보 가져오기 //
+//                val postResponse = musicapi.getPostInfo(
+//                    "track.getInfo", BuildConfig.LAST_FM_API_KEY, artistName, trackName, "json"
+//                )
+//                Log.d("포스트 응답", "$${postResponse.body()}")
+//
+//                // post 응답 성공 시 //
+//                if (postResponse.isSuccessful) {
+//                    val postList = postResponse.body()?.track
+//                    postList  // 이 부분이 Album 객체로 가정하고 반환합니다.
+//                } else {
+//                    Log.e("PostInfo 에러", "PostInfo 에러 코드는 ${postResponse.code()}")
+//                    null
+//                }
+//            }.flatten() // 여러 개의 리스트를 하나로 평탄화
+//            return
+//
+//        } else {
+//            Log.e("", "")
+//
+//        }
+    //        }
 }
