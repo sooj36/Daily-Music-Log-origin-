@@ -1,18 +1,14 @@
 package com.sooj.today_music.presentation
 
 import android.util.Log
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sooj.today_music.data.NetworkModule
-import com.sooj.today_music.domain.Album
 import com.sooj.today_music.domain.SearchRepository
 import com.sooj.today_music.domain.Track
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.plus
 import javax.inject.Inject
 
 /** _searchList.value <-- _searchList 값 가져와 외부에 노출
@@ -48,42 +44,78 @@ class SearchViewModel @Inject constructor(
             try {
                 val trackInfo = repository.getTrackInfo(track)
                 _searchList.value = trackInfo
+
+                // 로드된 trackInfo 객체에서 [artist] 와 [name] 값만 추출
+                val nameAndArtist = trackInfo.map { method ->
+                    method.name to method.artist
+                }
+                Log.d("getMusic 로드 데이터", "로드된 값 ${_searchList.value}")
+                Log.d("2개 메서드 추출", "로드된 값 ${nameAndArtist}")
+
             } catch (e: Exception) {
                 Log.e("VIEWMODEL ERROR !!", "ERROR FETCHING TRACK INFO ${e.message}")
             }
         }
+        getLoadAlbumPoster()
+
+
     } // track을 기반으로 음악 정보를 검색하고, 그 결과를 viewmodel 상태로 저장
 
     // 선택한 트랙
     fun selectTrack(track: Track) {
         viewModelScope.launch {
-
+            _selectedTrack.value = track
         }
-        _selectedTrack.value = track
+
         Log.d("선택한 트랙", "SELECTED TRACK : ${_selectedTrack.value}")
 
-        // track객체에서 [artist] 와 [name] 값 추출
-        val artistName = track.artist ?: "알 수 없 는 아 티 스트"
-        val trackName = track.name ?: "알 수 없 는 트 랙 명 묭 뮹"
-
-        Log.d("선택 트릭 중", "${artistName}와 ${trackName}")
-
-        getAlbumPostInfo()
+        getAlbumPostPoster()
     }
 
-    fun getAlbumPostInfo() {
-        val Info = _selectedTrack.value ?: return
+    // 선택한 트랙으로 앨범포스터 가져오기
+    fun getAlbumPostPoster() {
+        val selectedImageInfo = _selectedTrack.value ?: return
+
+
         viewModelScope.launch {
-            val albumInfo = repository.getPostInfo(Info.name ?: "트랙", Info.artist ?: "아티스트")
+            val albumInfo = repository.getPostInfo(
+                selectedImageInfo.name ?: "트랙",
+                selectedImageInfo.artist ?: "아티스트"
+            )
             if (albumInfo != null) {
                 Log.d("앨범 정보", "앨범은 ${albumInfo}")
                 val albumImageUrl = albumInfo.image.find { it.size == "extralarge" }?.url
                 _getAlbumImage.value = albumImageUrl
 
             } else {
-                Log.e("앨범 정보 에러", "앨범 정보 못 가져옴")
+                Log.e("앨범 정보 에러", "앨범 정보 못 가져옴 $$$")
             }
         }
+
+    }
+
+    // 로드된 트랙으로 앨범포스터 가져오기
+    fun getLoadAlbumPoster() {
+        val loadTrackName = _searchList.value.map { name ->
+            name.name
+        } ?: return
+
+        val loadArtistName = _searchList.value.map { artist ->
+            artist.artist
+        }
+
+        viewModelScope.launch {
+            val albumInfo =
+                repository.getPostInfo(loadTrackName.toString(), loadArtistName.toString())
+            if (albumInfo != null) {
+                Log.d("로드된 트랙 앨범 포스터 정보", "로드앨범포스터는 ${albumInfo}")
+                val loadAlbumImageUrl = albumInfo.image.find { it.size == "extralarge" }?.url
+
+                _getAlbumImage.value = loadAlbumImageUrl
+            } else {
+                Log.e("로드 앨범 에러", "앨범 정보 못 가져옴")
+            }
+        } //코루틴
     }
 
 
