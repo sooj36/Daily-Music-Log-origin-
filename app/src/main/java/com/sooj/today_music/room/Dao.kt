@@ -2,20 +2,35 @@ package com.sooj.today_music.room
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
 @Dao
-interface Dao {
+interface MemoDao {
+    @Query("SELECT * FROM MemoEntity WHERE trackId = :trackId")
+    fun getMemoByTrackId(trackId: Int): LiveData<MemoEntity> // trackId로 메모 조회
+    /** suspend fun 과 LiveData 같이 사용 불가*/
 
-    @Query("SELECT * FROM MemoEntity")
-    fun getAllData(): LiveData<List<TrackEntity>>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addMemo(memoEntity: MemoEntity)
 
-    @Insert
-    fun addMemo(trackEntity: TrackEntity)
+    @Query("delete FROM memoentity where id = :id")
+    suspend fun deleteMemo(id: Int)
 
-    @Query("delete FROM trackentity where id = :id")
-    fun deleteMemo(id: Int) {
-    }
+}
+
+@Dao
+interface TrackDao {
+
+    @Query("SELECT * FROM TrackEntity") // 모든 트랙 조회
+    suspend fun getAllTracks(): List<TrackEntity>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertTrack(trackEntity: TrackEntity): Long
+
+    @Delete
+    suspend fun deleteTrack(trackEntity: TrackEntity)
 
 }

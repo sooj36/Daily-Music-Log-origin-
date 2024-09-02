@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sooj.today_music.domain.SearchRepository
 import com.sooj.today_music.domain.Track
+import com.sooj.today_music.room.TrackEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -36,9 +37,13 @@ class SearchViewModel @Inject constructor(
     private val _getAlbumImage = mutableStateOf<String?>(null)
     val getAlbumImage: State<String?> get() = _getAlbumImage
 
+    // 모든 트랙 데이터 상태 관리
+    private val _allTracks = mutableStateOf<List<TrackEntity>>(emptyList())
+    val allTracks : State<List<TrackEntity>> get() = _allTracks
+
 
     fun getMusic(track: String) {
-        Log.i("track", track)
+//        Log.i("track", track)
 
         viewModelScope.launch {
             try {
@@ -49,15 +54,14 @@ class SearchViewModel @Inject constructor(
                 val nameAndArtist = trackInfo.map { method ->
                     method.name to method.artist
                 }
-                Log.d("getMusic 로드 데이터", "로드된 값 ${_searchList.value}")
-                Log.d("2개 메서드 추출", "로드된 값 ${nameAndArtist}")
+                Log.d("겟뮤직 1 ", "로드된 값 ${_searchList.value}")
+                Log.d("겟뮤직 2 (2개 메서드 추출)", "로드된 값 ${nameAndArtist}")
 
             } catch (e: Exception) {
                 Log.e("VIEWMODEL ERROR !!", "ERROR FETCHING TRACK INFO ${e.message}")
             }
         }
         getLoadAlbumPoster()
-
 
     } // track을 기반으로 음악 정보를 검색하고, 그 결과를 viewmodel 상태로 저장
 
@@ -67,7 +71,7 @@ class SearchViewModel @Inject constructor(
             _selectedTrack.value = track
         }
 
-        Log.d("선택한 트랙", "SELECTED TRACK : ${_selectedTrack.value}")
+        Log.d("1 내가 select한 트랙", "SELECTED TRACK : ${_selectedTrack.value}")
 
         getAlbumPostPoster()
     }
@@ -83,7 +87,7 @@ class SearchViewModel @Inject constructor(
                 selectedImageInfo.artist ?: "아티스트"
             )
             if (albumInfo != null) {
-                Log.d("앨범 정보", "앨범은 ${albumInfo}")
+                Log.d("1 포스터 가져오기 위한 '선택한' 앨범 정보 떴나요", "앨범은 ${albumInfo}")
                 val albumImageUrl = albumInfo.image.find { it.size == "extralarge" }?.url
                 _getAlbumImage.value = albumImageUrl
 
@@ -108,7 +112,7 @@ class SearchViewModel @Inject constructor(
             val albumInfo =
                 repository.getPostInfo(loadTrackName.toString(), loadArtistName.toString())
             if (albumInfo != null) {
-                Log.d("로드된 트랙 앨범 포스터 정보", "로드앨범포스터는 ${albumInfo}")
+                Log.d("1 '로드된' 트랙 앨범 포스터 정보", "로드앨범포스터는 ${albumInfo}")
                 val loadAlbumImageUrl = albumInfo.image.find { it.size == "extralarge" }?.url
 
                 _getAlbumImage.value = loadAlbumImageUrl
@@ -118,6 +122,37 @@ class SearchViewModel @Inject constructor(
         } //코루틴
     }
 
+    //데이터 불러오는 메서드
+    fun loadAllTracks() {
+        viewModelScope.launch {
+            try {
+                _allTracks.value = repository.getAllTracks()
+                Log.d("데이터 불러옴", "트랙s 로드 ${_allTracks.value} 성공")
+            } catch (e: Exception) {
+                Log.e("데이터 불러옴 오류", "트랙s 로드 ${e.message} 오류")
+            }
+        }
+    }
+
+    // 선택된 트랙을 데이터베이스에 저장
+    fun saveSelectedTrack() {
+        val trackToSave = _selectedTrack.value ?: return
+        viewModelScope.launch {
+            try {
+                val trackEntity = TrackEntity(
+                    trackName = trackToSave?.name,
+                    artistName = trackToSave?.artist,
+                    imageUrl = trackToSave?.image?.firstOrNull()?.url ?: "",
+                )
+                repository.saveToTrack(trackEntity)
+                Log.d("1 선택된 트랙 db에 저장", "트랙은 ${trackEntity} 로 저장 성공")
+            } catch (e : Exception) {
+                Log.e("트랙 저장 오류", "트랙은 ${e.message} 로 오류 발생")
+            }
+        }
+    }
+
+    //
 
 // coroutines( data 의존성 있는 경우) //
 //        viewModelScope.launch {

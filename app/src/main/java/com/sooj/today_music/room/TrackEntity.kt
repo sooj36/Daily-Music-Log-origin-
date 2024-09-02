@@ -2,14 +2,16 @@ package com.sooj.today_music.room
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity
 data class TrackEntity(
     @PrimaryKey(autoGenerate = true)
-    val id : Int = 0,
-    val track : String,
-    val artist : String,
+    val id : Int =0,
+    val trackName : String?,
+    val artistName : String?,
+    val imageUrl : String?,
 )
 
 @Entity(
@@ -20,7 +22,8 @@ data class TrackEntity(
             childColumns = ["trackId"],
             onDelete = ForeignKey.CASCADE
         )
-    ]
+    ] ,
+//    indices = [Index(value = ["trackId"])] // trackId에 인덱스를 추가하여 검색 속도 향상
 )
 
 data class MemoEntity(

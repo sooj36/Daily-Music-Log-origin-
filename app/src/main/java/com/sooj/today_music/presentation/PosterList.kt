@@ -13,11 +13,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.MusicNote
+import androidx.compose.material.icons.filled.SaveAs
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.WbIncandescent
 import androidx.compose.material3.Button
@@ -49,6 +51,11 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
     /** 선택된 트랙 가져오기 */
     val selectedTrack by musicViewModel.selectedTrack
     val getImageUrl by musicViewModel.getAlbumImage
+    val loadTracks by musicViewModel.allTracks
+
+//    LaunchedEffect(Unit) {
+//        musicViewModel.loadAllTracks() // 로드되는 모든 데이터 뜸 (선택아님)
+//    }
 
     Box(
         modifier = Modifier
@@ -56,14 +63,7 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
             .padding(start = 8.dp, end = 8.dp)
     ) {
         Column {
-
-            selectedTrack?.let { info ->
-                val artistName = info.artist ?: "알 수 없 는 아티스트"
-                val trackName = info.name ?: "알 수 없는 트랙묭"
-                Log.d("선택한 아티스트 및 트랙명", "${artistName}과 ${trackName}")
-
-            }
-
+            Text(text = "로드 트랙들 몇개야 ? ${loadTracks.size}, ${loadTracks.toString()}")
             Spacer(modifier = Modifier.height(16.dp))
             Row(
                 modifier = Modifier,
@@ -79,16 +79,13 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
 
                 }
                 Text(text = " MY DAILY MUSIC RECORD <#3 ")
+
+                Image(imageVector = Icons.Default.SaveAs, contentDescription = "getTrackData",
+                    modifier = Modifier.clickable {
+//                        musicViewModel.saveSelectedTrack()
+                    })
             }
             Spacer(modifier = Modifier.height(15.dp))
-
-//            if (getImageUrl != null) {
-//                Log.d("이미지이미지", "이미지 URL: ${getImageUrl}")
-//                AsyncImage(model = getImageUrl, contentDescription = "image")
-//            } else {
-//                Image(painterResource(id = R.drawable.yumi), contentDescription = "error")
-//            }
-
 
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
@@ -106,7 +103,7 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
                             }) {
 
                             if (getImageUrl != null) {
-                                Log.d("PostList_이미지이미지", "이미지 URL: ${getImageUrl}")
+                                Log.d("1P - PostList_이미지이미지", "이미지 URL: ${getImageUrl}")
                                 AsyncImage(model = getImageUrl, contentDescription = "image")
                             } else {
                                 Image(
@@ -131,6 +128,7 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
                 }
             }
         } // column
+
     }
 }
 

@@ -7,11 +7,14 @@ import com.sooj.today_music.domain.Album
 import com.sooj.today_music.domain.SearchRepository
 import com.sooj.today_music.domain.Track
 import com.sooj.today_music.domain.Track2
+import com.sooj.today_music.room.TrackDao
+import com.sooj.today_music.room.TrackEntity
 import javax.inject.Inject
 
 
 class SearchRepositoryImpl @Inject constructor(
-    private val musicapi: ApiService_EndPoint
+    private val musicapi: ApiService_EndPoint,
+    private val trackDao: TrackDao  // 다오 주입받음
 ) : SearchRepository {
     override suspend fun getTrackInfo(track: String): List<Track> {
         val searchResponse = musicapi.getTrackSearch(
@@ -49,6 +52,14 @@ class SearchRepositoryImpl @Inject constructor(
             Log.e("PostInfo Error", "Exception: ${e.message}")
             null
         }
+    }
+
+    override suspend fun saveToTrack(trackEntity: TrackEntity) {
+        trackDao.insertTrack(trackEntity)
+    }
+
+    override suspend fun getAllTracks(): List<TrackEntity> {
+        return trackDao.getAllTracks()
     }
 
 
