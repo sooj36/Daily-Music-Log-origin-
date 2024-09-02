@@ -151,6 +151,9 @@ dependencies {
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.4")
+
+    //room
+    implementation("androidx.room:room-ktx:2.6.1")
 }
 
 kapt {

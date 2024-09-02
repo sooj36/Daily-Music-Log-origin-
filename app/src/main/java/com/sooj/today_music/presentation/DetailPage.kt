@@ -86,7 +86,7 @@ fun DetailPageScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     if (getImageUrl != null) {
-                        Log.d("이미지이미지", "이미지 URL: ${getImageUrl}")
+                        Log.d("detail_이미지이미지", "이미지 URL: ${getImageUrl}")
                         AsyncImage(model = getImageUrl, contentDescription = "image")
                     } else {
                         Image(painterResource(id = R.drawable.yumi), contentDescription = "error")
