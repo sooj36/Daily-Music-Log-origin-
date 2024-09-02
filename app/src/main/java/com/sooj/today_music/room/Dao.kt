@@ -2,13 +2,20 @@ package com.sooj.today_music.room
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
 
 @Dao
 interface Dao {
 
-    fun getAllData() : LiveData<List<MemoEntity>>
+    @Query("SELECT * FROM MemoEntity")
+    fun getAllData(): LiveData<List<TrackEntity>>
 
-    fun addMemo(memoEntity: MemoEntity)
+    @Insert
+    fun addMemo(trackEntity: TrackEntity)
 
-    fun deleteMemo(id : Int) {}
+    @Query("delete FROM trackentity where id = :id")
+    fun deleteMemo(id: Int) {
+    }
+
 }

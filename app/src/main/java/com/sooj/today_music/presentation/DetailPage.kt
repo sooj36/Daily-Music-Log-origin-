@@ -87,7 +87,7 @@ fun DetailPageScreen(
                 ) {
                     if (getImageUrl != null) {
                         Log.d("detail_이미지이미지", "이미지 URL: ${getImageUrl}")
-                        AsyncImage(model = getImageUrl, contentDescription = "image")
+                        AsyncImage(model = getImageUrl, contentDescription = "image", modifier = Modifier.size(200.dp))
                     } else {
                         Image(painterResource(id = R.drawable.yumi), contentDescription = "error")
                     }
