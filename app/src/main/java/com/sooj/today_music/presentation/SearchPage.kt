@@ -91,8 +91,6 @@ fun SearchPageScreen(navController: NavController, musicViewModel: SearchViewMod
                                     style = TextStyle(color = Color.Gray)
                                 )
                             } else {
-                                // 음악 검색
-//                                viewModel.getMusic(track)
                             }
                             innerTextField() // 실제 텍스트 입력 필드
                         }
