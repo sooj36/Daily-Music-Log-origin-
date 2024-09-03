@@ -20,7 +20,7 @@ class SearchRepositoryImpl @Inject constructor(
 ) : SearchRepository {
     override suspend fun getTrackInfo(track: String): List<Track> {
         return withContext(Dispatchers.IO) {
-            Log.d("sj im 앞 겟정보", "Running on thread: ${Thread.currentThread().name}")
+            Log.d("sj im 겟뮤직", "Running on thread: ${Thread.currentThread().name}")
             val searchResponse = musicapi.getTrackSearch(
                 "track.search", track, BuildConfig.LAST_FM_API_KEY, "json"
             )
@@ -41,7 +41,7 @@ class SearchRepositoryImpl @Inject constructor(
 
     override suspend fun getPostInfo(track: String, artist: String): Album? {
         return withContext(Dispatchers.IO) {
-            Log.d("sj_임2 겟포스터인포", "Running on thread: ${Thread.currentThread().name}")
+            Log.d("sj_im 겟포스터", "Running on thread: ${Thread.currentThread().name}")
             try {
                 //getpostinfo api 호출
                 val postResponse = musicapi.getPostInfo(
@@ -64,10 +64,10 @@ class SearchRepositoryImpl @Inject constructor(
 
     override suspend fun saveToTrack(trackEntity: TrackEntity) {
         withContext(Dispatchers.IO) {
-            Log.d("sj_임3 세이브with", "Running on thread: ${Thread.currentThread().name}")
+            Log.d("sj_im 저장", "Running on thread: ${Thread.currentThread().name}")
             trackDao.insertTrack(trackEntity)
         }
-        Log.d("sj_임3-1 세이브", "Running on thread: ${Thread.currentThread().name}")
+        Log.d("sj_im-1 저장", "Running on thread: ${Thread.currentThread().name}")
 
     }
 

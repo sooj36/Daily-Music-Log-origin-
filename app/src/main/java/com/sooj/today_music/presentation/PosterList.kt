@@ -45,6 +45,8 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.sooj.today_music.R
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @Composable
 fun PosterListScreen(navController: NavController, musicViewModel: SearchViewModel) {
@@ -52,9 +54,13 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
     val selectedTrack by musicViewModel.selectedTrack
     val getImageUrl by musicViewModel.getAlbumImage
     val loadTracks by musicViewModel.allTracks
-
+//
 //    LaunchedEffect(Unit) {
-//        musicViewModel.loadAllTracks() // 로드되는 모든 데이터 뜸 (선택아님)
+//        val saveString = withContext(Dispatchers.Default) {
+//            musicViewModel.loadAllTracks() // 로드되는 모든 데이터 뜸 (선택아님)
+//            loadTracks.toString()
+//        }
+//
 //    }
     Box(
         modifier = Modifier

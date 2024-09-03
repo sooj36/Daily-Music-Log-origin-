@@ -42,31 +42,31 @@ class SearchViewModel @Inject constructor(
     private val _allTracks = mutableStateOf<List<TrackEntity>>(emptyList())
     val allTracks : State<List<TrackEntity>> get() = _allTracks
 
-
+    /** track을 기반으로 음악 정보를 검색하고, 그 결과를 viewmodel 상태로 저장 */
     fun getMusic(track: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            Log.d("sj_뷰모델 1 겟뮤직", "Running on thread: ${Thread.currentThread().name}")
+            Log.d("sj_vm앞 겟뮤직", "Running on thread: ${Thread.currentThread().name}")
             try {
                 val trackInfo = repository.getTrackInfo(track)
                 withContext(Dispatchers.Main) {
                     _searchList.value = trackInfo
                 }
 
-
 //                // 로드된 trackInfo 객체에서 [artist] 와 [name] 값만 추출
 //                val nameAndArtist = trackInfo.map { method ->
 //                    method.name to method.artist
 //                }
-//                Log.d("ThCh겟뮤직 1 ", "로드된 값 ${_searchList.value}")
-//                Log.d("겟뮤직 2 (2개 메서드 추출)", "로드된 값 ${nameAndArtist}")
+//                withContext(Dispatchers.Main) {
+//                    _searchList.value = trackInfo
+//                }
 
             } catch (e: Exception) {
                 Log.e("sj VIEWMODEL ERROR !!", "ERROR FETCHING TRACK INFO ${e.message}")
             }
+            Log.d("sj_vm뒤 겟뮤직", "Running on thread: ${Thread.currentThread().name}")
         }
-//        getLoadAlbumPoster()
-
-    } // track을 기반으로 음악 정보를 검색하고, 그 결과를 viewmodel 상태로 저장
+        // getLoadAlbumPoster()
+    }
 
     // 선택한 트랙
     fun selectTrack(track: Track) {
@@ -75,16 +75,16 @@ class SearchViewModel @Inject constructor(
 
         Log.d("sj VM - 1선택 트랙", "SELECTED TRACK : ${_selectedTrack.value}")
 
-//        getAlbumPostPoster()
+        getAlbumPostPoster()
     }
 
     // 선택한 트랙으로 앨범포스터 가져오기
     fun getAlbumPostPoster() {
         val selectedImageInfo = _selectedTrack.value ?: return
 
-
         viewModelScope.launch(Dispatchers.IO) {
-            Log.d("sj_뷰3앞 겟앨범포스터", "Running on thread: ${Thread.currentThread().name}")
+            Log.d("sj_뷰앞 겟포스터", "Running on thread: ${Thread.currentThread().name}")
+
             val albumInfo = repository.getPostInfo(
                 selectedImageInfo.name ?: "트랙",
                 selectedImageInfo.artist ?: "아티스트"
@@ -96,29 +96,23 @@ class SearchViewModel @Inject constructor(
                     _getAlbumImage.value = albumImageUrl
                     Log.d("sj_뷰모델 3 겟앨범 withcontext", "Running on thread: ${Thread.currentThread().name}")
                 }
-
-
             } else {
                 Log.e("앨범 정보 에러", "앨범 정보 못 가져옴 $$$")
             }
-            Log.d("sj_뷰3뒤 겟앨범포스터", "Running on thread: ${Thread.currentThread().name}")
+            Log.d("sj_뷰뒤 겟포스터", "Running on thread: ${Thread.currentThread().name}")
         }
 
     }
 
     // 로드된 트랙으로 앨범포스터 가져오기
-    fun getLoadAlbumPoster() {
-        val loadTrackName = _searchList.value.map { name ->
-            name.name
-        } ?: return
+  /**  fun getLoadAlbumPoster() {
+        val loadTrackName = _searchList.value.map { name -> name.name } ?: return
 
-        val loadArtistName = _searchList.value.map { artist ->
-            artist.artist
-        }
+        val loadArtistName = _searchList.value.map { artist -> artist.artist }
 
         viewModelScope.launch(Dispatchers.IO) {
             Log.d("sj_VM 앞 포스터", "Running on thread: ${Thread.currentThread().name}")
-            val albumInfo = repository.getPostInfo(loadTrackName.toString(), loadArtistName.toString())
+            val albumInfo = repository.getPostInfo(loadTrackName.joinToString(",") , loadArtistName.joinToString(","))
             if (albumInfo != null) {
                 Log.d("1 '로드된' 트랙 앨범 포스터 정보", "로드앨범포스터는 ${albumInfo}")
                 val loadAlbumImageUrl = albumInfo.image.find { it.size == "extralarge" }?.url
@@ -128,20 +122,20 @@ class SearchViewModel @Inject constructor(
             }
             Log.d("sj_VM 뒤 포스터", "Running on thread: ${Thread.currentThread().name}")
         } //코루틴
-    }
+    } */
 
     //데이터 불러오는 메서드
-//    fun loadAllTracks() {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            try {
-//                _allTracks.value = repository.getAllTracks()
-//                Log.d("데이터 불러옴", "트랙s 로드 ${_allTracks.value} 성공")
-//            } catch (e: Exception) {
-//                Log.e("데이터 불러옴 오류", "트랙s 로드 ${e.message} 오류")
-//            }
-//            Log.d("ThreadCh_뷰모델 4 로드올트랙들", "Running on thread: ${Thread.currentThread().name}")
-//        }
-//    }
+    fun loadAllTracks() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                _allTracks.value = repository.getAllTracks()
+                Log.d("데이터 불러옴", "트랙s 로드 ${_allTracks.value} 성공")
+            } catch (e: Exception) {
+                Log.e("데이터 불러옴 오류", "트랙s 로드 ${e.message} 오류")
+            }
+            Log.d("ThreadCh_뷰모델 4 로드올트랙들", "Running on thread: ${Thread.currentThread().name}")
+        }
+    }
 
     // 선택된 트랙을 데이터베이스에 저장
     fun saveSelectedTrack() {

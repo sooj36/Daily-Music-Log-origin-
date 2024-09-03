@@ -119,7 +119,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: SearchViewMod
                             .clickable {
                                 // 클릭 시, Viewmodel에 선택된 트랙 저장
                                 musicViewModel.selectTrack(track)
-                                musicViewModel.saveSelectedTrack()
+//                                musicViewModel.saveSelectedTrack() // 저장 두번 된 이유
                                 Log.d(
                                     "1S VIEWMODEL에 선택 트랙 저장",
                                     "저장된 ${musicViewModel.selectedTrack.value} 그리고 ${musicViewModel.saveSelectedTrack().toString()}"
