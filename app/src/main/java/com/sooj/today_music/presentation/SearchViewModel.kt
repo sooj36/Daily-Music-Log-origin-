@@ -64,19 +64,18 @@ class SearchViewModel @Inject constructor(
                 Log.e("sj VIEWMODEL ERROR !!", "ERROR FETCHING TRACK INFO ${e.message}")
             }
         }
-        getLoadAlbumPoster()
+//        getLoadAlbumPoster()
 
     } // track을 기반으로 음악 정보를 검색하고, 그 결과를 viewmodel 상태로 저장
 
     // 선택한 트랙
     fun selectTrack(track: Track) {
-        viewModelScope.launch(Dispatchers.IO) {
-            Log.d("sj VM - 1선택 트랙", "SELECTED TRACK : ${_selectedTrack.value}")
+            /** track 선택 시 즉시 상태 업데이트*/
             _selectedTrack.value = track
-        }
+
         Log.d("sj VM - 1선택 트랙", "SELECTED TRACK : ${_selectedTrack.value}")
 
-        getAlbumPostPoster()
+//        getAlbumPostPoster()
     }
 
     // 선택한 트랙으로 앨범포스터 가져오기
@@ -156,11 +155,11 @@ class SearchViewModel @Inject constructor(
                     imageUrl = trackToSave?.image?.firstOrNull()?.url ?: "",
                 )
                 repository.saveToTrack(trackEntity)
-                Log.d("1 선택된 트랙 db에 저장", "트랙은 ${trackEntity} 로 저장 성공")
+                Log.d("1 트랙 db에 저장", "트랙은 ${trackEntity} 로 저장 성공")
             } catch (e : Exception) {
                 Log.e("트랙 저장 오류", "트랙은 ${e.message} 로 오류 발생")
             }
-
+            Log.d("sj_VM 뒤 저장", "Running on thread: ${Thread.currentThread().name}")
         }
     }
 
