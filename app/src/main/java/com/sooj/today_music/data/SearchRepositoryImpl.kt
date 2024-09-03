@@ -61,11 +61,16 @@ class SearchRepositoryImpl @Inject constructor(
     }
 
     override suspend fun saveToTrack(trackEntity: TrackEntity) {
-        trackDao.insertTrack(trackEntity)
+        withContext(Dispatchers.IO) {
+            trackDao.insertTrack(trackEntity)
+        }
+
     }
 
     override suspend fun getAllTracks(): List<TrackEntity> {
-        return trackDao.getAllTracks()
+        return withContext(Dispatchers.IO) {
+             trackDao.getAllTracks()
+        }
     }
 
 
