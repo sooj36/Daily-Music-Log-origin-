@@ -56,14 +56,13 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
 //    LaunchedEffect(Unit) {
 //        musicViewModel.loadAllTracks() // 로드되는 모든 데이터 뜸 (선택아님)
 //    }
-
     Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(start = 8.dp, end = 8.dp)
     ) {
         Column {
-            Text(text = "로드 트랙들 몇개야 ? ${loadTracks.size}, ${loadTracks.toString()}")
+            Text(text = "로드 트랙들 몇개야 ? ${loadTracks.size}")
             Spacer(modifier = Modifier.height(16.dp))
             Row(
                 modifier = Modifier,
@@ -79,6 +78,7 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
 
                 }
                 Text(text = " MY DAILY MUSIC RECORD <#3 ")
+
 
                 Image(imageVector = Icons.Default.SaveAs, contentDescription = "getTrackData",
                     modifier = Modifier.clickable {
@@ -127,8 +127,7 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
                     }
                 }
             }
-        } // column
-
+        } //column
     }
 }
 
