@@ -9,6 +9,8 @@ import com.sooj.today_music.domain.Track
 import com.sooj.today_music.domain.Track2
 import com.sooj.today_music.room.TrackDao
 import com.sooj.today_music.room.TrackEntity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
@@ -17,20 +19,22 @@ class SearchRepositoryImpl @Inject constructor(
     private val trackDao: TrackDao  // 다오 주입받음
 ) : SearchRepository {
     override suspend fun getTrackInfo(track: String): List<Track> {
-        val searchResponse = musicapi.getTrackSearch(
-            "track.search", track, BuildConfig.LAST_FM_API_KEY, "json"
-        )
+        return withContext(Dispatchers.IO) {
+            val searchResponse = musicapi.getTrackSearch(
+                "track.search", track, BuildConfig.LAST_FM_API_KEY, "json"
+            )
 
-        if (searchResponse.isSuccessful) {
-            // 응답 성공 시,
-            val searchList = searchResponse.body()?.results?.trackmatches?.track
-            Log.d("RESPONSE SUCCES", "SUCCESS ${searchResponse.body()},${searchResponse.code()}")
-            return searchList ?: emptyList()
+            if (searchResponse.isSuccessful) {
+                // 응답 성공 시,
+                val searchList = searchResponse.body()?.results?.trackmatches?.track
+                Log.d("RESPONSE SUCCES", "SUCCESS ${searchResponse.body()},${searchResponse.code()}")
+                searchList ?: emptyList()
 
-        } else {
-            // 에러 처리
-            Log.e("ERROR", "ERROR CODE = ${searchResponse.code()}")
-            return emptyList()
+            } else {
+                // 에러 처리
+                Log.e("ERROR", "ERROR CODE = ${searchResponse.code()}")
+                emptyList()
+            }
         }
     }
 
