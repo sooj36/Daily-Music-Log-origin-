@@ -39,22 +39,24 @@ class SearchRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getPostInfo(track: String, artist: String): Album? {
-        return try {
-            //getpostinfo api 호출
-            val postResponse = musicapi.getPostInfo(
-                "track.getInfo", BuildConfig.LAST_FM_API_KEY, artist, track, "json"
-            )
-            if (postResponse.isSuccessful) {
-                val album = postResponse.body()?.track?.album
-                Log.d("포스트 응답 성공 ", "성공햇슈 ${album}")
-                album
-            } else {
-                Log.e("error", "api call error")
+        return withContext(Dispatchers.IO) {
+            try {
+                //getpostinfo api 호출
+                val postResponse = musicapi.getPostInfo(
+                    "track.getInfo", BuildConfig.LAST_FM_API_KEY, artist, track, "json"
+                )
+                if (postResponse.isSuccessful) {
+                    val album = postResponse.body()?.track?.album
+                    Log.d("포스트 응답 성공 ", "성공햇슈 ${album}")
+                    album
+                } else {
+                    Log.e("error", "api call error")
+                    null
+                }
+            } catch (e: Exception) {
+                Log.e("PostInfo Error", "Exception: ${e.message}")
                 null
             }
-        } catch (e: Exception) {
-            Log.e("PostInfo Error", "Exception: ${e.message}")
-            null
         }
     }
 
