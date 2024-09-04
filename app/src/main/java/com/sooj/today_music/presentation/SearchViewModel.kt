@@ -129,9 +129,9 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 _allTracks.value = repository.getAllTracks_impl()
-                Log.d("데이터 불러옴", "트랙s 로드 ${_allTracks.value} 성공")
+                Log.d("sj--데이터 불러옴", "트랙s 로드 ${_allTracks.value} 성공")
             } catch (e: Exception) {
-                Log.e("데이터 불러옴 오류", "트랙s 로드 ${e.message} 오류")
+                Log.e("sj--데이터 불러옴 오류", "트랙s 로드 ${e.message} 오류")
             }
             Log.d("sj vm GETALL", "Running on thread: ${Thread.currentThread().name}")
         }
@@ -149,9 +149,9 @@ class SearchViewModel @Inject constructor(
                     imageUrl = trackToSave?.image?.firstOrNull()?.url ?: "",
                 )
                 repository.saveSelectedTrack_impl(trackEntity)
-                Log.d("1 트랙 db에 저장", "트랙은 ${trackEntity} 로 저장 성공")
+                Log.d("sj--트랙 db에 저장", "트랙은 ${trackEntity} 로 저장 성공")
             } catch (e : Exception) {
-                Log.e("트랙 저장 오류", "트랙은 ${e.message} 로 오류 발생")
+                Log.e("sj--트랙 저장 오류", "트랙은 ${e.message} 로 오류 발생")
             }
             Log.d("sj_VM(↑) SAVE", "Running on thread: ${Thread.currentThread().name}")
         }

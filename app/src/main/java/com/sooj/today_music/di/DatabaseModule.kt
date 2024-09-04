@@ -23,7 +23,9 @@ object DatabaseModule {
             context.applicationContext,
             Database::class.java,
             Database.NAME
-        ).build()
+        )
+//            .fallbackToDestructiveMigration() // 기존 데이터 삭제 후 새로 생성
+            .build()
     }
 
     @Provides

@@ -23,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,14 +39,14 @@ import com.sooj.today_music.R
 
 @Composable
 fun PosterListScreen(navController: NavController, musicViewModel: SearchViewModel) {
-    /** 선택된 트랙 가져오기 */
-    val selectedTrack by musicViewModel.selectedTrack
-    val getImageUrl by musicViewModel.getAlbumImage
-    val loadTracks by musicViewModel.allTracks
+    val selectedTrack by musicViewModel.selectedTrack /** 선택된 트랙 가져오기 */
+    val getImageUrl by musicViewModel.getAlbumImage /** 앨범 포스터 가져오기*/
+    val loadTracks by musicViewModel.allTracks /** 모든 트랙 가져오기*/
 
-//    LaunchedEffect(Unit) {
-//            musicViewModel.getAllTracks()  // 트랙 로드하는 예시
-//    }
+    LaunchedEffect(Unit) {
+
+        musicViewModel.getAllTracks() // 트랙 데이터를 가져옴
+    }
 
     Box(
         modifier = Modifier
@@ -80,7 +81,7 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
             Spacer(modifier = Modifier.height(15.dp))
 
             LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
+                columns = GridCells.Fixed(3),
                 modifier = Modifier
                     .fillMaxSize()
                     .background(Color.LightGray)
