@@ -36,6 +36,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.sooj.today_music.R
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @Composable
 fun PosterListScreen(navController: NavController, musicViewModel: SearchViewModel) {
@@ -45,7 +47,13 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
 
     LaunchedEffect(Unit) {
 
-        musicViewModel.getAllTracks() // 트랙 데이터를 가져옴
+
+        withContext(Dispatchers.Default) {
+            Log.d("sj_data1 ↓", "${Thread.currentThread().name}")
+            musicViewModel.getAllTracks() // 트랙 데이터를 가져옴
+            Log.d("sj_data2 ↑", "${Thread.currentThread().name}")
+        }
+
     }
 
     Box(
@@ -96,7 +104,7 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
                             }) {
 
                             if (getImageUrl != null) {
-                                Log.d("1P - PostList_이미지이미지", "이미지 URL: ${getImageUrl}")
+                                Log.d("sj--이미지", "이미지 URL: ${getImageUrl}")
                                 AsyncImage(model = getImageUrl, contentDescription = "image")
                             } else {
                                 Image(
