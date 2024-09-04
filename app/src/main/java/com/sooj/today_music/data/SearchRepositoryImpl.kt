@@ -6,7 +6,6 @@ import com.sooj.today_music.BuildConfig
 import com.sooj.today_music.domain.Album
 import com.sooj.today_music.domain.SearchRepository
 import com.sooj.today_music.domain.Track
-import com.sooj.today_music.domain.Track2
 import com.sooj.today_music.room.TrackDao
 import com.sooj.today_music.room.TrackEntity
 import kotlinx.coroutines.Dispatchers
@@ -18,9 +17,9 @@ class SearchRepositoryImpl @Inject constructor(
     private val musicapi: ApiService_EndPoint,
     private val trackDao: TrackDao  // 다오 주입받음
 ) : SearchRepository {
-    override suspend fun getTrackInfo(track: String): List<Track> {
+    override suspend fun getMusic_impl(track: String): List<Track> {
         return withContext(Dispatchers.IO) {
-            Log.d("sj im 겟뮤직", "Running on thread: ${Thread.currentThread().name}")
+            Log.d("sj im GETMUSIC", "Running on thread: ${Thread.currentThread().name}")
             val searchResponse = musicapi.getTrackSearch(
                 "track.search", track, BuildConfig.LAST_FM_API_KEY, "json"
             )
@@ -28,7 +27,10 @@ class SearchRepositoryImpl @Inject constructor(
             if (searchResponse.isSuccessful) {
                 // 응답 성공 시,
                 val searchList = searchResponse.body()?.results?.trackmatches?.track
-                Log.d("RESPONSE SUCCES", "SUCCESS ${searchResponse.body()},${searchResponse.code()}")
+                Log.d(
+                    "RESPONSE SUCCES",
+                    "SUCCESS ${searchResponse.body()},${searchResponse.code()}"
+                )
                 searchList ?: emptyList()
 
             } else {
@@ -39,9 +41,9 @@ class SearchRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getPostInfo(track: String, artist: String): Album? {
+    override suspend fun getAlbumPoster_impl(track: String, artist: String): Album? {
         return withContext(Dispatchers.IO) {
-            Log.d("sj_im 겟포스터", "Running on thread: ${Thread.currentThread().name}")
+            Log.d("sj im GETPOSTER", "Running on thread: ${Thread.currentThread().name}")
             try {
                 //getpostinfo api 호출
                 val postResponse = musicapi.getPostInfo(
@@ -62,21 +64,21 @@ class SearchRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun saveToTrack(trackEntity: TrackEntity) {
+    override suspend fun saveSelectedTrack_impl(trackEntity: TrackEntity) {
         withContext(Dispatchers.IO) {
-            Log.d("sj_im 저장", "Running on thread: ${Thread.currentThread().name}")
-            trackDao.insertTrack(trackEntity)
+            Log.d("sj im SAVE", "Running on thread: ${Thread.currentThread().name}")
+            trackDao.insertData(trackEntity)
         }
-        Log.d("sj_im-1 저장", "Running on thread: ${Thread.currentThread().name}")
+        Log.d("sj im(뒤) SAVE", "Running on thread: ${Thread.currentThread().name}")
 
     }
 
-    override suspend fun getAllTracks(): List<TrackEntity> {
-        Log.d("sj_임4 올트랙", "Running on thread: ${Thread.currentThread().name}")
+    override suspend fun getAllTracks_impl(): List<TrackEntity> {
+        Log.d("sj im GETALL", "Running on thread: ${Thread.currentThread().name}")
         return withContext(Dispatchers.IO) {
-             trackDao.getAllTracks()
+            trackDao.getAllData()
         }
-        Log.d("sj_임4-1 올트랙", "Running on thread: ${Thread.currentThread().name}")
+        Log.d("sj im(뒤) GETALL", "Running on thread: ${Thread.currentThread().name}")
     }
 
 
@@ -109,10 +111,9 @@ class SearchRepositoryImpl @Inject constructor(
 //                }
 //            }.flatten() // 여러 개의 리스트를 하나로 평탄화
 //            return
-//
 //        } else {
 //            Log.e("", "")
 //
 //        }
-    //        }
+//    }
 }

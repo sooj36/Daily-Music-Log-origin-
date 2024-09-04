@@ -13,40 +13,28 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.SaveAs
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.WbIncandescent
-import androidx.compose.material3.Button
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.BlendMode.Companion.Screen
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.sooj.today_music.R
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 @Composable
 fun PosterListScreen(navController: NavController, musicViewModel: SearchViewModel) {
@@ -54,21 +42,19 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
     val selectedTrack by musicViewModel.selectedTrack
     val getImageUrl by musicViewModel.getAlbumImage
     val loadTracks by musicViewModel.allTracks
-//
+
 //    LaunchedEffect(Unit) {
-//        val saveString = withContext(Dispatchers.Default) {
-//            musicViewModel.loadAllTracks() // 로드되는 모든 데이터 뜸 (선택아님)
-//            loadTracks.toString()
-//        }
-//
+//            musicViewModel.getAllTracks()  // 트랙 로드하는 예시
 //    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(start = 8.dp, end = 8.dp)
     ) {
         Column {
-//            Text(text = "로드 트랙들 몇개야 ? ${loadTracks.size}")
+            Text(text = "저장된 트랙은 총 ${loadTracks.size}개 입니다")
+
             Spacer(modifier = Modifier.height(16.dp))
             Row(
                 modifier = Modifier,

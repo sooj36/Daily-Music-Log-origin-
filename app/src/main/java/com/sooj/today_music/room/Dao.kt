@@ -1,12 +1,10 @@
 package com.sooj.today_music.room
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import java.util.concurrent.Flow
 
 @Dao
 interface MemoDao {
@@ -31,12 +29,12 @@ interface MemoDao {
 interface TrackDao {
 
     @Query("SELECT * FROM TrackEntity") // 모든 트랙 조회
-    suspend fun getAllTracks(): List<TrackEntity>
+    suspend fun getAllData(): List<TrackEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertTrack(trackEntity: TrackEntity): Long
+    suspend fun insertData(trackEntity: TrackEntity): Long
 
     @Delete
-    suspend fun deleteTrack(trackEntity: TrackEntity)
+    suspend fun deleteData(trackEntity: TrackEntity)
 
 }
