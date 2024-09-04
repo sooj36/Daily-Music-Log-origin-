@@ -6,18 +6,24 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import java.util.concurrent.Flow
 
 @Dao
 interface MemoDao {
-    @Query("SELECT * FROM MemoEntity WHERE trackId = :trackId")
-    fun getMemoByTrackId(trackId: Int): LiveData<MemoEntity> // trackId로 메모 조회
+
+//    @Query("SELECT * FROM MemoEntity WHERE trackId = :trackId")
+//    fun getMemoByTrackId(trackId: Int): LiveData<MemoEntity> // trackId로 메모 조회
     /** suspend fun 과 LiveData 같이 사용 불가*/
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addMemo(memoEntity: MemoEntity)
+//    @Query("SELECT * FROM MemoEntity WHERE trackId = :trackId")
+//    fun getMemoByTrackId(trackId: Int): Flow<MemoEntity>
 
-    @Query("delete FROM memoentity where id = :id")
-    suspend fun deleteMemo(id: Int)
+//
+//    @Insert(onConflict = OnConflictStrategy.REPLACE)
+//    suspend fun addMemo(memoEntity: MemoEntity)
+//
+//    @Query("delete FROM memoentity where id = :id")
+//    suspend fun deleteMemo(id: Int)
 
 }
 

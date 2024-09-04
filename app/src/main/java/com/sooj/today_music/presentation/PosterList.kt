@@ -68,7 +68,7 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
             .padding(start = 8.dp, end = 8.dp)
     ) {
         Column {
-            Text(text = "로드 트랙들 몇개야 ? ${loadTracks.size}")
+//            Text(text = "로드 트랙들 몇개야 ? ${loadTracks.size}")
             Spacer(modifier = Modifier.height(16.dp))
             Row(
                 modifier = Modifier,

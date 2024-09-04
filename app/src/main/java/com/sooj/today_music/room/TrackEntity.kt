@@ -22,12 +22,10 @@ data class TrackEntity(
             childColumns = ["trackId"],
             onDelete = ForeignKey.CASCADE
         )
-    ] ,
-//    indices = [Index(value = ["trackId"])] // trackId에 인덱스를 추가하여 검색 속도 향상
+    ]
 )
 
 data class MemoEntity(
     @PrimaryKey val trackId : Int,
-    val id : Int = 0,
     val memo : String,
 )
