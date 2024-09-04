@@ -19,7 +19,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.LibraryMusic
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.IconButton
@@ -28,13 +27,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -99,7 +96,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: SearchViewMod
 
                 Spacer(modifier = Modifier.width(8.dp))
 
-                IconButton(onClick = { musicViewModel.getMusic(text) }) {
+                IconButton(onClick = { musicViewModel.getMusic_vm(text) }) {
                     Image(imageVector = Icons.Default.Search, contentDescription = "search")
                 }
             } // row
@@ -118,11 +115,11 @@ fun SearchPageScreen(navController: NavController, musicViewModel: SearchViewMod
                             .fillMaxWidth()
                             .clickable {
                                 // 클릭 시, Viewmodel에 선택된 트랙 저장
-                                musicViewModel.selectTrack(track)
+                                musicViewModel.selectTrack_vm(track)
 //                                musicViewModel.saveSelectedTrack() // 저장 두번 된 이유
                                 Log.d(
                                     "1S VIEWMODEL에 선택 트랙 저장",
-                                    "저장된 ${musicViewModel.selectedTrack.value} 그리고 ${musicViewModel.saveSelectedTrack().toString()}"
+                                    "저장된 ${musicViewModel.selectedTrack.value} 그리고 ${musicViewModel.saveSelectedTrack_vm().toString()}"
                                 )
 
                                 // 다른 페이지로 이동

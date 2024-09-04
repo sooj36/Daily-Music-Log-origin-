@@ -43,7 +43,7 @@ class SearchViewModel @Inject constructor(
     val allTracks : State<List<TrackEntity>> get() = _allTracks
 
     /** track을 기반으로 음악 정보를 검색하고, 그 결과를 viewmodel 상태로 저장 */
-    fun getMusic(track: String) {
+    fun getMusic_vm(track: String) {
         viewModelScope.launch(Dispatchers.IO) {
             Log.d("sj_vm(↓) GETMUSIC", "Running on thread: ${Thread.currentThread().name}")
             try {
@@ -69,17 +69,16 @@ class SearchViewModel @Inject constructor(
     }
 
     // 선택한 트랙
-    fun selectTrack(track: Track) {
+    fun selectTrack_vm(track: Track) {
             /** track 선택 시 즉시 상태 업데이트*/
             _selectedTrack.value = track
-
         Log.d("sj VM SELECT", "SELECTED TRACK : ${_selectedTrack.value}")
 
-        getAlbumPoster()
+        getAlbumPoster_vm()
     }
 
     // 선택한 트랙으로 앨범포스터 가져오기
-    fun getAlbumPoster() {
+    fun getAlbumPoster_vm() {
         val selectedImageInfo = _selectedTrack.value ?: return
 
         viewModelScope.launch(Dispatchers.IO) {
@@ -125,7 +124,7 @@ class SearchViewModel @Inject constructor(
     } */
 
     //데이터 불러오는 메서드
-    fun getAllTracks() {
+    fun getAllTracks_vm() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 _allTracks.value = repository.getAllTracks_impl()
@@ -138,7 +137,7 @@ class SearchViewModel @Inject constructor(
     }
 
     // 선택된 트랙을 데이터베이스에 저장
-    fun saveSelectedTrack() {
+    fun saveSelectedTrack_vm() {
         val trackToSave = _selectedTrack.value ?: return
         viewModelScope.launch(Dispatchers.IO) {
             Log.d("sj_VM(↓) SAVE", "Running on thread: ${Thread.currentThread().name}")
@@ -158,7 +157,7 @@ class SearchViewModel @Inject constructor(
     }
 
 
-    //
+    // 이전 코드 ↓
 
 // coroutines( data 의존성 있는 경우) //
 //        viewModelScope.launch {

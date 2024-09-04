@@ -23,7 +23,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -50,7 +49,7 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
 
         withContext(Dispatchers.Default) {
             Log.d("sj_data1 ↓", "${Thread.currentThread().name}")
-            musicViewModel.getAllTracks() // 트랙 데이터를 가져옴
+            musicViewModel.getAllTracks_vm() // 트랙 데이터를 가져옴
             Log.d("sj_data2 ↑", "${Thread.currentThread().name}")
         }
 
