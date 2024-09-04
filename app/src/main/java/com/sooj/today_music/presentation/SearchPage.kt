@@ -104,7 +104,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: SearchViewMod
                 }
             } // row
             LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
+                columns = GridCells.Fixed(4),
                 modifier = Modifier
                     .fillMaxSize()
                     .background(Color.LightGray),

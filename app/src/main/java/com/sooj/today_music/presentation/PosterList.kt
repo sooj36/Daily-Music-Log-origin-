@@ -81,7 +81,7 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
             Spacer(modifier = Modifier.height(15.dp))
 
             LazyVerticalGrid(
-                columns = GridCells.Fixed(3),
+                columns = GridCells.Fixed(1),
                 modifier = Modifier
                     .fillMaxSize()
                     .background(Color.LightGray)
