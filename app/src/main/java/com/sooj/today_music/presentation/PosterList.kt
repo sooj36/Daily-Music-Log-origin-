@@ -103,7 +103,7 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
                             }) {
 
                             if (getImageUrl != null) {
-                                Log.d("sj--이미지", "이미지 URL: ${getImageUrl}")
+                                Log.d("sj--image", "image URL: ${getImageUrl}")
                                 AsyncImage(model = getImageUrl, contentDescription = "image")
                             } else {
                                 Image(

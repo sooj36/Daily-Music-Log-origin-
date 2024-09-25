@@ -17,6 +17,7 @@ interface ApiService_EndPoint {
         @Query("track") track: String = "",
         @Query("api_key") apiKey :String = BuildConfig.LAST_FM_API_KEY,
         @Query("format") format: String = "json",
+        @Query("limit") limit : Int = 5 // 5개만 로드
     ): Response<MusicSearchModel_dc>
 
     @GET("2.0/")

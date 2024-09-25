@@ -61,7 +61,7 @@ class SearchViewModel @Inject constructor(
 //                }
 
             } catch (e: Exception) {
-                Log.e("sj VIEWMODEL ERROR !!", "ERROR FETCHING TRACK INFO ${e.message}")
+                Log.e("sj VIEWMODEL ERROR!!", "ERROR FETCHING TRACK INFO ${e.message}")
             }
             Log.d("sj_vm(↑) GETMUSIC", "Running on thread: ${Thread.currentThread().name}")
         }
@@ -96,7 +96,7 @@ class SearchViewModel @Inject constructor(
                     Log.d("sj_vm getposter withcontext", "Running on thread: ${Thread.currentThread().name}")
                 }
             } else {
-                Log.e("앨범 정보 에러", "앨범 정보 못 가져옴 $$$")
+                Log.e("album info error", "fail to get info $$$")
             }
             Log.d("sj_vm(↑) GETPOSTER", "Running on thread: ${Thread.currentThread().name}")
         }
