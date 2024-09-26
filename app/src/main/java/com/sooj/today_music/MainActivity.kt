@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Log.d("ThreadCheck_메인", "Running on thread: ${Thread.currentThread().name}")
+            Log.d("Thread_main", "Running on thread: ${Thread.currentThread().name}")
 
 //            val musicViewModel =
 //                ViewModelProvider(this)[SearchViewModel::class.java] // 초기화, 인스턴스 생성

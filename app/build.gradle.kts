@@ -8,6 +8,7 @@ plugins {
 
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
+
 }
 
 val localProperties = Properties()
@@ -67,6 +68,7 @@ android {
     buildFeatures {
         buildConfig = true
     }
+
 }
 
 dependencies {

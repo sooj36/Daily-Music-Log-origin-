@@ -48,7 +48,7 @@ import com.sooj.today_music.R
 fun EditDetailPageScreen(navController: NavController, musicViewModel: SearchViewModel) {
     val clickedTrack by musicViewModel.selectedTrack
     val getImageUrl by musicViewModel.getAlbumImage
-    Log.d("수정위한 클릭 트릭 가져오기", "정보 : ${clickedTrack}")
+    Log.d("get track for edit", "info < ${clickedTrack} >")
     val scrollState = rememberScrollState()
 
 
@@ -81,7 +81,7 @@ fun EditDetailPageScreen(navController: NavController, musicViewModel: SearchVie
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     if (getImageUrl != null) {
-                        Log.d("edit_이미지이미지", "이미지 URL: ${getImageUrl}")
+                        Log.d("edit_img", "img_URL: ${getImageUrl}")
                         AsyncImage(model = getImageUrl, contentDescription = "image")
                     } else {
                         Image(painterResource(id = R.drawable.yumi), contentDescription = "error")
