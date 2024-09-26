@@ -23,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,19 +41,25 @@ import kotlinx.coroutines.withContext
 
 @Composable
 fun PosterListScreen(navController: NavController, musicViewModel: SearchViewModel) {
-    val selectedTrack by musicViewModel.selectedTrack /** 선택된 트랙 가져오기 */
-    val getImageUrl by musicViewModel.getAlbumImage /** 앨범 포스터 가져오기*/
-    val loadTracks by musicViewModel.allTracks /** 모든 트랙 가져오기*/
+    val selectedTrack by musicViewModel.selectedTrack
+
+
+    /** 1) 선택된 트랙 가져오기 */
+    val getImageUrl by musicViewModel.getAlbumImage
+    val imgUrl = remember { getImageUrl }
+    Log.d("Compose Recomposition", "PosterListScreen recomposed")
+    /** 2) 앨범 포스터 가져오기 */
+    val loadTracks by musicViewModel.allTracks
+
+    /** 3) 모든 트랙 가져오기 */
+//    val getAllTracks by musicViewModel.save
 
     LaunchedEffect(Unit) {
-
-
         withContext(Dispatchers.Default) {
-            Log.d("sj_data1 ↓", "${Thread.currentThread().name}")
+            Log.d("sj_data1 st", "${Thread.currentThread().name}")
             musicViewModel.getAllTracks_vm() // 트랙 데이터를 가져옴
-            Log.d("sj_data2 ↑", "${Thread.currentThread().name}")
+            Log.d("sj_data2 en", "${Thread.currentThread().name}")
         }
-
     }
 
     Box(
@@ -102,9 +109,9 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
                                 navController.navigate("detail_page")
                             }) {
 
-                            if (getImageUrl != null) {
-                                Log.d("sj--image", "image URL: ${getImageUrl}")
-                                AsyncImage(model = getImageUrl, contentDescription = "image")
+                            if (imgUrl != null) {
+                                Log.d("sj--image", "image URL: ${imgUrl}")
+                                AsyncImage(model = imgUrl, contentDescription = "image")
                             } else {
                                 Image(
                                     painterResource(id = R.drawable.yumi),
@@ -127,7 +134,7 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
                     }
                 }
             }
-        } //column
+        } // c1
     }
 }
 

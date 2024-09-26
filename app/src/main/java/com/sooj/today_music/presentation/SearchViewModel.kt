@@ -38,14 +38,19 @@ class SearchViewModel @Inject constructor(
     private val _getAlbumImage = mutableStateOf<String?>(null)
     val getAlbumImage: State<String?> get() = _getAlbumImage
 
-    // 모든 트랙 데이터 상태 관리
+    // 모든 트랙 데이터 상태 관리 (저장된 데이터들 X)
     private val _allTracks = mutableStateOf<List<TrackEntity>>(emptyList())
     val allTracks : State<List<TrackEntity>> get() = _allTracks
+
+    // 저장된 데이터
+    private val _savedAllData = mutableStateOf<List<TrackEntity>>(emptyList())
+    val savedAllData : State<List<TrackEntity>> get() = _savedAllData
+
 
     /** track을 기반으로 음악 정보를 검색하고, 그 결과를 viewmodel 상태로 저장 */
     fun getMusic_vm(track: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            Log.d("sj_vm(↓) GETMUSIC", "Running on thread: ${Thread.currentThread().name}")
+            Log.d("sj_vm(st) GETMUSIC", "Running on thread: ${Thread.currentThread().name}")
             try {
                 val trackInfo = repository.getMusic_impl(track)
                 withContext(Dispatchers.Main) {
@@ -63,7 +68,7 @@ class SearchViewModel @Inject constructor(
             } catch (e: Exception) {
                 Log.e("sj VIEWMODEL ERROR!!", "ERROR FETCHING TRACK INFO ${e.message}")
             }
-            Log.d("sj_vm(↑) GETMUSIC", "Running on thread: ${Thread.currentThread().name}")
+            Log.d("sj_vm(en) GETMUSIC", "Running on thread: ${Thread.currentThread().name}")
         }
         // getLoadAlbumPoster()
     }
@@ -81,15 +86,15 @@ class SearchViewModel @Inject constructor(
     fun getAlbumPoster_vm() {
         val selectedImageInfo = _selectedTrack.value ?: return
 
-        viewModelScope.launch(Dispatchers.IO) {
-            Log.d("sj_vm(↓) GETPOSTER", "Running on thread: ${Thread.currentThread().name}")
+        viewModelScope.launch(Dispatchers.Default) {
+            Log.d("sj_vm(st) GETPOSTER", "Running on thread: ${Thread.currentThread().name}")
 
             val albumInfo = repository.getAlbumPoster_impl(
                 selectedImageInfo.name ?: "트랙",
                 selectedImageInfo.artist ?: "아티스트"
             )
             if (albumInfo != null) {
-                Log.d("1 포스터 가져오기 위한 '선택한' 앨범 정보 떴나요", "앨범은 ${albumInfo}")
+                Log.d("getting album post", "album < ${albumInfo} >")
                 val albumImageUrl = albumInfo.image.find { it.size == "extralarge" }?.url
                 withContext(Dispatchers.Main) {
                     _getAlbumImage.value = albumImageUrl
@@ -98,9 +103,18 @@ class SearchViewModel @Inject constructor(
             } else {
                 Log.e("album info error", "fail to get info $$$")
             }
-            Log.d("sj_vm(↑) GETPOSTER", "Running on thread: ${Thread.currentThread().name}")
+            Log.d("sj_vm(en) GETPOSTER", "Running on thread: ${Thread.currentThread().name}")
         }
 
+    }
+
+    // * api(1)정보로 api(2) 가져오기
+    fun getApi_2() {
+        val selectInfo = _selectedTrack.value ?: return
+
+        viewModelScope.launch(Dispatchers.Default) {
+            //
+        }
     }
 
     // 로드된 트랙으로 앨범포스터 가져오기
@@ -128,9 +142,9 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 _allTracks.value = repository.getAllTracks_impl()
-                Log.d("sj--데이터 불러옴", "트랙s 로드 ${_allTracks.value} 성공")
+                Log.d("sj--call data", "tracks load ${_allTracks.value} gut ")
             } catch (e: Exception) {
-                Log.e("sj--데이터 불러옴 오류", "트랙s 로드 ${e.message} 오류")
+                Log.e("sj--call data_error", "트랙s 로드 ${e.message} 오류")
             }
             Log.d("sj vm GETALL", "Running on thread: ${Thread.currentThread().name}")
         }
@@ -140,7 +154,7 @@ class SearchViewModel @Inject constructor(
     fun saveSelectedTrack_vm() {
         val trackToSave = _selectedTrack.value ?: return
         viewModelScope.launch(Dispatchers.IO) {
-            Log.d("sj_VM(↓) SAVE", "Running on thread: ${Thread.currentThread().name}")
+//            Log.d("sj_VM(↓) SAVE", "Running on thread: ${Thread.currentThread().name}")
             try {
                 val trackEntity = TrackEntity(
                     trackName = trackToSave?.name,
@@ -148,11 +162,11 @@ class SearchViewModel @Inject constructor(
                     imageUrl = trackToSave?.image?.firstOrNull()?.url ?: "",
                 )
                 repository.saveSelectedTrack_impl(trackEntity)
-                Log.d("sj--트랙 db에 저장", "트랙은 ${trackEntity} 로 저장 성공")
+                Log.d("sj--db save", "track is ${trackEntity} gut")
             } catch (e : Exception) {
-                Log.e("sj--트랙 저장 오류", "트랙은 ${e.message} 로 오류 발생")
+                Log.e("sj--db error", "track is ${e.message} error")
             }
-            Log.d("sj_VM(↑) SAVE", "Running on thread: ${Thread.currentThread().name}")
+//            Log.d("sj_VM(↑) SAVE", "Running on thread: ${Thread.currentThread().name}")
         }
     }
 

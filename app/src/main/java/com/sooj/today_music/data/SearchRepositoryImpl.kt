@@ -51,7 +51,7 @@ class SearchRepositoryImpl @Inject constructor(
                 )
                 if (postResponse.isSuccessful) {
                     val album = postResponse.body()?.track?.album
-                    Log.d("포스트 응답 성공 ", "성공햇슈 ${album}")
+                    Log.d("post response gut ", "gut < ${album} >")
                     album
                 } else {
                     Log.e("error", "api call error")
@@ -69,7 +69,7 @@ class SearchRepositoryImpl @Inject constructor(
             Log.d("sj im SAVE", "Running on thread: ${Thread.currentThread().name}")
             trackDao.insertData(trackEntity)
         }
-        Log.d("sj im(뒤) SAVE", "Running on thread: ${Thread.currentThread().name}")
+        Log.d("sj im(beh) SAVE", "Running on thread: ${Thread.currentThread().name}")
 
     }
 
@@ -78,7 +78,7 @@ class SearchRepositoryImpl @Inject constructor(
         return withContext(Dispatchers.IO) {
             trackDao.getAllData()
         }
-        Log.d("sj im(뒤) GETALL", "Running on thread: ${Thread.currentThread().name}")
+        Log.d("sj im(beh) GETALL", "Running on thread: ${Thread.currentThread().name}")
     }
 
 

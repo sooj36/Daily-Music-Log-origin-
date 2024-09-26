@@ -101,7 +101,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: SearchViewMod
                 }
             } // row
             LazyVerticalGrid(
-                columns = GridCells.Fixed(4),
+                columns = GridCells.Fixed(3),
                 modifier = Modifier
                     .fillMaxSize()
                     .background(Color.LightGray),
@@ -118,8 +118,8 @@ fun SearchPageScreen(navController: NavController, musicViewModel: SearchViewMod
                                 musicViewModel.selectTrack_vm(track)
 //                                musicViewModel.saveSelectedTrack() // 저장 두번 된 이유
                                 Log.d(
-                                    "1S VIEWMODEL에 선택 트랙 저장",
-                                    "저장된 ${musicViewModel.selectedTrack.value} 그리고 ${musicViewModel.saveSelectedTrack_vm().toString()}"
+                                    "1 Storing selected tracks in ViewModel",
+                                    "saved ${musicViewModel.selectedTrack.value} & ${musicViewModel.saveSelectedTrack_vm().toString()}"
                                 )
 
                                 // 다른 페이지로 이동

@@ -31,6 +31,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -55,8 +56,9 @@ fun DetailPageScreen(
     /** 클릭한 트랙 가져오기 */
     val clickedTrack by musicViewModel.selectedTrack
     val getImageUrl by musicViewModel.getAlbumImage
+    val imgUrl = remember { getImageUrl}
 //    val getMemo by memoViewModel.memoContent
-    Log.d("클릭한 트랙 가져오기", "클릭 정보 : ${clickedTrack}")
+    Log.d("bring to clicked track", "click info-> ${clickedTrack} >")
     val scrollState = rememberScrollState()
 
     Box(
@@ -85,9 +87,9 @@ fun DetailPageScreen(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    if (getImageUrl != null) {
-                        Log.d("detail_이미지이미지", "이미지 URL: ${getImageUrl}")
-                        AsyncImage(model = getImageUrl, contentDescription = "image", modifier = Modifier.size(200.dp))
+                    if (imgUrl != null) {
+                        Log.d("detail_image", "image_URL: ${imgUrl}")
+                        AsyncImage(model = imgUrl, contentDescription = "image", modifier = Modifier.size(200.dp))
                     } else {
                         Image(painterResource(id = R.drawable.yumi), contentDescription = "error")
                     }
