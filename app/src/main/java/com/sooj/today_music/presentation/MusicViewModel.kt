@@ -97,7 +97,7 @@ class MusicViewModel @Inject constructor(
                     Log.d("sj_vm getposter withcontext", "Running on thread: ${Thread.currentThread().name}")
                 }
             } else {
-                Log.e("album info error", "fail to get info $$$")
+                Log.e("album info error", "fail to get info $")
             }
             Log.d("sj_vm(en) GETPOSTER", "Running on thread: ${Thread.currentThread().name}")
         }
@@ -141,13 +141,15 @@ class MusicViewModel @Inject constructor(
     // 선택된 트랙을 데이터베이스에 저장
     fun saveSelectedTrack_vm() {
         val trackToSave = _selectedTrack.value ?: return
+        val imgToSave = _getAlbumImage.value ?: "https://lastfm.freetls.fastly.net/i/u/34s/2a96cbd8b46e442fc41c2b86b821562f.png"
         viewModelScope.launch(Dispatchers.IO) {
             Log.d("sj_VM(↓) SAVE", "Running on thread: ${Thread.currentThread().name}")
             try {
                 val trackEntity = TrackEntity(
                     trackName = trackToSave?.name,
                     artistName = trackToSave?.artist,
-                    imageUrl = trackToSave?.image?.firstOrNull()?.url ?: "",
+                    imageUrl = imgToSave
+//                    imageUrl = trackToSave?.image?.firstOrNull()?.url ?: "",
                 )
                 repository.saveSelectedTrack_impl(trackEntity) // db저장 코드
                 Log.d("sj--db save", "track is ${trackEntity} gut")

@@ -46,7 +46,6 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
 
     val context = LocalContext.current // localcontext로 컨텍스트 가져오기
 
-
     /** 1) 선택된 트랙 가져오기 */
     val getImageUrl by musicViewModel.getAlbumImage
     val imgUrl = remember { getImageUrl }
@@ -55,17 +54,7 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
     /** 2) 앨범 포스터 가져오기 */
     val loadTracks by musicViewModel.getAllSavedTracks
 
-    /** 4) 모든 트랙 가져오기 */
-//    val getAllTracks by musicViewModel.save
 
-
-//    LaunchedEffect(Unit) {
-//        withContext(Dispatchers.Default) {
-//            Log.d("sj_data1 st", "${Thread.currentThread().name}")
-//            musicViewModel.getAllTracks_vm() // 트랙 데이터를 가져옴
-//            Log.d("sj_data2 en", "${Thread.currentThread().name}")
-//        }
-//    }
 
     Box(
         modifier = Modifier
