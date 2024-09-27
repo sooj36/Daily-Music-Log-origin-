@@ -38,13 +38,9 @@ class MusicViewModel @Inject constructor(
     private val _getAlbumImage = mutableStateOf<String?>(null)
     val getAlbumImage: State<String?> get() = _getAlbumImage
 
-    // 모든 트랙 데이터 상태 관리 (저장된 데이터들 X)
-    private val _allTracks = mutableStateOf<List<TrackEntity>>(emptyList())
-    val allTracks : State<List<TrackEntity>> get() = _allTracks
-
-    // 저장된 데이터
-    private val _savedAllData = mutableStateOf<List<TrackEntity>>(emptyList())
-    val savedAllData : State<List<TrackEntity>> get() = _savedAllData
+    // 모든 트랙 데이터 상태 관리
+    private val _getAllSavedTracks = mutableStateOf<List<TrackEntity>>(emptyList())
+    val getAllSavedTracks : State<List<TrackEntity>> get() = _getAllSavedTracks
 
 
     /** track을 기반으로 음악 정보를 검색하고, 그 결과를 viewmodel 상태로 저장 */
@@ -79,7 +75,7 @@ class MusicViewModel @Inject constructor(
             _selectedTrack.value = track
         Log.d("sj VM SELECT", "SELECTED TRACK : ${_selectedTrack.value}")
 
-//        getAlbumPoster_vm()
+        getAlbumPoster_vm() // 앨범 포스터 불러오기
     }
 
     // 선택한 트랙으로 앨범포스터 가져오기
@@ -105,17 +101,9 @@ class MusicViewModel @Inject constructor(
             }
             Log.d("sj_vm(en) GETPOSTER", "Running on thread: ${Thread.currentThread().name}")
         }
-
     }
 
-    // * api(1)정보로 api(2) 가져오기
-    fun getApi_2() {
-        val selectInfo = _selectedTrack.value ?: return
 
-        viewModelScope.launch(Dispatchers.Default) {
-            //
-        }
-    }
 
     // 로드된 트랙으로 앨범포스터 가져오기
   /**  fun getLoadAlbumPoster() {
@@ -137,12 +125,12 @@ class MusicViewModel @Inject constructor(
         } //코루틴
     } */
 
-    //데이터 불러오는 메서드
+    // Dao에 저장된 데이터 불러오는 메서드
     fun getAllTracks_vm() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                _allTracks.value = repository.getAllTracks_impl()
-                Log.d("sj--call data", "tracks load ${_allTracks.value} gut ")
+                _getAllSavedTracks.value = repository.getAllTracks_impl()
+                Log.d("sj--call data", "tracks load ${_getAllSavedTracks.value} gut ")
             } catch (e: Exception) {
                 Log.e("sj--call data_error", "트랙s 로드 ${e.message} 오류")
             }
