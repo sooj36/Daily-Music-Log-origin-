@@ -66,10 +66,10 @@ class SearchRepositoryImpl @Inject constructor(
 
     override suspend fun saveSelectedTrack_impl(trackEntity: TrackEntity) {
         withContext(Dispatchers.IO) {
-            Log.d("sj im SAVE", "Running on thread: ${Thread.currentThread().name}")
+            Log.d("sj im(st) SAVE", "Running on thread: ${Thread.currentThread().name}")
             trackDao.insertData(trackEntity)
         }
-        Log.d("sj im(beh) SAVE", "Running on thread: ${Thread.currentThread().name}")
+        Log.d("sj im(en) SAVE", "Running on thread: ${Thread.currentThread().name}")
 
     }
 

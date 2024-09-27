@@ -84,8 +84,9 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                         ) {
                             if (text.isEmpty()) {
                                 Text(
-                                    text = "오늘의 노래를 검색하세요(띄어쓰기 유의)",
-                                    style = TextStyle(color = Color.Gray)
+                                    text = "오늘의 노래를 검색하세요 ! (띄어쓰기 유의)",
+                                    style = TextStyle(color = Color.Black),
+                                    fontWeight = FontWeight.ExtraLight
                                 )
                             } else {
                             }
@@ -114,16 +115,18 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                             .padding(5.dp)
                             .fillMaxWidth()
                             .clickable {
-                                // 클릭 시, Viewmodel에 선택된 트랙 저장
-                                musicViewModel.selectTrack_vm(track)
-//                                musicViewModel.saveSelectedTrack() // 저장 두번 된 이유
-                                Log.d(
-                                    "1 Storing selected tracks in ViewModel",
-                                    "saved ${musicViewModel.selectedTrack.value} & ${musicViewModel.saveSelectedTrack_vm().toString()}"
-                                )
-
                                 // 다른 페이지로 이동
                                 navController.navigate("poster_list")
+
+                                // 클릭 시, Viewmodel에 선택된 트랙 저장
+                                musicViewModel.selectTrack_vm(track)
+
+                                Log.d(
+                                    "1 Storing selected tracks in ViewModel",
+                                    "saved ${musicViewModel.selectedTrack.value} &"
+//                                            " ${musicViewModel.saveSelectedTrack_vm().toString()}"
+                                )
+
                             },
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
@@ -154,7 +157,6 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                     }
                 } // index
             }
-
         }
     }
 }
