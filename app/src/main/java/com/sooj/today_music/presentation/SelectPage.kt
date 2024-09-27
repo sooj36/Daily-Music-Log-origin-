@@ -16,6 +16,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.SettingsBackupRestore
+import androidx.compose.material.icons.filled.StickyNote2
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -46,30 +49,31 @@ fun SelectPageScreen(navController: NavController, musicViewModel: MusicViewMode
 
     /** 2. 앨범 포스터 가져오기 */
     val loadTracks by musicViewModel.getAllSavedTracks
-
     Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(25.dp)
     ) {
+
         Column(
             modifier = Modifier
-                .background(Color.Black)
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+                .fillMaxWidth()
         ) {
+            Image(imageVector = Icons.Default.SettingsBackupRestore,
+                contentDescription = "edit",
+                Modifier.clickable { navController.popBackStack() })
+            Spacer(modifier = Modifier.height(50.dp))
             Text(
-                text = "<> TRACK INFORMATION <>",
+                text = "<><><><><><><><><><><><><><><><><>",
                 fontSize = 19.sp,
                 fontWeight = FontWeight.ExtraBold,
-                color = Color.White
+                color = Color.Black
             )
 
             LazyVerticalGrid(
                 columns = GridCells.Fixed(1),
                 modifier = Modifier.fillMaxWidth(),
-                contentPadding = PaddingValues(horizontal = 16.dp) // Optional padding
+                contentPadding = PaddingValues(horizontal = 16.dp),// Optional padding
             ) {
                 item {
                     selectedTrack?.let { trackInfo ->
@@ -98,15 +102,20 @@ fun SelectPageScreen(navController: NavController, musicViewModel: MusicViewMode
                                 text = trackInfo?.artist ?: "아티스트",
                                 fontSize = 25.sp,
                                 fontWeight = FontWeight.Medium,
-                                color = Color.White
+                                color = Color.Black
                             )
 
                             Text(
                                 text = trackInfo?.name ?: "트랙",
                                 fontSize = 30.sp,
                                 fontWeight = FontWeight.Medium,
-                                color = Color.White
+                                color = Color.Black
                             )
+                            Text(
+                                text = "<><><><><><><><><><><><><><><>",
+                                fontSize = 19.sp,
+                                fontWeight = FontWeight.ExtraBold,
+                                color = Color.Black)
                         }
                     }
                 }
