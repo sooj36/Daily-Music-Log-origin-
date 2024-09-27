@@ -107,14 +107,51 @@ fun DetailPageScreen(
                     ) {
                         Text(
                             modifier = Modifier.padding(20.dp),
-                            text = "Hello, hello\n" +
-                                    "I'm not where I'm supposed to be\n" +
-                                    "I hope that you're missin' me\n" +
-                                    "'Cause it makes me feel young\n" +
-                                    "Hello, hello\n" +
-                                    "Last time that I saw your face\n" +
-                                    "Was recess in second grade\n" +
-                                    "And it made me feel young\n"
+                            text = "// [Verse 1]\n" +
+                                    "How could my day be bad    \n" +
+                                    "when I'm with you?         \n" +
+                                    "You're the only one who makes me laugh  \n" +
+                                    "So how can my day be bad?  \n" +
+                                    "It's a day for you          \n" +
+                                    "\n" +
+                                    "// [Verse 2]\n" +
+                                    "Lately, life's so boring    \n" +
+                                    "I've been watching Netflix all day long  \n" +
+                                    "I thought there would be    \n" +
+                                    "no things left to watch     \n" +
+                                    "so I let myself out         \n" +
+                                    "\n" +
+                                    "// [Verse 3]\n" +
+                                    "When I went to the park     \n" +
+                                    "I recognised you at a glance  \n" +
+                                    "Face to face, we just smiled  \n" +
+                                    "We already know that we'll be together  \n" +
+                                    "\n" +
+                                    "// [Chorus]\n" +
+                                    "How could my day be bad when I'm with you?  \n" +
+                                    "You're the only one who makes me laugh     \n" +
+                                    "So how can my day be bad?  \n" +
+                                    "It's a day for you          \n" +
+                                    "\n" +
+                                    "// [Verse 4]\n" +
+                                    "Coffee in the morning, you and the sun  \n" +
+                                    "There's a brown hue in your eyes  \n" +
+                                    "How pretty it is            \n" +
+                                    "I think I'm in love          \n" +
+                                    "\n" +
+                                    "// [Verse 5]\n" +
+                                    "When I went to the park     \n" +
+                                    "I recognised you at a glance  \n" +
+                                    "Face to face, we smiled     \n" +
+                                    "and I finally held your hands  \n" +
+                                    "\n" +
+                                    "// [Chorus]\n" +
+                                    "How could my day be bad when I'm with you?  \n" +
+                                    "You're the only one who makes me laugh  \n" +
+                                    "So how can my day be bad?  \n" +
+                                    "It's a day for you          \n" +
+                                    "\n" +
+                                    "// [Outro]\n"
 
                         )
                     }

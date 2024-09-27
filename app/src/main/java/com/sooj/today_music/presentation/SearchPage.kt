@@ -118,7 +118,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                             .fillMaxWidth()
                             .clickable {
                                 // 다른 페이지로 이동
-                                navController.navigate("poster_list")
+                                navController.navigate("select_page")
 
                                 // 클릭 시, Viewmodel에 선택된 트랙 저장
                                 musicViewModel.selectTrack_vm(track)

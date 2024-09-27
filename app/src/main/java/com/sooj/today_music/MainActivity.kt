@@ -18,6 +18,7 @@ import com.sooj.today_music.presentation.EditDetailPageScreen
 import com.sooj.today_music.presentation.PosterListScreen
 import com.sooj.today_music.presentation.SearchPageScreen
 import com.sooj.today_music.presentation.MusicViewModel
+import com.sooj.today_music.presentation.SelectPageScreen
 //import com.sooj.today_music.presentation.memoViewModel
 import com.sooj.today_music.ui.theme.Today_MusicTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,6 +46,7 @@ class MainActivity : ComponentActivity() {
                         composable(Screen.DetailPage.route) { DetailPageScreen(navController, musicViewModel) }
                         composable(Screen.WritePost.route) { SearchPageScreen(navController, musicViewModel) }
                         composable(Screen.EditDetailPage.route) { EditDetailPageScreen(navController, musicViewModel)}
+                        composable(Screen.SelectPage.route) { SelectPageScreen(navController, musicViewModel)}
                     }
                 }
             }

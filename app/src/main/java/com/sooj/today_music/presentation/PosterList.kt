@@ -166,7 +166,7 @@ fun Bookmark(musicViewModel: MusicViewModel) {
     // 그리드 뷰
     LazyVerticalGrid(columns = GridCells.Fixed(2)) {
         items(getAllSaveTracks) { track ->
-            Column {
+            Column() {
                 AsyncImage(model = track.imageUrl, contentDescription = "img")
                 track.trackName?.let { Text(text = it) }
                 track.artistName?.let { Text(text = it) }
