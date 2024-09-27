@@ -28,6 +28,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -65,12 +67,13 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(start = 8.dp, end = 8.dp)
+            .padding(12.dp)
     ) {
         Column {
-            Text(text = "저장된 트랙은 총 ${loadTracks.size}개 입니다")
+            Text(text = "[ 저장된 트랙은 총 ${loadTracks.size}개 입니다 ]",
+                fontWeight = FontWeight.ExtraBold)
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(20.dp))
             Row(
                 modifier = Modifier,
                 verticalAlignment = Alignment.CenterVertically,
@@ -80,17 +83,20 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
                     Image(
                         imageVector = Icons.Default.MusicNote,
                         contentDescription = "posting",
-                        Modifier.size(40.dp)
+                        Modifier.size(45.dp)
                     )
 
                 }
-                Text(text = " MY DAILY MUSIC RECORD <#3 ")
+                Text(
+                    text = "MY DAILY MUSIC RECORD <3",
+                    fontWeight = FontWeight.SemiBold
+                )
 
 
-                Image(imageVector = Icons.Default.SaveAs, contentDescription = "getTrackData",
-                    modifier = Modifier.clickable {
+//                Image(imageVector = Icons.Default.SaveAs, contentDescription = "getTrackData",
+//                    modifier = Modifier.clickable {
 //                        musicViewModel.saveSelectedTrack()
-                    })
+//                    })
             }
             Spacer(modifier = Modifier.height(15.dp))
 
@@ -98,8 +104,8 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
                 columns = GridCells.Fixed(1),
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.LightGray)
-                    .padding(start = 8.dp, end = 8.dp)
+                    .background(Color.DarkGray)
+//                    .padding(start = 8.dp, end = 8.dp)
             ) {
                 items(1) {
                     selectedTrack?.let { trackInfo ->
@@ -114,7 +120,7 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
                                 AsyncImage(model = imgUrl, contentDescription = "image")
                             } else {
                                 Image(
-                                    painterResource(id = R.drawable.yumi),
+                                    painterResource(id = R.drawable.img),
                                     contentDescription = "error"
                                 )
                             }
@@ -128,8 +134,18 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
 //                                    .build(),
 //                                contentDescription = null
 //                            )
-                            Text(text = trackInfo.name ?: "알 수 없 는 제 목", fontSize = 19.sp)
-                            Text(text = trackInfo.artist ?: "알수없는 아티스트", fontSize = 17.sp)
+
+                            Text(text = trackInfo.artist ?: "알수없는 아티스트",
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                color = Color.White
+                            )
+
+                            Text(text = trackInfo.name ?: "알 수 없 는 제 목",
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                color = Color.White
+                            )
                         }
                     }
                 }

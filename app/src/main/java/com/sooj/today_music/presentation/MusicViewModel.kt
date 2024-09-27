@@ -79,7 +79,7 @@ class MusicViewModel @Inject constructor(
             _selectedTrack.value = track
         Log.d("sj VM SELECT", "SELECTED TRACK : ${_selectedTrack.value}")
 
-        getAlbumPoster_vm()
+//        getAlbumPoster_vm()
     }
 
     // 선택한 트랙으로 앨범포스터 가져오기
@@ -154,14 +154,14 @@ class MusicViewModel @Inject constructor(
     fun saveSelectedTrack_vm() {
         val trackToSave = _selectedTrack.value ?: return
         viewModelScope.launch(Dispatchers.IO) {
-//            Log.d("sj_VM(↓) SAVE", "Running on thread: ${Thread.currentThread().name}")
+            Log.d("sj_VM(↓) SAVE", "Running on thread: ${Thread.currentThread().name}")
             try {
                 val trackEntity = TrackEntity(
                     trackName = trackToSave?.name,
                     artistName = trackToSave?.artist,
                     imageUrl = trackToSave?.image?.firstOrNull()?.url ?: "",
                 )
-                repository.saveSelectedTrack_impl(trackEntity)
+                repository.saveSelectedTrack_impl(trackEntity) // db저장 코드
                 Log.d("sj--db save", "track is ${trackEntity} gut")
             } catch (e : Exception) {
                 Log.e("sj--db error", "track is ${e.message} error")
