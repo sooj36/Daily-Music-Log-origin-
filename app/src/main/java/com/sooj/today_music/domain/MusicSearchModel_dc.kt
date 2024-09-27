@@ -28,9 +28,9 @@ data class Trackmatches(
 data class Track(
     val name: String?,
     val artist: String?,
-    val url: String?,
-    val streamable: String?,
-    val listeners: String?,
+//    val url: String?,
+//    val streamable: String?,
+//    val listeners: String?,
     val image: List<Image2>? // 이미지가 리스트로 반환
 )
 

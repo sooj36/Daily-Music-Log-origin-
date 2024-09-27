@@ -1,6 +1,7 @@
 package com.sooj.today_music.presentation
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -17,18 +19,17 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MusicNote
-import androidx.compose.material.icons.filled.SaveAs
+import androidx.compose.material.icons.filled.SystemUpdateAlt
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -38,31 +39,22 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.sooj.today_music.R
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 @Composable
 fun PosterListScreen(navController: NavController, musicViewModel: MusicViewModel) {
     val selectedTrack by musicViewModel.selectedTrack
 
+    val context = LocalContext.current // localcontext로 컨텍스트 가져오기
 
     /** 1) 선택된 트랙 가져오기 */
     val getImageUrl by musicViewModel.getAlbumImage
     val imgUrl = remember { getImageUrl }
     Log.d("Compose Recomposition", "PosterListScreen recomposed")
+
     /** 2) 앨범 포스터 가져오기 */
-    val loadTracks by musicViewModel.allTracks
+    val loadTracks by musicViewModel.getAllSavedTracks
 
-    /** 3) 모든 트랙 가져오기 */
-//    val getAllTracks by musicViewModel.save
 
-//    LaunchedEffect(Unit) {
-//        withContext(Dispatchers.Default) {
-//            Log.d("sj_data1 st", "${Thread.currentThread().name}")
-//            musicViewModel.getAllTracks_vm() // 트랙 데이터를 가져옴
-//            Log.d("sj_data2 en", "${Thread.currentThread().name}")
-//        }
-//    }
 
     Box(
         modifier = Modifier
@@ -70,12 +62,14 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
             .padding(12.dp)
     ) {
         Column {
-            Text(text = "[ 저장된 트랙은 총 ${loadTracks.size}개 입니다 ]",
-                fontWeight = FontWeight.ExtraBold)
+            Text(
+                text = "[ 저장된 트랙은 총 ${loadTracks.size}개 입니다 ]",
+                fontWeight = FontWeight.ExtraBold
+            )
 
             Spacer(modifier = Modifier.height(20.dp))
             Row(
-                modifier = Modifier,
+                modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -93,10 +87,11 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
                 )
 
 
-//                Image(imageVector = Icons.Default.SaveAs, contentDescription = "getTrackData",
-//                    modifier = Modifier.clickable {
-//                        musicViewModel.saveSelectedTrack()
-//                    })
+                Image(imageVector = Icons.Default.SystemUpdateAlt,
+                    contentDescription = "getTrackData",
+                    modifier = Modifier.clickable { musicViewModel.saveSelectedTrack_vm()
+                    Toast.makeText(context, "DB로 저장", Toast.LENGTH_LONG).show()}
+                )
             }
             Spacer(modifier = Modifier.height(15.dp))
 
@@ -105,7 +100,6 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
                 modifier = Modifier
                     .fillMaxSize()
                     .background(Color.DarkGray)
-//                    .padding(start = 8.dp, end = 8.dp)
             ) {
                 items(1) {
                     selectedTrack?.let { trackInfo ->
@@ -135,13 +129,15 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
 //                                contentDescription = null
 //                            )
 
-                            Text(text = trackInfo.artist ?: "알수없는 아티스트",
+                            Text(
+                                text = trackInfo.artist ?: "알수없는 아티스트",
                                 fontSize = 18.sp,
                                 fontWeight = FontWeight.SemiBold,
                                 color = Color.White
                             )
 
-                            Text(text = trackInfo.name ?: "알 수 없 는 제 목",
+                            Text(
+                                text = trackInfo.name ?: "알 수 없 는 제 목",
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.SemiBold,
                                 color = Color.White

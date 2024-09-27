@@ -44,7 +44,8 @@ fun DetailPageScreen(
     val imgUrl = remember { getImageUrl}
 //    val getMemo by memoViewModel.memoContent
     Log.d("bring to clicked track", "click info-> ${clickedTrack} >")
-    val scrollState = rememberScrollState()
+
+    val scrollState = rememberScrollState() // 스크롤 상태 기억
 
     Box(
         modifier = Modifier
@@ -60,7 +61,12 @@ fun DetailPageScreen(
                     Image(imageVector = Icons.Default.LibraryMusic, contentDescription = "NoteList")
                 }
 
-                IconButton(onClick = { navController.navigate("edit_detail_page") }) {
+                IconButton(onClick = {
+                    // 이미 동일한 페이지에 있을 때 다시 네비게이션 되지 않게
+                    if (navController.currentDestination?.route != "edit_detail_page") {
+                        navController.navigate("edit_detail_page")
+                    }
+                    }) {
                     Image(imageVector = Icons.Default.StickyNote2, contentDescription = "edit")
                 }
             }
@@ -76,7 +82,7 @@ fun DetailPageScreen(
                         Log.d("detail_image", "image_URL: ${imgUrl}")
                         AsyncImage(model = imgUrl, contentDescription = "image", modifier = Modifier.size(200.dp))
                     } else {
-                        Image(painterResource(id = R.drawable.yumi), contentDescription = "error")
+                        Image(painterResource(id = R.drawable.img), contentDescription = "error")
                     }
 
                     Text(
@@ -108,59 +114,8 @@ fun DetailPageScreen(
                                     "Hello, hello\n" +
                                     "Last time that I saw your face\n" +
                                     "Was recess in second grade\n" +
-                                    "And it made me feel young\n" +
-                                    "Won't you help me sober up?\n" +
-                                    "Growin' up, it made me numb\n" +
-                                    "And I wanna feel somethin' again\n" +
-                                    "Won't you help me sober up?\n" +
-                                    "All the big kids, they got drunk\n" +
-                                    "And I want to feel somethin' again (Oh, oh, oh, oh)\n" +
-                                    "Won't you help me feel somethin' again?\n" +
-                                    "How's it go again?\n" +
-                                    "\"Goodbye, goodbye\"\n" +
-                                    "I said to my best-est buds\n" +
-                                    "We said that we'd keep in touch\n" +
-                                    "And we did our best\n" +
-                                    "All my new friends\n" +
-                                    "We smile at party time\n" +
-                                    "But soon we forget to smile\n" +
-                                    "At anything else\n" +
-                                    "Won't you help me sober up?\n" +
-                                    "Growin' up, it made me numb\n" +
-                                    "And I want to feel somethin' again\n" +
-                                    "Won't you help me sober up?\n" +
-                                    "All the big kids, they got drunk\n" +
-                                    "And I want to feel somethin' again (Oh, oh, oh, oh)\n" +
-                                    "Won't you help me feel somethin' again?\n" +
-                                    "How's it go again?\n" +
-                                    "How's it go again? (Go again, go again, go again…)\n" +
-                                    "My favorite color is you\n" +
-                                    "You're vibratin' out my frequency\n" +
-                                    "My favorite color is you\n" +
-                                    "You keep me young and that's how I wanna be\n" +
-                                    "My favorite color is you\n" +
-                                    "You're vibratin' out my frequency\n" +
-                                    "My favorite color is you\n" +
-                                    "You keep me young and that's how I wanna be\n" +
-                                    "I'm not where I'm supposed to be\n" +
-                                    "I hope that you're missin' me\n" +
-                                    "'Cause it makes me feel young\n" +
-                                    "Hello, hello\n" +
-                                    "Last time that I saw your face\n" +
-                                    "Was recess in second grade\n" +
-                                    "And it made me feel young\n" +
-                                    "And I want to feel somethin' again\n" +
-                                    "I just wanna feel somethin' again\n" +
-                                    "How's it go again?\n" +
-                                    "Won't you help me sober up?\n" +
-                                    "Growin' up, it made me numb\n" +
-                                    "And I want to feel somethin' again (My favorite color is you)\n" +
-                                    "Won't you help me sober up?\n" +
-                                    "All the big kids, they got drunk\n" +
-                                    "And I want to feel somethin' again (My favorite color is you)\n" +
-                                    "Won't you help me feel somethin' again? (My favorite color is you)\n" +
-                                    "Can I finally feel somethin' again?\n" +
-                                    "How's it go again?\n"
+                                    "And it made me feel young\n"
+
                         )
                     }
 
