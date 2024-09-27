@@ -81,6 +81,13 @@ class SearchRepositoryImpl @Inject constructor(
         Log.d("sj im(beh) GETALL", "Running on thread: ${Thread.currentThread().name}")
     }
 
+    override suspend fun deleteTrack_impl(trackEntity: TrackEntity)  {
+        return withContext(Dispatchers.IO) {
+
+            trackDao.deleteData(trackEntity)
+        }
+    }
+
 
 //    override suspend fun getPostInfo(track: String): Album {
 //        val searchResponse = musicapi.getTrackSearch(

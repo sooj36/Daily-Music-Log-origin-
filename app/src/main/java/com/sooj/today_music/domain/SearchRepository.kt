@@ -13,6 +13,8 @@ interface SearchRepository {
 
     suspend fun getAllTracks_impl() : List<TrackEntity>
 
+    suspend fun deleteTrack_impl(trackEntity: TrackEntity)
+
 //    suspend fun getPostInfo(track: String): Album
 
 }
