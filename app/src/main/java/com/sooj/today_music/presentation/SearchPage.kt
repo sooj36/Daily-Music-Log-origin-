@@ -60,6 +60,8 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
             IconButton(onClick = { navController.popBackStack() }) {
                 Image(imageVector = Icons.Default.LibraryMusic, contentDescription = "list")
             }
+            
+            Text(text = "s e a r c h page")
             Spacer(modifier = Modifier.height(16.dp))
 
             Row(

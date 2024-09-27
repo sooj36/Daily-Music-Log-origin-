@@ -130,7 +130,7 @@ class MusicViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 _getAllSavedTracks.value = repository.getAllTracks_impl()
-                Log.d("sj--call data", "tracks load ${_getAllSavedTracks.value} gut ")
+                Log.d("sj--call all data", "tracks load ${_getAllSavedTracks.value.size} gut ")
             } catch (e: Exception) {
                 Log.e("sj--call data_error", "트랙s 로드 ${e.message} 오류")
             }

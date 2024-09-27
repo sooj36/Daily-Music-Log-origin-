@@ -17,12 +17,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.SystemUpdateAlt
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -51,10 +53,13 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
     val imgUrl = remember { getImageUrl }
     Log.d("Compose Recomposition", "PosterListScreen recomposed")
 
+    // 저장된 트랙 개수를 불러오기
+    LaunchedEffect(Unit) {
+        musicViewModel.getAllTracks_vm()
+    }
+
     /** 2) 앨범 포스터 가져오기 */
     val loadTracks by musicViewModel.getAllSavedTracks
-
-
 
     Box(
         modifier = Modifier
@@ -63,7 +68,7 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
     ) {
         Column {
             Text(
-                text = "[ 저장된 트랙은 총 ${loadTracks.size}개 입니다 ]",
+                text = "[ 저장된 트랙은 총 ${loadTracks.size}개 입니다 ] \n List Page",
                 fontWeight = FontWeight.ExtraBold
             )
 
@@ -94,6 +99,9 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
                 )
             }
             Spacer(modifier = Modifier.height(15.dp))
+
+            Bookmark(musicViewModel = musicViewModel)
+
 
             LazyVerticalGrid(
                 columns = GridCells.Fixed(1),
@@ -147,6 +155,24 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
                 }
             }
         } // c1
+    }
+}
+
+@Composable
+fun Bookmark(musicViewModel: MusicViewModel) {
+    // 룸에서 가져온 데이터
+    val getAllSaveTracks by musicViewModel.getAllSavedTracks
+
+    // 그리드 뷰
+    LazyVerticalGrid(columns = GridCells.Fixed(2)) {
+        items(getAllSaveTracks) { track ->
+            Column {
+                AsyncImage(model = track.imageUrl, contentDescription = "img")
+                track.trackName?.let { Text(text = it) }
+                track.artistName?.let { Text(text = it) }
+            }
+        }
+
     }
 }
 
