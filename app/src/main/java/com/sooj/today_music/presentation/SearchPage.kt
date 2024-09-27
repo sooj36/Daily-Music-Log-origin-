@@ -137,7 +137,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                         AsyncImage(
                             model = ImageRequest.Builder(LocalContext.current)
                                 .data(
-                                    track?.image?.find { it.size == "extralarge" }?.url?.takeIf { it.isNotEmpty() }
+                                    track.image?.find { it.size == "extralarge" }?.url?.takeIf { it.isNotEmpty() }
                                         ?: R.drawable.yumi // URL이 비어 있으면 기본 이미지 리소스를 사용
                                 )
                                 .build(),
