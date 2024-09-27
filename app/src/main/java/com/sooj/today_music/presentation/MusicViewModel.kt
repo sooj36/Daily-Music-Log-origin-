@@ -148,8 +148,8 @@ class MusicViewModel @Inject constructor(
                 val trackEntity = TrackEntity(
                     trackName = trackToSave?.name,
                     artistName = trackToSave?.artist,
-                    imageUrl = imgToSave
-//                    imageUrl = trackToSave?.image?.firstOrNull()?.url ?: "",
+                    imageUrl = imgToSave // API 2
+//                    imageUrl = trackToSave?.image?.firstOrNull()?.url ?: "", // API 1
                 )
                 repository.saveSelectedTrack_impl(trackEntity) // db저장 코드
                 Log.d("sj--db save", "track is ${trackEntity} gut")
@@ -158,6 +158,10 @@ class MusicViewModel @Inject constructor(
             }
 //            Log.d("sj_VM(↑) SAVE", "Running on thread: ${Thread.currentThread().name}")
         }
+    }
+
+    fun deleteTrack_vm() {
+
     }
 
 

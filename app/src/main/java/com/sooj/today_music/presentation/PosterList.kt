@@ -87,36 +87,41 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
 
                 }
                 Text(
-                    text = "MY DAILY MUSIC RECORD <3",
-                    fontWeight = FontWeight.SemiBold
+                    text = "MY DAILY MUSIC RECORD <3", fontWeight = FontWeight.SemiBold
                 )
 
 
                 Image(imageVector = Icons.Default.SystemUpdateAlt,
                     contentDescription = "getTrackData",
-                    modifier = Modifier.clickable { musicViewModel.saveSelectedTrack_vm()
-                    Toast.makeText(context, "DB로 저장", Toast.LENGTH_LONG).show()}
-                )
+                    modifier = Modifier.clickable {
+                        musicViewModel.saveSelectedTrack_vm()
+                        Toast.makeText(context, "DB로 저장", Toast.LENGTH_LONG).show()
+                    })
             }
             Spacer(modifier = Modifier.height(15.dp))
 
-            Bookmark(musicViewModel = musicViewModel)
+            Bookmark(navController,musicViewModel = musicViewModel)
 
         } // c1
     }
 }
 
 @Composable
-fun Bookmark(musicViewModel: MusicViewModel) {
+fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
     // 룸에서 가져온 데이터
     val getAllSaveTracks by musicViewModel.getAllSavedTracks
 
     // 그리드 뷰
     LazyVerticalGrid(columns = GridCells.Fixed(2)) {
         items(getAllSaveTracks) { track ->
-            Column(Modifier.fillMaxWidth(),
+            Column(
+                Modifier.fillMaxWidth()
+                    .clickable {
+                               navController.navigate("detail_page")
+                    },
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceBetween) {
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
                 AsyncImage(model = track.imageUrl, contentDescription = "img")
                 track.trackName?.let { Text(text = it) }
                 track.artistName?.let { Text(text = it) }
