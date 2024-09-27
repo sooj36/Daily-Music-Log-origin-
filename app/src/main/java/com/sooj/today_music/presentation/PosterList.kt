@@ -102,58 +102,6 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
 
             Bookmark(musicViewModel = musicViewModel)
 
-
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(1),
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.DarkGray)
-            ) {
-                items(1) {
-                    selectedTrack?.let { trackInfo ->
-                        Column(modifier = Modifier
-                            .padding(5.dp)
-                            .clickable {
-                                navController.navigate("detail_page")
-                            }) {
-
-                            if (imgUrl != null) {
-                                Log.d("sj--image", "image URL: ${imgUrl}")
-                                AsyncImage(model = imgUrl, contentDescription = "image")
-                            } else {
-                                Image(
-                                    painterResource(id = R.drawable.img),
-                                    contentDescription = "error"
-                                )
-                            }
-
-//                            AsyncImage(
-//                                model = ImageRequest.Builder(LocalContext.current)
-//                                    .data(
-//                                        trackInfo?.image?.find { it.size == "extralarge" }?.url?.takeIf { it.isNotEmpty() }
-//                                            ?: R.drawable.yumi // URL이 비어 있으면 기본 이미지 리소스를 사용
-//                                    )
-//                                    .build(),
-//                                contentDescription = null
-//                            )
-
-                            Text(
-                                text = trackInfo.artist ?: "알수없는 아티스트",
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                color = Color.White
-                            )
-
-                            Text(
-                                text = trackInfo.name ?: "알 수 없 는 제 목",
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                color = Color.White
-                            )
-                        }
-                    }
-                }
-            }
         } // c1
     }
 }
@@ -166,13 +114,14 @@ fun Bookmark(musicViewModel: MusicViewModel) {
     // 그리드 뷰
     LazyVerticalGrid(columns = GridCells.Fixed(2)) {
         items(getAllSaveTracks) { track ->
-            Column() {
+            Column(Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceBetween) {
                 AsyncImage(model = track.imageUrl, contentDescription = "img")
                 track.trackName?.let { Text(text = it) }
                 track.artistName?.let { Text(text = it) }
             }
         }
-
     }
 }
 
