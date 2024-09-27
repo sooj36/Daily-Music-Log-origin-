@@ -1,6 +1,7 @@
 package com.sooj.today_music.presentation
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -27,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,6 +43,8 @@ import com.sooj.today_music.R
 @Composable
 fun PosterListScreen(navController: NavController, musicViewModel: MusicViewModel) {
     val selectedTrack by musicViewModel.selectedTrack
+
+    val context = LocalContext.current // localcontext로 컨텍스트 가져오기
 
 
     /** 1) 선택된 트랙 가져오기 */
@@ -96,7 +100,8 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
 
                 Image(imageVector = Icons.Default.SystemUpdateAlt,
                     contentDescription = "getTrackData",
-                    modifier = Modifier.clickable { musicViewModel.saveSelectedTrack_vm() }
+                    modifier = Modifier.clickable { musicViewModel.saveSelectedTrack_vm()
+                    Toast.makeText(context, "DB로 저장", Toast.LENGTH_LONG).show()}
                 )
             }
             Spacer(modifier = Modifier.height(15.dp))
