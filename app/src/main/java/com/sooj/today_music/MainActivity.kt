@@ -10,9 +10,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -20,14 +17,14 @@ import com.sooj.today_music.presentation.DetailPageScreen
 import com.sooj.today_music.presentation.EditDetailPageScreen
 import com.sooj.today_music.presentation.PosterListScreen
 import com.sooj.today_music.presentation.SearchPageScreen
-import com.sooj.today_music.presentation.SearchViewModel
+import com.sooj.today_music.presentation.MusicViewModel
 //import com.sooj.today_music.presentation.memoViewModel
 import com.sooj.today_music.ui.theme.Today_MusicTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val searchViewModel : SearchViewModel by viewModels()
+    private val musicViewModel : MusicViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -41,7 +38,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    val musicViewModel = hiltViewModel<SearchViewModel>()
+                    val musicViewModel = hiltViewModel<MusicViewModel>()
                     NavHost(navController = navController, startDestination = "poster_list") {
 
                         composable(Screen.PosterList.route) { PosterListScreen(navController, musicViewModel) }

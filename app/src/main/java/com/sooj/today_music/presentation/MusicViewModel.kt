@@ -21,7 +21,7 @@ get() 커스텀 게터 */
 /** private val _infoList = mutableStateOf<List<Album>>(emptyList())
 val infoList: State<List<Album>> get() = _infoList */
 @HiltViewModel
-class SearchViewModel @Inject constructor(
+class MusicViewModel @Inject constructor(
     private val repository: SearchRepository
     /** viewmodel 생성 시 Hilt가 알아서 repo 제공해주고, 이 주입받은 repo통해 데이터 처리*/
 ) : ViewModel() {

@@ -46,7 +46,7 @@ import com.sooj.today_music.R
 
 
 @Composable
-fun SearchPageScreen(navController: NavController, musicViewModel: SearchViewModel) {
+fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewModel) {
     val searchList by musicViewModel.searchList
 
     /** val infoList by musicViewModel.infoList */

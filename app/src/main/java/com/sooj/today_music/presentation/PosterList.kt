@@ -40,7 +40,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 @Composable
-fun PosterListScreen(navController: NavController, musicViewModel: SearchViewModel) {
+fun PosterListScreen(navController: NavController, musicViewModel: MusicViewModel) {
     val selectedTrack by musicViewModel.selectedTrack
 
 
@@ -54,13 +54,13 @@ fun PosterListScreen(navController: NavController, musicViewModel: SearchViewMod
     /** 3) 모든 트랙 가져오기 */
 //    val getAllTracks by musicViewModel.save
 
-    LaunchedEffect(Unit) {
-        withContext(Dispatchers.Default) {
-            Log.d("sj_data1 st", "${Thread.currentThread().name}")
-            musicViewModel.getAllTracks_vm() // 트랙 데이터를 가져옴
-            Log.d("sj_data2 en", "${Thread.currentThread().name}")
-        }
-    }
+//    LaunchedEffect(Unit) {
+//        withContext(Dispatchers.Default) {
+//            Log.d("sj_data1 st", "${Thread.currentThread().name}")
+//            musicViewModel.getAllTracks_vm() // 트랙 데이터를 가져옴
+//            Log.d("sj_data2 en", "${Thread.currentThread().name}")
+//        }
+//    }
 
     Box(
         modifier = Modifier
