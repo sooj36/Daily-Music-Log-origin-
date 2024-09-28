@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.sooj.today_music.R
+import com.sooj.today_music.room.TrackEntity
 
 @Composable
 fun DetailPageScreen(
@@ -40,11 +41,16 @@ fun DetailPageScreen(
 ) {
     /** 클릭한 트랙 가져오기 */
     val clickedTrack by musicViewModel.selectedTrack
-    val getImageUrl by musicViewModel.getAlbumImage
-    val imgUrl = remember { getImageUrl}
-//    val getMemo by memoViewModel.memoContent
-    Log.d("bring to clicked track", "click info-> ${clickedTrack} >")
+    Log.d("DetailPageScreen", "Clicked track: $clickedTrack")
 
+    val getImageUrl by musicViewModel.getAlbumImage
+    val imgUrl = remember { getImageUrl }
+
+//    val getMemo by memoViewModel.memoContent
+    Log.d("bring", "click info-> ${clickedTrack} >")
+// 데이터가 제대로 전달되었는지 확인하기 위한 로그
+
+    Log.d("DetailPageScreen", "Image URL: $imgUrl")
     val scrollState = rememberScrollState() // 스크롤 상태 기억
 
     Box(
@@ -54,9 +60,12 @@ fun DetailPageScreen(
             .padding(start = 8.dp, end = 8.dp)
     ) {
         Column {
-            Row(modifier = Modifier.fillMaxWidth(),
+            Row(
+                modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween) {
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+
                 IconButton(onClick = { navController.popBackStack() }) {
                     Image(imageVector = Icons.Default.LibraryMusic, contentDescription = "NoteList")
                 }
@@ -66,7 +75,7 @@ fun DetailPageScreen(
                     if (navController.currentDestination?.route != "edit_detail_page") {
                         navController.navigate("edit_detail_page")
                     }
-                    }) {
+                }) {
                     Image(imageVector = Icons.Default.StickyNote2, contentDescription = "edit")
                 }
             }
@@ -80,7 +89,11 @@ fun DetailPageScreen(
                 ) {
                     if (imgUrl != null) {
                         Log.d("detail_image", "image_URL: ${imgUrl}")
-                        AsyncImage(model = imgUrl, contentDescription = "image", modifier = Modifier.size(200.dp))
+                        AsyncImage(
+                            model = imgUrl,
+                            contentDescription = "image",
+                            modifier = Modifier.size(200.dp)
+                        )
                     } else {
                         Image(painterResource(id = R.drawable.img), contentDescription = "error")
                     }
@@ -92,6 +105,7 @@ fun DetailPageScreen(
                             .size(25.dp)
                             .padding(start = 8.dp)
                     )
+
                     Text(
                         text = clickedTrack?.name ?: "알 수 없 는 제목",
                         modifier = Modifier

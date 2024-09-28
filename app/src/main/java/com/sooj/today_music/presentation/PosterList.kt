@@ -100,7 +100,7 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
             }
             Spacer(modifier = Modifier.height(15.dp))
 
-            Bookmark(navController,musicViewModel = musicViewModel)
+            Bookmark(navController, musicViewModel = musicViewModel)
 
         } // c1
     }
@@ -115,9 +115,12 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
     LazyVerticalGrid(columns = GridCells.Fixed(2)) {
         items(getAllSaveTracks) { track ->
             Column(
-                Modifier.fillMaxWidth()
+                Modifier
+                    .fillMaxWidth()
                     .clickable {
-                               navController.navigate("detail_page")
+                        navController.navigate("detail_page")
+                        // 데이터 전달
+                        musicViewModel.selectTrackEntity_vm(track)
                     },
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceBetween

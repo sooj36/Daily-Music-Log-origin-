@@ -34,6 +34,10 @@ class MusicViewModel @Inject constructor(
     private val _selectedTrack = mutableStateOf<Track?>(null)
     val selectedTrack: State<Track?> get() = _selectedTrack
 
+//    // TrackEntity에 저장된 Track
+//    private val _selectedEntity = mutableStateOf<Track?>(null)
+//    val selectedEntity : State<Track?> get() = _selectedEntity
+
     // 선택 트랙에서 Artist, Track명으로 get.Info 가져오기
     private val _getAlbumImage = mutableStateOf<String?>(null)
     val getAlbumImage: State<String?> get() = _getAlbumImage
@@ -73,9 +77,20 @@ class MusicViewModel @Inject constructor(
     fun selectTrack_vm(track: Track) {
             /** track 선택 시 즉시 상태 업데이트*/
             _selectedTrack.value = track
-        Log.d("sj VM SELECT", "SELECTED TRACK : ${_selectedTrack.value}")
+        Log.d("1111111", "SELECTED TRACK : ${_selectedTrack.value}")
 
         getAlbumPoster_vm() // 앨범 포스터 불러오기
+    }
+    fun selectTrackEntity_vm(trackEntity: TrackEntity) {
+        // trackentity -> track 변환
+        val convertTrack = Track(
+            name = trackEntity.trackName,
+            artist = trackEntity.artistName,
+            image = null
+        )
+        // 선택된 trackentity데이터를 selecttrack으로 업데이트
+        _selectedTrack.value = convertTrack
+        Log.d("222222222", "Selected track from entity updated: ${_selectedTrack.value}")
     }
 
     // 선택한 트랙으로 앨범포스터 가져오기
@@ -141,7 +156,7 @@ class MusicViewModel @Inject constructor(
     // 선택된 트랙을 데이터베이스에 저장
     fun saveSelectedTrack_vm() {
         val trackToSave = _selectedTrack.value ?: return
-        val imgToSave = _getAlbumImage.value ?: "https://lastfm.freetls.fastly.net/i/u/34s/2a96cbd8b46e442fc41c2b86b821562f.png"
+        val imgToSave = _getAlbumImage.value ?: return
         viewModelScope.launch(Dispatchers.IO) {
             Log.d("sj_VM(↓) SAVE", "Running on thread: ${Thread.currentThread().name}")
             try {
