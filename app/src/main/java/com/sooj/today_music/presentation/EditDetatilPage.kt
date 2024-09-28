@@ -44,7 +44,6 @@ fun EditDetailPageScreen(navController: NavController, musicViewModel: MusicView
     Log.d("get track for edit", "info < ${clickedTrack} >")
     val scrollState = rememberScrollState()
 
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -73,11 +72,11 @@ fun EditDetailPageScreen(navController: NavController, musicViewModel: MusicView
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    if (getImageUrl != null) {
-                        Log.d("edit_img", "img_URL: ${getImageUrl}")
-                        AsyncImage(model = getImageUrl, contentDescription = "image")
-                    } else {
-                        Image(painterResource(id = R.drawable.yumi), contentDescription = "error")
+
+                    clickedTrack?.image?.firstOrNull()?.url?.let { ImgUrl ->
+                        AsyncImage(model = ImgUrl,
+                            contentDescription = "imgurl",
+                            modifier = Modifier.size(200.dp))
                     }
 
                     Text(
