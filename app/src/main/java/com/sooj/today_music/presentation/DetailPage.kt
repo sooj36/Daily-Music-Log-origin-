@@ -17,12 +17,17 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LibraryMusic
 import androidx.compose.material.icons.filled.StickyNote2
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,6 +38,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.sooj.today_music.R
+import com.sooj.today_music.room.MemoEntity
 import com.sooj.today_music.room.TrackEntity
 
 @Composable
@@ -73,10 +79,11 @@ fun DetailPageScreen(
                 }
 
                 IconButton(onClick = {
-                    // 이미 동일한 페이지에 있을 때 다시 네비게이션 되지 않게
-                    if (navController.currentDestination?.route != "edit_detail_page") {
-                        navController.navigate("edit_detail_page")
-                    }
+//                    // 이미 동일한 페이지에 있을 때 다시 네비게이션 되지 않게
+//                    if (navController.currentDestination?.route != "edit_detail_page") {
+//                        navController.navigate("edit_detail_page")
+//                    }
+
                 }) {
                     Image(imageVector = Icons.Default.StickyNote2, contentDescription = "edit")
                 }
@@ -187,7 +194,41 @@ fun DetailPageScreen(
 
                 }
             } // box
+        }
+    }
+}
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun EditMemo(
+    memoViewModel: memoViewModel,
+    memoEntity: MemoEntity // 메모 기본 데이터
+) {
+    var editing by remember { mutableStateOf(false) }
+    var updatedMemo by remember { mutableStateOf(memoEntity.memo) }
+
+    Column {
+        if (editing) {
+            // 수정 상태면 텍스트필드
+            TextField(
+                value = updatedMemo,
+                onValueChange = { updatedMemo = it }, // 수정 저장
+            )
+            Button(onClick = { /*저장 버튼 클릭 시 텍스트 저장되게*/ }) {
+                memoViewModel.saveMemo_vm(memoEntity.trackId, updatedMemo) // 메모 저장
+                editing = false // 저장 후 읽기모드로 전환
+            }
+            Text(text = "saveeeee")
+        } else {
+            // 수정 전일 때는 텍스트 표시
+            Text(
+                text = if (memoEntity.memo.isNullOrBlank()) {
+                    "오늘의 음악을 기록하세요 !" // 메모 없을 시
+                } else {
+                    memoEntity.memo // 해당 메모 표시
+
+                }, modifier = Modifier.fillMaxWidth()
+            )
         }
     }
 }
