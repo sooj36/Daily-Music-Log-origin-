@@ -1,0 +1,40 @@
+package com.sooj.today_music.data
+
+import android.util.Log
+import com.sooj.today_music.domain.MemoRepository
+import com.sooj.today_music.room.MemoDao
+import com.sooj.today_music.room.MemoEntity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
+
+class MemoRepositoryImpl @Inject constructor(
+    // 다오 주입
+    private val memoDao: MemoDao
+) : MemoRepository {
+    override suspend fun saveMemo_impl(memoEntity: MemoEntity) {
+        withContext(Dispatchers.IO) {
+            memoDao.insertMemo(memoEntity)
+        }
+        Log.d("sj insert_Memo", "Running on thread: ${Thread.currentThread().name}")
+    }
+
+    override suspend fun getMemo_impl(trackId : Int) {
+         withContext(Dispatchers.IO) {
+            memoDao.getMemoByTrackId(trackId)
+        }
+    }
+
+    override suspend fun editMemo_impl(memoEntity: MemoEntity) {
+        return withContext(Dispatchers.IO) {
+            memoDao.updateMemo(memoEntity)
+        }
+    }
+
+    override suspend fun deleteMemo_impl(id : Int) {
+        return withContext(Dispatchers.Default) {
+            memoDao.deleteMemo(id)
+        }
+    }
+
+}

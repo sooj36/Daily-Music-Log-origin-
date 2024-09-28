@@ -6,6 +6,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -19,7 +20,10 @@ interface MemoDao {
     fun getMemoByTrackId(trackId: Int): Flow<MemoEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addMemo(memoEntity: MemoEntity)
+    suspend fun insertMemo(memoEntity: MemoEntity)
+
+    @Update
+    suspend fun updateMemo(memoEntity: MemoEntity)
 
     @Query("delete FROM memoentity where trackId = :id")
     suspend fun deleteMemo(id: Int)
