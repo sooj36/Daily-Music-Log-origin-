@@ -1,6 +1,8 @@
 package com.sooj.today_music.di
 
+import com.sooj.today_music.data.MemoRepositoryImpl
 import com.sooj.today_music.data.SearchRepositoryImpl
+import com.sooj.today_music.domain.MemoRepository
 import com.sooj.today_music.domain.SearchRepository
 import dagger.Binds
 import dagger.Module
@@ -30,4 +32,10 @@ abstract class RepositoryModule {
     abstract fun bindsSearchRepository(
         searchRepositoryImpl: SearchRepositoryImpl
     ) : SearchRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindsMemoRepository(
+        memoRepositoryImpl: MemoRepositoryImpl
+    ) : MemoRepository
 }

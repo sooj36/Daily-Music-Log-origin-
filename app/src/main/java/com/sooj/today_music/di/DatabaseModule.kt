@@ -3,6 +3,7 @@ package com.sooj.today_music.di
 import android.content.Context
 import androidx.room.Room
 import com.sooj.today_music.room.Database
+import com.sooj.today_music.room.MemoDao
 import com.sooj.today_music.room.TrackDao
 import dagger.Module
 import dagger.Provides
@@ -32,5 +33,11 @@ object DatabaseModule {
     @Singleton
     fun provideTrackDao(database: Database) : TrackDao {
         return database.getTrackDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideMemoDao(database: Database) : MemoDao {
+        return database.getMemoDao()
     }
 }
