@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
@@ -83,35 +84,48 @@ fun DetailPageScreen(
                 Column(
                     modifier = Modifier
                         .padding(end = 8.dp)
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+//                        .background(Color.Green)
+                    ,
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     if (imgUrl != null) {
-                        Log.d("detail_image", "image_URL: ${imgUrl}")
+//                        Log.d("detail_image", "image_URL: ${imgUrl}")
                         AsyncImage(
                             model = imgUrl,
                             contentDescription = "image",
                             modifier = Modifier.size(200.dp)
                         )
                     } else {
-                        Image(painterResource(id = R.drawable.img), contentDescription = "error")
+//                        Image(painterResource(id = R.drawable.img), contentDescription = "error")
                     }
+                    //Coil 사용
+                    clickedTrack?.image?.firstOrNull()?.url?.let { DbUrl ->
+                        AsyncImage(
+                            model = DbUrl, contentDescription = "img",
+                            modifier = Modifier.size(200.dp)
+                        )
 
+                    }
                     Text(
                         text = clickedTrack?.artist ?: "알 수 없 는 아티스트",
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .size(25.dp)
-                            .padding(start = 8.dp)
+                            .fillMaxSize()
+                            .size(30.dp)
+                            .padding(start = 8.dp),
+                        fontWeight = FontWeight.Medium
                     )
 
                     Text(
                         text = clickedTrack?.name ?: "알 수 없 는 제목",
                         modifier = Modifier
                             .fillMaxWidth()
-                            .size(21.dp)
+                            .size(27.dp)
                             .padding(start = 8.dp)
+                            .background(Color.Gray),
+                        fontWeight = FontWeight.SemiBold
+
                     )
                     Card(
                         shape = RoundedCornerShape(30.dp),

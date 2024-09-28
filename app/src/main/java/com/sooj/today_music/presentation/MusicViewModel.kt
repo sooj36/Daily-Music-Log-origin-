@@ -5,6 +5,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sooj.today_music.domain.Image2
 import com.sooj.today_music.domain.SearchRepository
 import com.sooj.today_music.domain.Track
 import com.sooj.today_music.room.TrackEntity
@@ -77,20 +78,26 @@ class MusicViewModel @Inject constructor(
     fun selectTrack_vm(track: Track) {
             /** track 선택 시 즉시 상태 업데이트*/
             _selectedTrack.value = track
-        Log.d("1111111", "SELECTED TRACK : ${_selectedTrack.value}")
+        Log.d("select search", "SELECTED TRACK : ${_selectedTrack.value}")
 
         getAlbumPoster_vm() // 앨범 포스터 불러오기
     }
     fun selectTrackEntity_vm(trackEntity: TrackEntity) {
+        //imgurl 사용하여 image2 객체 생성 후 리스트로 변환
+        val imgList = listOf(
+            Image2(url = trackEntity.imageUrl, size = "extralarge")
+        )
+        // 변환된 이미지 리스트를 로그로 출력
+        Log.d("imglist@@@@@", "Image list: $imgList")
         // trackentity -> track 변환
         val convertTrack = Track(
             name = trackEntity.trackName,
             artist = trackEntity.artistName,
-            image = null
+            image = imgList
         )
         // 선택된 trackentity데이터를 selecttrack으로 업데이트
         _selectedTrack.value = convertTrack
-        Log.d("222222222", "Selected track from entity updated: ${_selectedTrack.value}")
+        Log.d("select Track", "Selected track from entity updated: ${_selectedTrack.value}")
     }
 
     // 선택한 트랙으로 앨범포스터 가져오기
