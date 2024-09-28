@@ -8,20 +8,20 @@ import com.sooj.today_music.domain.MemoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-//@HiltViewModel
-//class memoViewModel @Inject constructor(
-//    private val memoRepository: MemoRepository
-//) : ViewModel() {
-//
-//    private val _memoContent = mutableStateOf("")
-//    val memoContent: State<String> get() = _memoContent
-//
-//    suspend fun loadMemo() {
-//        _memoContent.value = memoRepository.getMemo()
-//    }
-//
-//    suspend fun saveMemo(content: String) {
-//        memoRepository.saveMemo(content) //메모내용 저장
-//        _memoContent.value = content // 내부상태 업데이트
-//    }
-//}
+@HiltViewModel
+class memoViewModel @Inject constructor(
+    private val memoRepository: MemoRepository
+) : ViewModel() {
+
+    private val _memoContent = mutableStateOf("")
+    val memoContent: State<String> get() = _memoContent
+
+    suspend fun loadMemo() {
+        _memoContent.value = memoRepository.getMemo()
+    }
+
+    suspend fun saveMemo(content: String) {
+        memoRepository.saveMemo(content) //메모내용 저장
+        _memoContent.value = content // 내부상태 업데이트
+    }
+}

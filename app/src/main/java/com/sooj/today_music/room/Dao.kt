@@ -14,15 +14,15 @@ interface MemoDao {
 //    @Query("SELECT * FROM MemoEntity WHERE trackId = :trackId")
 //    fun getMemoByTrackId(trackId: Int): LiveData<MemoEntity> // trackId로 메모 조회
 //    /** suspend fun 과 LiveData 같이 사용 불가*/
-//
-//    @Query("SELECT * FROM MemoEntity WHERE trackId = :trackId")
-//    fun getMemoByTrackId(trackId: Int): Flow<MemoEntity>
+
+    @Query("SELECT * FROM MemoEntity WHERE trackId = :trackId")
+    fun getMemoByTrackId(trackId: Int): Flow<MemoEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addMemo(memoEntity: MemoEntity)
 
-//    @Query("delete FROM memoentity where id = :id")
-//    suspend fun deleteMemo(id: Int)
+    @Query("delete FROM memoentity where trackId = :id")
+    suspend fun deleteMemo(id: Int)
 
 }
 

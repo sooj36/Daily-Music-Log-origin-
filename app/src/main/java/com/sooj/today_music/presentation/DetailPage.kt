@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.sooj.today_music.R
@@ -37,8 +38,8 @@ import com.sooj.today_music.room.TrackEntity
 @Composable
 fun DetailPageScreen(
     navController: NavController,
-    musicViewModel: MusicViewModel,
-//                     memoViewModel: memoViewModel = hiltViewModel()
+    musicViewModel: MusicViewModel = hiltViewModel(),
+    memoViewModel: memoViewModel = hiltViewModel()
 ) {
     /** 클릭한 트랙 가져오기 */
     val clickedTrack by musicViewModel.selectedTrack
