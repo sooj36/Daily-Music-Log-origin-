@@ -2,10 +2,9 @@ package com.sooj.today_music.room
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
-import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(tableName = "track_table")
 data class TrackEntity(
     @PrimaryKey(autoGenerate = true)
     val id : Int =0,
@@ -15,6 +14,7 @@ data class TrackEntity(
 )
 
 @Entity(
+    tableName = "memo_table",
     foreignKeys = [
         ForeignKey(
             entity = TrackEntity::class,
