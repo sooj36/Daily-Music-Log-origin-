@@ -16,7 +16,7 @@ interface MemoDao {
 //    fun getMemoByTrackId(trackId: Int): LiveData<MemoEntity> // trackId로 메모 조회
 //    /** suspend fun 과 LiveData 같이 사용 불가*/
 
-    @Query("SELECT * FROM MemoEntity WHERE trackId = :trackId")
+    @Query("SELECT * FROM memo_table WHERE trackId = :trackId")
     fun getMemoByTrackId(trackId: Int): Flow<MemoEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -25,7 +25,7 @@ interface MemoDao {
     @Update
     suspend fun updateMemo(memoEntity: MemoEntity)
 
-    @Query("delete FROM memoentity where trackId = :id")
+    @Query("delete FROM memo_table where trackId = :id")
     suspend fun deleteMemo(id: Int)
 
 }
@@ -33,7 +33,7 @@ interface MemoDao {
 @Dao
 interface TrackDao {
 
-    @Query("SELECT * FROM TrackEntity") // 모든 트랙 조회
+    @Query("SELECT * FROM track_table") // 모든 트랙 조회
     suspend fun getAllData(): List<TrackEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
