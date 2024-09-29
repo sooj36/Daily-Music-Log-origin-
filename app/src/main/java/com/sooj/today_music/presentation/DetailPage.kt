@@ -42,11 +42,15 @@ import com.sooj.today_music.room.MemoEntity
 fun DetailPageScreen(
     navController: NavController,
     musicViewModel: MusicViewModel = hiltViewModel(),
-    memoViewModel: memoViewModel = hiltViewModel()
-) {
+    memoViewModel: MemoViewModel = hiltViewModel(),
+
+    ) {
     /** 클릭한 트랙 가져오기 */
     val clickedTrack by musicViewModel.selectedTrack
     Log.d("DetailPageScreen", "Clicked track: $clickedTrack")
+
+    // TrackId 가져오기
+    val getTrackId = clickedTrack?.
 
     val getImageUrl by musicViewModel.getAlbumImage
     val imgUrl = remember { getImageUrl }
@@ -78,7 +82,7 @@ fun DetailPageScreen(
                 IconButton(onClick = {
 //                    // 이미 동일한 페이지에 있을 때 다시 네비게이션 되지 않게
 //                    if (navController.currentDestination?.route != "edit_detail_page") {
-//                        navController.navigate("edit_detail_page")
+                        navController.navigate("edit_detail_page")
 //                    }
 
                 }) {
@@ -90,7 +94,7 @@ fun DetailPageScreen(
                     modifier = Modifier
                         .padding(end = 8.dp)
                         .fillMaxWidth()
-//                        .background(Color.Green)
+                        .background(Color.Yellow)
                     ,
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -182,13 +186,10 @@ fun DetailPageScreen(
                                     "How could my day be bad when I'm with you?  \n" +
                                     "You're the only one who makes me laugh  \n" +
                                     "So how can my day be bad?  \n" +
-                                    "It's a day for you          \n" +
-                                    "\n" +
-                                    "// [Outro]\n"
+                                    "It's a day for you"
 
                         )
                     }
-
                 }
             } // box
         }
@@ -198,7 +199,7 @@ fun DetailPageScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditMemo(
-    memoViewModel: memoViewModel,
+    memoViewModel: MemoViewModel,
     memoEntity: MemoEntity // 메모 기본 데이터
 ) {
     var editing by remember { mutableStateOf(false) }

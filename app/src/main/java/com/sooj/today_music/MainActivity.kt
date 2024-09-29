@@ -8,7 +8,6 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
@@ -20,8 +19,7 @@ import com.sooj.today_music.presentation.PosterListScreen
 import com.sooj.today_music.presentation.SearchPageScreen
 import com.sooj.today_music.presentation.MusicViewModel
 import com.sooj.today_music.presentation.SelectPageScreen
-import com.sooj.today_music.presentation.memoViewModel
-import com.sooj.today_music.room.MemoEntity
+import com.sooj.today_music.presentation.MemoViewModel
 //import com.sooj.today_music.presentation.memoViewModel
 import com.sooj.today_music.ui.theme.Today_MusicTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,15 +41,16 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val navController = rememberNavController()
                     val musicViewModel = hiltViewModel<MusicViewModel>()
-                    val memoViewModel = hiltViewModel<memoViewModel>()
+                    val memoViewModel = hiltViewModel<MemoViewModel>()
+
 
 
                     NavHost(navController = navController, startDestination = "poster_list") {
 
                         composable(Screen.PosterList.route) { PosterListScreen(navController, musicViewModel) }
-                        composable(Screen.DetailPage.route) { DetailPageScreen(navController, musicViewModel) }
+                        composable(Screen.DetailPage.route) { DetailPageScreen(navController, musicViewModel, memoViewModel) }
                         composable(Screen.WritePost.route) { SearchPageScreen(navController, musicViewModel) }
-                        composable(Screen.EditDetailPage.route) { EditDetailPageScreen(navController, musicViewModel)}
+                        composable(Screen.EditDetailPage.route) { EditDetailPageScreen(navController, musicViewModel, memoViewModel)}
                         composable(Screen.SelectPage.route) { SelectPageScreen(navController, musicViewModel)}
                     }
                 }

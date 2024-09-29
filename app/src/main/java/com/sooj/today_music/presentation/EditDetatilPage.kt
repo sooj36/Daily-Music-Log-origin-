@@ -30,15 +30,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.sooj.today_music.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditDetailPageScreen(navController: NavController, musicViewModel: MusicViewModel) {
+fun EditDetailPageScreen(navController: NavController, musicViewModel: MusicViewModel, memoViewModel: MemoViewModel) {
     val clickedTrack by musicViewModel.selectedTrack
     val getImageUrl by musicViewModel.getAlbumImage
     Log.d("get track for edit", "info < ${clickedTrack} >")
@@ -60,7 +58,13 @@ fun EditDetailPageScreen(navController: NavController, musicViewModel: MusicView
                     Image(imageVector = Icons.Default.MusicVideo, contentDescription = "NoteList")
                 }
 
-                IconButton(onClick = { navController.navigate("edit_detail_page") }) {
+                IconButton(onClick = {
+                    navController.navigate("detail_page")
+                    clickedTrack?.let { id ->
+                        memoViewModel.saveMemo_vm(id.hashCode(), "")
+                        Log.d("sjjjjjj", "HashCode: ${id.hashCode()}")
+                    }
+                }) {
                     Image(imageVector = Icons.Default.SaveAlt, contentDescription = "save")
                 }
             }

@@ -6,15 +6,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sooj.today_music.domain.MemoRepository
+import com.sooj.today_music.room.MemoDao
 import com.sooj.today_music.room.MemoEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class memoViewModel @Inject constructor(
-    private val memoRepository: MemoRepository
+class MemoViewModel @Inject constructor(
+    private val memoRepository: MemoRepository,
+    private val memoDao : MemoDao
 ) : ViewModel() {
 
     // 각 trackID별로 메모 리스트 관리 (MAP)
@@ -22,13 +26,19 @@ class memoViewModel @Inject constructor(
     val memoMap : State<Map<Int, List<MemoEntity>>> get() = _memoMap
 
     // 선택
-    private val _selectMemo = mutableStateOf<List<MemoEntity>>(emptyList())
-    val selectMemo : State<List<MemoEntity>> get() = _selectMemo
+    private val _memo = MutableStateFlow<MemoEntity?>(null)
+    val memo: StateFlow<MemoEntity?> get() = _memo
 
     // 트랙에 맞는 메모 가져오기
-    fun  getMemo(trackId: Int) : List<MemoEntity> {
-        return _memoMap.value[trackId] ?: emptyList()
+    // 특정 트랙의 메모를 Flow로 가져오기
+    fun loadMemoForTrack(trackId: Int) {
+        viewModelScope.launch {
+            memoDao.getMemoByTrackId(trackId).collect { memoEntity ->
+                _memo.value = memoEntity // StateFlow 업데이트
+            }
+        }
     }
+
 
     // 메모 DB 저장
     fun saveMemo_vm(trackId : Int, memoText : String) {
@@ -43,14 +53,23 @@ class memoViewModel @Inject constructor(
                 // 메모 저장
                 memoRepository.saveMemo_impl(memoEntity)
 
-                // 저장된 메모를 trackid에 맞는 리스트에 추가
-               val currentMemoList = getMemo(trackId) + memoEntity
-                _memoMap.value = _memoMap.value.toMutableMap().apply {
-                    put(trackId, currentMemoList)
-                }
 
             } catch (e : Exception) {
                 Log.e("saveMemo_vm", "Error saving memo: ${e.message}")
+            }
+        }
+    }
+
+    // trackId 에 해당하는 메모 데이터 로드
+    fun loadTrackMemo(trackId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val memoList = memoRepository.getMemo_impl(trackId)
+                _memoMap.value = _memoMap.value.toMutableMap().apply {
+                    put(trackId, memoList)
+                }
+            } catch (e: Exception) {
+                Log.e("loadMemoForTrack", "Error loading memo: ${e.message}")
             }
         }
     }
