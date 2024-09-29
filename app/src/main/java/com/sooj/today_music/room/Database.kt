@@ -3,7 +3,7 @@ package com.sooj.today_music.room
 import androidx.room.Database
 import androidx.room.RoomDatabase
 
-@Database(entities = [TrackEntity::class, MemoEntity::class], version = 2)
+@Database(entities = [TrackEntity::class, MemoEntity::class], version = 4)
 abstract class Database : RoomDatabase() {
 
     companion object {

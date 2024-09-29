@@ -25,7 +25,7 @@ object DatabaseModule {
             Database::class.java,
             Database.NAME
         )
-//            .fallbackToDestructiveMigration() // 기존 데이터 삭제 후 새로 생성
+            .fallbackToDestructiveMigration() // 기존 데이터 삭제 후 새로 생성(파괴적 마이그레이션)
             .build()
     }
 

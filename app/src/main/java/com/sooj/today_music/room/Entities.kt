@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "track_table")
+@Entity
 data class TrackEntity(
     @PrimaryKey(autoGenerate = true)
     val trackId : Int =0,
@@ -13,10 +13,8 @@ data class TrackEntity(
     val imageUrl : String?,
 )
 
-////////////////////////////////////////////
-
 @Entity(
-    tableName = "memo_table",
+
     foreignKeys = [
         ForeignKey(
             entity = TrackEntity::class,
