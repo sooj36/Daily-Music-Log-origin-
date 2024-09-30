@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.collection.mutableIntFloatMapOf
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -48,7 +49,12 @@ class MainActivity : ComponentActivity() {
                     NavHost(navController = navController, startDestination = "poster_list") {
 
                         composable(Screen.PosterList.route) { PosterListScreen(navController, musicViewModel) }
-                        composable(Screen.DetailPage.route) { DetailPageScreen(navController, musicViewModel, memoViewModel) }
+
+                        composable("detail_page/{trackId}") { entry ->
+                            val trackId = entry.arguments?.getString("trackId")?.toInt() ?: 0
+                            DetailPageScreen(navController, musicViewModel,memoViewModel, trackId)
+                        }
+//                        composable(Screen.DetailPage.route) { DetailPageScreen(navController, musicViewModel, memoViewModel) }
                         composable(Screen.WritePost.route) { SearchPageScreen(navController, musicViewModel) }
                         composable(Screen.EditDetailPage.route) { EditDetailPageScreen(navController, musicViewModel, memoViewModel)}
                         composable(Screen.SelectPage.route) { SelectPageScreen(navController, musicViewModel)}

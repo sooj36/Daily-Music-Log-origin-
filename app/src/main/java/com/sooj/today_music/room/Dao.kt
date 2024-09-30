@@ -16,7 +16,7 @@ interface MemoDao {
 //    fun getMemoByTrackId(trackId: Int): LiveData<MemoEntity> // trackId로 메모 조회
 //    /** suspend fun 과 LiveData 같이 사용 불가*/
 
-    @Query("SELECT * FROM MemoEntity WHERE trackId = :trackId")
+    @Query("SELECT * FROM MemoEntity WHERE trackId = :trackId LIMIT 1")
     fun getMemoByTrackId(trackId: Int): Flow<MemoEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

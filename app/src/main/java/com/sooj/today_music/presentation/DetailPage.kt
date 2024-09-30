@@ -24,6 +24,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,23 +44,21 @@ fun DetailPageScreen(
     navController: NavController,
     musicViewModel: MusicViewModel = hiltViewModel(),
     memoViewModel: MemoViewModel = hiltViewModel(),
-
+    trackId : Int
     ) {
     /** 클릭한 트랙 가져오기 */
     val clickedTrack by musicViewModel.selectedTrack
     Log.d("DetailPageScreen", "Clicked track: $clickedTrack")
 
-    // TrackId 가져오기
-    val getTrackId = clickedTrack?.
-
     val getImageUrl by musicViewModel.getAlbumImage
     val imgUrl = remember { getImageUrl }
 
-//    val getMemo by memoViewModel.memoContent
-    Log.d("bring", "click info-> ${clickedTrack} >")
-// 데이터가 제대로 전달되었는지 확인하기 위한 로그
+    // ViewModel에서 메모 데이터를 가져와서 UI에 반영
+    val memo by memoViewModel.memo.collectAsState()
 
-    Log.d("DetailPageScreen", "Image URL: $imgUrl")
+    // textfield에서 사용자가 입력한 메모 저장할 상태
+    var memoContent by remember { mutableStateOf(memo?.memoContent ?: "") }
+
     val scrollState = rememberScrollState() // 스크롤 상태 기억
 
     Box(
@@ -203,7 +202,7 @@ fun EditMemo(
     memoEntity: MemoEntity // 메모 기본 데이터
 ) {
     var editing by remember { mutableStateOf(false) }
-    var updatedMemo by remember { mutableStateOf(memoEntity.memo) }
+    var updatedMemo by remember { mutableStateOf(memoEntity.memoContent) }
 
     Column {
         if (editing) {
@@ -220,10 +219,10 @@ fun EditMemo(
         } else {
             // 수정 전일 때는 텍스트 표시
             Text(
-                text = if (memoEntity.memo.isNullOrBlank()) {
+                text = if (memoEntity.memoContent.isNullOrBlank()) {
                     "오늘의 음악을 기록하세요 !" // 메모 없을 시
                 } else {
-                    memoEntity.memo // 해당 메모 표시
+                    memoEntity.memoContent // 해당 메모 표시
 
                 }, modifier = Modifier.fillMaxWidth()
             )

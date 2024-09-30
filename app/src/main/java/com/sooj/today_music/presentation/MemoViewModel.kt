@@ -41,15 +41,14 @@ class MemoViewModel @Inject constructor(
 
 
     // 메모 DB 저장
-    fun saveMemo_vm(trackId : Int, memoText : String) {
-        val memoToSave = _memoMap.value ?: return
-
+    fun saveMemo_vm(trackId : Int, memoContent : String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val memoEntity = MemoEntity(
                     trackId = trackId, // 전달받은 트랙 id사용
-                    memo = memoText // 전달받은 메모 내용을 사용
+                    memoContent = memoContent // 전달받은 메모 내용을 사용
                 )
+//                memoDao.insertMemo(memoEntity) // 이건 impl에서 하는 일
                 // 메모 저장
                 memoRepository.saveMemo_impl(memoEntity)
 
@@ -61,16 +60,5 @@ class MemoViewModel @Inject constructor(
     }
 
     // trackId 에 해당하는 메모 데이터 로드
-    fun loadTrackMemo(trackId: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val memoList = memoRepository.getMemo_impl(trackId)
-                _memoMap.value = _memoMap.value.toMutableMap().apply {
-                    put(trackId, memoList)
-                }
-            } catch (e: Exception) {
-                Log.e("loadMemoForTrack", "Error loading memo: ${e.message}")
-            }
-        }
-    }
+
 }
