@@ -72,7 +72,7 @@ class SearchRepositoryImpl @Inject constructor(
     override suspend fun saveSelectedTrack_impl(trackEntity: TrackEntity, memoEntity: MemoEntity) {
         withContext(Dispatchers.IO) {
             Log.d("sj im(st) SAVE", "Running on thread: ${Thread.currentThread().name}")
-            trackDao.insertData(trackEntity)
+//            trackDao.insertData(trackEntity) // 트랙만 저장됌
             val trackId = trackDao.insertData(trackEntity).toInt()
 
             val memoId = memoEntity.copy(trackId = trackId)
