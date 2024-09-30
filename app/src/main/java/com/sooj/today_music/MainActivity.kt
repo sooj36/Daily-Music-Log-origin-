@@ -44,19 +44,16 @@ class MainActivity : ComponentActivity() {
                     val musicViewModel = hiltViewModel<MusicViewModel>()
                     val memoViewModel = hiltViewModel<MemoViewModel>()
 
-
-
                     NavHost(navController = navController, startDestination = "poster_list") {
 
                         composable(Screen.PosterList.route) { PosterListScreen(navController, musicViewModel) }
 
-//                        composable("detail_page/{trackId}") { entry ->
-//                            val trackId = entry.arguments?.getString("trackId")?.toInt() ?: 0
-//                            DetailPageScreen(navController, musicViewModel,memoViewModel, trackId)
-//                        }
-                        composable(Screen.DetailPage.route) { entry ->
+                        composable(Screen.DetailPage.route) {
+                            entry ->
                             val trackId = entry.arguments?.getString("trackId")?.toInt() ?: 0
                             DetailPageScreen(navController, musicViewModel, memoViewModel, trackId) }
+
+//                        composable(Screen.DetailPage.route) { DetailPageScreen(navController, musicViewModel, memoViewModel) }
                         composable(Screen.WritePost.route) { SearchPageScreen(navController, musicViewModel) }
                         composable(Screen.EditDetailPage.route) { EditDetailPageScreen(navController, musicViewModel, memoViewModel)}
                         composable(Screen.SelectPage.route) { SelectPageScreen(navController, musicViewModel)}
@@ -68,3 +65,7 @@ class MainActivity : ComponentActivity() {
 }
 
 
+//                        composable("detail_page/{trackId}") { entry ->
+//                            val trackId = entry.arguments?.getString("trackId")?.toInt() ?: 0
+//                            DetailPageScreen(navController, musicViewModel,memoViewModel, trackId)
+//                        }

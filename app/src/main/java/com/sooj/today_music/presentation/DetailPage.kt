@@ -40,25 +40,29 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.sooj.today_music.room.MemoEntity
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailPageScreen(
     navController: NavController,
     musicViewModel: MusicViewModel = hiltViewModel(),
     memoViewModel: MemoViewModel = hiltViewModel(),
-    trackId : Int
+    trackId : Int // 네비게이션 경로로 전달받은 trackid
     ) {
     /** 클릭한 트랙 가져오기 */
     val clickedTrack by musicViewModel.selectedTrack
     Log.d("DetailPageScreen", "Clicked track: $clickedTrack")
 
+    /** vm 의 Flow 데이터를 State로 변환 */
+    val memoState by memoViewModel.memoContent.collectAsState()
+
     val getImageUrl by musicViewModel.getAlbumImage
     val imgUrl = remember { getImageUrl }
 
     // ViewModel에서 메모 데이터를 가져와서 UI에 반영
-    val memo by memoViewModel.memo.collectAsState()
+    val memo by memoViewModel.memoContent.collectAsState()
 
     // textfield에서 사용자가 입력한 메모 저장할 상태
-    var memoContent by remember { mutableStateOf(memo?.memoContent ?: "") }
+//    var memoContent by remember { mutableStateOf(memo?.memoContent ?: "") }
 
     val scrollState = rememberScrollState() // 스크롤 상태 기억
 
@@ -66,6 +70,8 @@ fun DetailPageScreen(
     LaunchedEffect(trackId) {
         memoViewModel.loadMemoForTrack(trackId) // 트랙에 해당하는 메모
     }
+
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -193,10 +199,16 @@ fun DetailPageScreen(
                                     "It's a day for you"
 
                         )
-                    }
-                }
+                        TextField(
+                            value = memoState?.memoContent ?: "",
+                            onValueChange = {newText ->
+                                memoViewModel.saveMemo_vm(trackId, newText)
+                            },
+                            label = { Text(text = "enter memo")})
+                    } // card text
+                } // c2
             } // box
-        }
+        } // c
     }
 }
 

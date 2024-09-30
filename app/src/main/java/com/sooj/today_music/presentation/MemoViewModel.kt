@@ -26,15 +26,15 @@ class MemoViewModel @Inject constructor(
     val memoMap : State<Map<Int, List<MemoEntity>>> get() = _memoMap
 
     // 선택
-    private val _memo = MutableStateFlow<MemoEntity?>(null)
-    val memo: StateFlow<MemoEntity?> get() = _memo
+    private val _memoContent = MutableStateFlow<MemoEntity?>(null)
+    val memoContent: StateFlow<MemoEntity?> get() = _memoContent
 
     // 트랙에 맞는 메모 가져오기
     // 특정 트랙의 메모를 Flow로 가져오기
     fun loadMemoForTrack(trackId: Int) {
         viewModelScope.launch {
             memoDao.getMemoByTrackId(trackId).collect { memoEntity ->
-                _memo.value = memoEntity // StateFlow 업데이트
+                _memoContent.value = memoEntity // StateFlow 업데이트
             }
         }
     }
@@ -44,9 +44,7 @@ class MemoViewModel @Inject constructor(
     fun saveMemo_vm(trackId : Int, memoContent : String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val memoEntity = MemoEntity(
-                    trackId = trackId, // 전달받은 트랙 id사용
-                    memoContent = memoContent // 전달받은 메모 내용을 사용
+                val memoEntity = MemoEntity(trackId = trackId, memoContent = memoContent
                 )
 //                memoDao.insertMemo(memoEntity) // 이건 impl에서 하는 일
                 // 메모 저장

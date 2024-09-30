@@ -45,6 +45,8 @@ import com.sooj.today_music.R
 @Composable
 fun PosterListScreen(navController: NavController, musicViewModel: MusicViewModel) {
     val selectedTrack by musicViewModel.selectedTrack
+    val loadTrackID by musicViewModel.getAllSavedTracks
+
 
     val context = LocalContext.current // localcontext로 컨텍스트 가져오기
 
@@ -113,21 +115,21 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
 
     // 그리드 뷰
     LazyVerticalGrid(columns = GridCells.Fixed(2)) {
-        items(getAllSaveTracks) { track ->
+        items(getAllSaveTracks) { trackEntity ->
             Column(
                 Modifier
                     .fillMaxWidth()
                     .clickable {
-                        navController.navigate("detail_page")
+                        navController.navigate("detail_page/${trackEntity.trackId}")
                         // 데이터 전달
-                        musicViewModel.selectTrackEntity_vm(track)
+                        musicViewModel.selectTrackEntity_vm(trackEntity)
                     },
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
-                AsyncImage(model = track.imageUrl, contentDescription = "img")
-                track.trackName?.let { Text(text = it) }
-                track.artistName?.let { Text(text = it) }
+                AsyncImage(model = trackEntity.imageUrl, contentDescription = "img")
+                trackEntity.trackName?.let { Text(text = it) }
+                trackEntity.artistName?.let { Text(text = it) }
             }
         }
     }
