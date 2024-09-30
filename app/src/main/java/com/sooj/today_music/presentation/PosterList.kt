@@ -120,7 +120,8 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
                 Modifier
                     .fillMaxWidth()
                     .clickable {
-                        navController.navigate("detail_page/${trackEntity.trackId}")
+//                        navController.navigate("detail_page/${trackEntity.trackId}")
+                        navController.navigate("detail_page")
                         // 데이터 전달
                         musicViewModel.selectTrackEntity_vm(trackEntity)
                     },

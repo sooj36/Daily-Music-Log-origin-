@@ -54,6 +54,7 @@ fun DetailPageScreen(
 
     /** vm 의 Flow 데이터를 State로 변환 */
     val memoState by memoViewModel.memoContent.collectAsState()
+    var memoContent by remember { mutableStateOf(memoState?.memoContent ?: "") }
 
     val getImageUrl by musicViewModel.getAlbumImage
     val imgUrl = remember { getImageUrl }
@@ -200,11 +201,13 @@ fun DetailPageScreen(
 
                         )
                         TextField(
-                            value = memoState?.memoContent ?: "",
-                            onValueChange = {newText ->
-                                memoViewModel.saveMemo_vm(trackId, newText)
-                            },
+                            value = memoContent ?: "TXTFIELD",
+                            onValueChange = { memoContent = it },
                             label = { Text(text = "enter memo")})
+                        
+                        Button(onClick = { memoViewModel.saveMemo_vm(trackId, memoContent) }) {
+                            Text(text = "저장버튼 save")
+                        }
                     } // card text
                 } // c2
             } // box
