@@ -24,6 +24,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -61,6 +62,10 @@ fun DetailPageScreen(
 
     val scrollState = rememberScrollState() // 스크롤 상태 기억
 
+    // memo 데이터를 trackId로 로드
+    LaunchedEffect(trackId) {
+        memoViewModel.loadMemoForTrack(trackId) // 트랙에 해당하는 메모
+    }
     Box(
         modifier = Modifier
             .fillMaxSize()

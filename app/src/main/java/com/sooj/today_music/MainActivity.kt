@@ -50,11 +50,13 @@ class MainActivity : ComponentActivity() {
 
                         composable(Screen.PosterList.route) { PosterListScreen(navController, musicViewModel) }
 
-                        composable("detail_page/{trackId}") { entry ->
+//                        composable("detail_page/{trackId}") { entry ->
+//                            val trackId = entry.arguments?.getString("trackId")?.toInt() ?: 0
+//                            DetailPageScreen(navController, musicViewModel,memoViewModel, trackId)
+//                        }
+                        composable(Screen.DetailPage.route) { entry ->
                             val trackId = entry.arguments?.getString("trackId")?.toInt() ?: 0
-                            DetailPageScreen(navController, musicViewModel,memoViewModel, trackId)
-                        }
-//                        composable(Screen.DetailPage.route) { DetailPageScreen(navController, musicViewModel, memoViewModel) }
+                            DetailPageScreen(navController, musicViewModel, memoViewModel, trackId) }
                         composable(Screen.WritePost.route) { SearchPageScreen(navController, musicViewModel) }
                         composable(Screen.EditDetailPage.route) { EditDetailPageScreen(navController, musicViewModel, memoViewModel)}
                         composable(Screen.SelectPage.route) { SelectPageScreen(navController, musicViewModel)}
