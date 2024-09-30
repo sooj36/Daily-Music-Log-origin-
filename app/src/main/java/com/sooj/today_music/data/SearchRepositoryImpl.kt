@@ -2,10 +2,13 @@ package com.sooj.today_music.data
 
 
 import android.util.Log
+import androidx.room.Transaction
 import com.sooj.today_music.BuildConfig
 import com.sooj.today_music.domain.Album
 import com.sooj.today_music.domain.SearchRepository
 import com.sooj.today_music.domain.Track
+import com.sooj.today_music.room.MemoDao
+import com.sooj.today_music.room.MemoEntity
 import com.sooj.today_music.room.TrackDao
 import com.sooj.today_music.room.TrackEntity
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +18,8 @@ import javax.inject.Inject
 
 class SearchRepositoryImpl @Inject constructor(
     private val musicapi: ApiService_EndPoint,
-    private val trackDao: TrackDao  // 다오 주입받음
+    private val trackDao: TrackDao , // 다오 주입받음
+    private val memoDao: MemoDao
 ) : SearchRepository {
     override suspend fun getMusic_impl(track: String): List<Track> {
         return withContext(Dispatchers.IO) {
@@ -64,13 +68,18 @@ class SearchRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun saveSelectedTrack_impl(trackEntity: TrackEntity) {
+    @Transaction
+    override suspend fun saveSelectedTrack_impl(trackEntity: TrackEntity, memoEntity: MemoEntity) {
         withContext(Dispatchers.IO) {
             Log.d("sj im(st) SAVE", "Running on thread: ${Thread.currentThread().name}")
             trackDao.insertData(trackEntity)
+            val trackId = trackDao.insertData(trackEntity).toInt()
+
+            val memoId = memoEntity.copy(trackId = trackId)
+            memoDao.insertMemo(memoId)
+
         }
         Log.d("sj im(en) SAVE", "Running on thread: ${Thread.currentThread().name}")
-
     }
 
     override suspend fun getAllTracks_impl(): List<TrackEntity> {

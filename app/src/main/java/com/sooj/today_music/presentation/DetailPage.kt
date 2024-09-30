@@ -205,7 +205,9 @@ fun DetailPageScreen(
                             onValueChange = { memoContent = it },
                             label = { Text(text = "enter memo")})
                         
-                        Button(onClick = { memoViewModel.saveMemo_vm(trackId, memoContent) }) {
+                        Button(onClick = {
+                            navController.navigate("poster_list")
+                            memoViewModel.saveMemo_vm(trackId, memoContent) }) {
                             Text(text = "저장버튼 save")
                         }
                     } // card text

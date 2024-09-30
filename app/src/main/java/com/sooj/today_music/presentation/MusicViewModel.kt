@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.sooj.today_music.domain.Image2
 import com.sooj.today_music.domain.SearchRepository
 import com.sooj.today_music.domain.Track
+import com.sooj.today_music.room.MemoEntity
 import com.sooj.today_music.room.TrackEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -165,27 +166,23 @@ class MusicViewModel @Inject constructor(
         val trackToSave = _selectedTrack.value ?: return
         val imgToSave = _getAlbumImage.value ?: return
         viewModelScope.launch(Dispatchers.IO) {
-            Log.d("sj_VM(↓) SAVE", "Running on thread: ${Thread.currentThread().name}")
             try {
                 val trackEntity = TrackEntity(
                     trackName = trackToSave?.name,
                     artistName = trackToSave?.artist,
-                    imageUrl = imgToSave // API 2
-//                    imageUrl = trackToSave?.image?.firstOrNull()?.url ?: "", // API 1
+                    imageUrl = imgToSave
                 )
-                repository.saveSelectedTrack_impl(trackEntity) // db저장 코드
+                val memoEntity = MemoEntity(
+                    trackId = trackEntity.trackId,
+                    memoContent = "viewmodel 저장 저장"
+                )
+                repository.saveSelectedTrack_impl(trackEntity, memoEntity) // db저장 코드
                 Log.d("sj--db save", "track is ${trackEntity} gut")
             } catch (e : Exception) {
                 Log.e("sj--db error", "track is ${e.message} error")
             }
-//            Log.d("sj_VM(↑) SAVE", "Running on thread: ${Thread.currentThread().name}")
         }
     }
-
-    fun deleteTrack_vm() {
-
-    }
-
 
     // 이전 코드 ↓
 
