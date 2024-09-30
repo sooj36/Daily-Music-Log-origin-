@@ -30,7 +30,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 
@@ -87,15 +89,17 @@ fun EditDetailPageScreen(navController: NavController, musicViewModel: MusicView
                         text = clickedTrack?.artist ?: "알 수 없 는 아티스트",
                         modifier = Modifier
                             .fillMaxWidth()
-                            .size(25.dp)
-                            .padding(start = 8.dp)
+                            .padding(start = 8.dp),
+                        textAlign = TextAlign.Center,
+                        fontSize = 17.sp
                     )
                     Text(
                         text = clickedTrack?.name ?: "알 수 없 는 제목",
                         modifier = Modifier
                             .fillMaxWidth()
-                            .size(25.dp)
-                            .padding(start = 8.dp)
+                            .padding(start = 8.dp),
+                        textAlign = TextAlign.Center,
+                        fontSize = 17.sp
                     )
 
                     var text by remember {
@@ -123,15 +127,7 @@ fun EditDetailPageScreen(navController: NavController, musicViewModel: MusicView
                                     "I've been watching Netflix all day long  \n" +
                                     "I thought there would be    \n" +
                                     "no things left to watch     \n" +
-                                    "so I let myself out         \n" +
-                                    "\n" +
-                                    "// [Verse 3]\n" +
-                                    "When I went to the park     \n" +
-                                    "I recognised you at a glance  \n" +
-                                    "Face to face, we just smiled  \n" +
-                                    "We already know that we'll be together"
-
-
+                                    "so I let myself out "
                         )
                     }
 
