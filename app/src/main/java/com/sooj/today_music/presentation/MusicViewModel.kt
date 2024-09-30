@@ -36,10 +36,6 @@ class MusicViewModel @Inject constructor(
     private val _selectedTrack = mutableStateOf<Track?>(null)
     val selectedTrack: State<Track?> get() = _selectedTrack
 
-//    // TrackEntity에 저장된 Track
-//    private val _selectedEntity = mutableStateOf<Track?>(null)
-//    val selectedEntity : State<Track?> get() = _selectedEntity
-
     // 선택 트랙에서 Artist, Track명으로 get.Info 가져오기
     private val _getAlbumImage = mutableStateOf<String?>(null)
     val getAlbumImage: State<String?> get() = _getAlbumImage
@@ -126,8 +122,6 @@ class MusicViewModel @Inject constructor(
         }
     }
 
-
-
     // 로드된 트랙으로 앨범포스터 가져오기
   /**  fun getLoadAlbumPoster() {
         val loadTrackName = _searchList.value.map { name -> name.name } ?: return
@@ -174,7 +168,7 @@ class MusicViewModel @Inject constructor(
                 )
                 val memoEntity = MemoEntity(
                     trackId = trackEntity.trackId,
-                    memoContent = "viewmodel 저장 저장"
+                    memoContent = "오늘의 음악을 기록하세요 !"
                 )
                 repository.saveSelectedTrack_impl(trackEntity, memoEntity) // db저장 코드
                 Log.d("sj--db save", "track is ${trackEntity} gut")
@@ -184,39 +178,9 @@ class MusicViewModel @Inject constructor(
         }
     }
 
-    // 이전 코드 ↓
+    // 트랙 삭제
+    fun deleteSavedTrack() {
 
-// coroutines( data 의존성 있는 경우) //
-//        viewModelScope.launch {
-//            val response = musicApi.getMusicSearch(
-//                "track.search",
-//                track,
-//                BuildConfig.LAST_FM_API_KEY,
-//                "json"
-//            )
-//
-//            if (response.isSuccessful) {
-//                // 응답 성공 시,
-//                val musicModel = response.body()
-//                Log.d("API RESPONSE,", musicModel.toString())
-//
-//                response.body()?.results?.trackmatches?.track?.let { tracks ->
-//                    _searchList.value = tracks
-//                    /** searchlist에 값을 할당*/
-//
-//                    tracks.forEach { track ->
-//                        Log.d(
-//                            "API RESPONSE foreach",
-//                            "Track: ${track.name}, Artist: ${track.artist}"
-//                        )
-//                    } // track
-//                }
-//            } else {
-//                println("response error")
-//                Log.e(
-//                    "response error",
-//                    "Error Code 에러 번호는 ! : ${response.code()}, message:${response.message()}"
-//                )
-//            }
-//        } //viewModelScope
+    }
+
 }

@@ -27,5 +27,5 @@ data class TrackEntity(
 
 data class MemoEntity(
     @PrimaryKey val trackId : Int,
-    val memoContent : String = "오늘의 음악을 기록하세요 !",
+    val memoContent : String,
 )
