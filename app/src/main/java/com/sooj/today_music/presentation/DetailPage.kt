@@ -53,29 +53,10 @@ fun DetailPageScreen(
     val clickedTrack by musicViewModel.selectedTrack
     Log.d("DetailPageScreen", "Clicked track: $clickedTrack")
 
-    /** vm 의 Flow 데이터를 State로 변환 */
-    val memoState by memoViewModel.memoContent.collectAsState()
-    var memoContent by remember { mutableStateOf(memoState?.memoContent ?: "") }
-
     val getImageUrl by musicViewModel.getAlbumImage
     val imgUrl = remember { getImageUrl }
 
-    // ViewModel에서 메모 데이터를 가져와서 UI에 반영
-    val memo by memoViewModel.memoContent.collectAsState()
-    val trackId = memo?.trackId
-    val memoId = trackId?.let { MemoEntity(it, "") }
-
-    memo?.trackId?.let { memoViewModel.saveMemo_vm(it, "") }
-    // textfield에서 사용자가 입력한 메모 저장할 상태
-//    var memoContent by remember { mutableStateOf(memo?.memoContent ?: "") }
-
     val scrollState = rememberScrollState() // 스크롤 상태 기억
-
-    // memo 데이터를 trackId로 로드
-    LaunchedEffect(trackId) {
-        trackId?.let { memoViewModel.loadMemoForTrack(it) } // 트랙에 해당하는 메모
-    }
-
 
     Box(
         modifier = Modifier
@@ -131,6 +112,7 @@ fun DetailPageScreen(
                         )
 
                     }
+
                     Text(
                         text = clickedTrack?.artist ?: "알 수 없 는 아티스트",
                         modifier = Modifier
@@ -171,21 +153,7 @@ fun DetailPageScreen(
                                     "so I let myself out ",
                             textAlign = TextAlign.Center,
                         )
-                        TextField(
-                            value = memoContent ?: "TXTFIELD",
-                            onValueChange = { memoContent = it },
-                            label = { Text(text = "enter memo") },
-                        )
-
-                        Button(onClick = {
-                            navController.navigate("poster_list")
-                            if (trackId != null) {
-                                memoViewModel.saveMemo_vm(trackId, memoContent)
-                            }
-                        }) {
-                            Text(text = "저장버튼 save")
-                        } // card text
-                    } // c2
+                    } // c
                 } // box
             } // c
         }
