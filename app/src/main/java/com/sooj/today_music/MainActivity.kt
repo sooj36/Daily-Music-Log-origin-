@@ -49,7 +49,7 @@ class MainActivity : ComponentActivity() {
                         composable(Screen.PosterList.route) { PosterListScreen(navController, musicViewModel) }
 
                         composable(Screen.DetailPage.route) { entry ->
-                            val trackId = entry.arguments?.getInt("trackId") ?: 0
+                            val trackId = entry.arguments?.getInt("trackId") ?: return@composable
                             DetailPageScreen(navController, musicViewModel, memoViewModel, trackId) }
 
                         composable(Screen.DetailPage.route) { DetailPageScreen(navController, musicViewModel, memoViewModel, trackId = 9) }
