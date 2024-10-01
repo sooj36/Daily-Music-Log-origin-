@@ -37,5 +37,4 @@ class MemoRepositoryImpl @Inject constructor(
             memoDao.deleteMemo(trackid)
         }
     }
-
 }

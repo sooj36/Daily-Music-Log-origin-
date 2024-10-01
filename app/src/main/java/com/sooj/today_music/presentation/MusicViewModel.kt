@@ -164,7 +164,8 @@ class MusicViewModel @Inject constructor(
                 val trackEntity = TrackEntity(
                     trackName = trackToSave?.name,
                     artistName = trackToSave?.artist,
-                    imageUrl = imgToSave
+                    imageUrl = imgToSave,
+                    saveAt = System.currentTimeMillis()
                 )
                 val memoEntity = MemoEntity(
                     trackId = trackEntity.trackId,

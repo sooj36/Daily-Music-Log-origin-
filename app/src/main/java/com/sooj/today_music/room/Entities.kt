@@ -11,6 +11,7 @@ data class TrackEntity(
     val trackName : String?,
     val artistName : String?,
     val imageUrl : String?,
+    val saveAt : Long
 )
 
 @Entity(

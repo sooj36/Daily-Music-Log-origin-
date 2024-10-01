@@ -41,6 +41,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.sooj.today_music.R
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @Composable
 fun PosterListScreen(navController: NavController, musicViewModel: MusicViewModel) {
@@ -129,8 +132,16 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 AsyncImage(model = trackEntity.imageUrl, contentDescription = "img")
+                trackEntity.trackId?.let { trackId ->
+                    Text(text = trackId.toString()) }
                 trackEntity.trackName?.let { Text(text = it) }
                 trackEntity.artistName?.let { Text(text = it) }
+
+                // 저장 시간을 date로 변환하여 표시
+                val saveAt = trackEntity.saveAt
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+                val formattedDate = dateFormat.format(Date(saveAt))
+                Text(text = "^^ ${formattedDate} ^^")
             }
         }
     }

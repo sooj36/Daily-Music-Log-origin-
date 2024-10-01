@@ -48,7 +48,6 @@ fun DetailPageScreen(
     navController: NavController,
     musicViewModel: MusicViewModel = hiltViewModel(),
     memoViewModel: MemoViewModel = hiltViewModel(),
-    trackId : Int // 네비게이션 경로로 전달받은 trackid
     ) {
     /** 클릭한 트랙 가져오기 */
     val clickedTrack by musicViewModel.selectedTrack
@@ -175,7 +174,8 @@ fun DetailPageScreen(
                         TextField(
                             value = memoContent ?: "TXTFIELD",
                             onValueChange = { memoContent = it },
-                            label = { Text(text = "enter memo") },)
+                            label = { Text(text = "enter memo") },
+                        )
 
                         Button(onClick = {
                             navController.navigate("poster_list")
@@ -188,41 +188,6 @@ fun DetailPageScreen(
                     } // c2
                 } // box
             } // c
-        }
-    }
-
-    @OptIn(ExperimentalMaterial3Api::class)
-    @Composable
-    fun EditMemo(
-        memoViewModel: MemoViewModel,
-        memoEntity: MemoEntity // 메모 기본 데이터
-    ) {
-        var editing by remember { mutableStateOf(false) }
-        var updatedMemo by remember { mutableStateOf(memoEntity.memoContent) }
-
-        Column {
-            if (editing) {
-                // 수정 상태면 텍스트필드
-                TextField(
-                    value = updatedMemo,
-                    onValueChange = { updatedMemo = it }, // 수정 저장
-                )
-                Button(onClick = { /*저장 버튼 클릭 시 텍스트 저장되게*/ }) {
-                    memoViewModel.saveMemo_vm(memoEntity.trackId, updatedMemo) // 메모 저장
-                    editing = false // 저장 후 읽기모드로 전환
-                }
-                Text(text = "saveeeee")
-            } else {
-                // 수정 전일 때는 텍스트 표시
-                Text(
-                    text = if (memoEntity.memoContent.isNullOrBlank()) {
-                        "오늘의 음악을 기록하세요 !" // 메모 없을 시
-                    } else {
-                        memoEntity.memoContent // 해당 메모 표시
-
-                    }, modifier = Modifier.fillMaxWidth()
-                )
-            }
         }
     }
 }
