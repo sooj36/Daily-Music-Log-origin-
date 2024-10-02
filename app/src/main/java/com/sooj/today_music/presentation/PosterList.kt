@@ -157,7 +157,6 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
                     Text(text = "^${formattedDate}^")
                 }
             } // card
-
         }
     }
 }

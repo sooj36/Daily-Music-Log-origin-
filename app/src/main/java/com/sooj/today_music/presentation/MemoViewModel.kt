@@ -41,19 +41,19 @@ class MemoViewModel @Inject constructor(
 
     // 메모 DB 저장g
     fun saveMemo_vm(trackId : Int, memoContent : String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val memoEntity = MemoEntity(trackId = trackId, memoContent = memoContent
-                )
-//                memoDao.insertMemo(memoEntity) // 이건 impl에서 하는 일
-                // 메모 저장
-                memoRepository.saveMemo_impl(memoEntity)
-
-
-            } catch (e : Exception) {
-                Log.e("saveMemo_vm", "Error saving memo: ${e.message}")
-            }
-        }
+//        viewModelScope.launch(Dispatchers.IO) {
+//            try {
+//                val memoEntity = MemoEntity(trackId = trackId, memoContent = memoContent
+//                )
+////                memoDao.insertMemo(memoEntity) // 이건 impl에서 하는 일
+//                // 메모 저장
+//                memoRepository.saveMemo_impl(memoEntity)
+//
+//
+//            } catch (e : Exception) {
+//                Log.e("saveMemo_vm", "Error saving memo: ${e.message}")
+//            }
+//        }
     }
 
     // trackId 에 해당하는 메모 데이터 로드

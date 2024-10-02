@@ -17,19 +17,14 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LibraryMusic
 import androidx.compose.material.icons.filled.StickyNote2
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,7 +35,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.sooj.today_music.room.MemoEntity
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -58,6 +52,7 @@ fun DetailPageScreen(
 
     val scrollState = rememberScrollState() // 스크롤 상태 기억
 
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -65,6 +60,7 @@ fun DetailPageScreen(
             .padding(start = 8.dp, end = 8.dp)
     ) {
         Column {
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
@@ -107,7 +103,8 @@ fun DetailPageScreen(
                     clickedTrack?.image?.firstOrNull()?.url?.let { DbUrl ->
                         AsyncImage(
                             model = DbUrl, contentDescription = "img",
-                            modifier = Modifier.size(200.dp)
+                            modifier = Modifier
+                                .size(200.dp)
                                 .padding(top = 8.dp)
                         )
 
