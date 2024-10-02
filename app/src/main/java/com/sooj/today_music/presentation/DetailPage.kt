@@ -36,7 +36,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.sooj.today_music.room.MemoEntity
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -53,7 +52,7 @@ fun DetailPageScreen(
     LaunchedEffect(trackClick) {
         trackClick?.let { te ->
             Log.d("te soo", "Track ID: ${te.trackId}")
-            musicViewModel.loadMemoForTrack_test(te.trackId)
+            musicViewModel.getMmUseID_vm(te.trackId)
         }
     }
 
@@ -76,8 +75,6 @@ fun DetailPageScreen(
             .padding(start = 8.dp, end = 8.dp)
     ) {
         Column {
-
-
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
@@ -107,7 +104,6 @@ fun DetailPageScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     if (imgUrl != null) {
-//                        Log.d("detail_image", "image_URL: ${imgUrl}")
                         AsyncImage(
                             model = imgUrl,
                             contentDescription = "image",

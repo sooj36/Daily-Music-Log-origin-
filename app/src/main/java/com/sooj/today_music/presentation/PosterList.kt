@@ -1,10 +1,8 @@
 package com.sooj.today_music.presentation
 
-import android.text.style.BackgroundColorSpan
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -36,16 +34,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
-import com.sooj.today_music.R
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -139,7 +134,7 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
                             navController.navigate("detail_page")
                             // 데이터 전달
                             musicViewModel.selectTrackEntity_vm(trackEntity) // img, artist, track
-                            musicViewModel.selectTrackEntity_vm_test2(trackEntity) // trackId
+                            musicViewModel.loadTrackID_vm(trackEntity) // trackId
                         },
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.SpaceBetween

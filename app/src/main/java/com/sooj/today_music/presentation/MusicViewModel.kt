@@ -163,22 +163,36 @@ class MusicViewModel @Inject constructor(
         }
     }
 
-    fun selectTrackEntity_vm_test2(trackEntity: TrackEntity) {
-        _selectedTrackEntity.value = trackEntity
-        loadMemoForTrack_test(trackEntity.trackId) // 자동 생성된 trackId로 MemoEntity 조회
-    }
-
+    //////////////////
     // 트랙 선택 시 trackId 이용하여 memoentity 불러오기
-    fun loadMemoForTrack_test(trackId: Int) {
+    fun getMmUseID_vm(trackId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 memoRepository.getMemo_impl(trackId).collect() { mm ->
                     _memoContent.value = mm
                 }
-
             } catch (e: Exception) {
                 Log.e("test", "${e.message}")
             }
+        }
+    }
+    fun loadTrackID_vm(trackEntity: TrackEntity) {
+        _selectedTrackEntity.value = trackEntity
+        getMmUseID_vm(trackEntity.trackId) // 자동 생성된 trackId로 MemoEntity 조회
+    }
+    //////////////////////
+
+    fun loadMmById(trackId: Int) {
+        try {
+            viewModelScope.launch(Dispatchers.IO) {
+                memoRepository.getMemo_impl(trackId).collect() {mm ->
+
+                }
+            }
+
+
+        } catch (e : Exception) {
+            Log.e("loadmmByID", "${e.message}")
         }
     }
 

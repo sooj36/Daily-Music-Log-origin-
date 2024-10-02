@@ -16,7 +16,6 @@ interface SearchRepository {
 
     suspend fun deleteTrack_impl(trackEntity: TrackEntity)
 
-//    suspend fun getPostInfo(track: String): Album
 
 }
 
