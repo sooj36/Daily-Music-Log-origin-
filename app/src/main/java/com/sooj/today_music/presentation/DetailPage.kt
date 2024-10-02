@@ -52,7 +52,6 @@ fun DetailPageScreen(
     // 선택된 트랙의 trackid로 memoentity 불러오기
     LaunchedEffect(trackClick) {
         trackClick?.let { te ->
-            Log.d("te soo", "Track ID: ${te.trackId}")
             musicViewModel.loadMemoForTrack_test(te.trackId)
         }
     }
@@ -76,11 +75,7 @@ fun DetailPageScreen(
             .padding(start = 8.dp, end = 8.dp)
     ) {
         Column {
-            Text(text = "test 중")
-            memoEntity ?.let { mmm ->
-                Text(text = "${mmm?.memoContent} \n ${mmm.trackId}")
-            } ?: Text(text = "no load trackid")
-            Text(text = "test 중")
+
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -151,26 +146,17 @@ fun DetailPageScreen(
                     Card(
                         shape = RoundedCornerShape(30.dp),
                         modifier = Modifier
+                            .fillMaxWidth()
                             .background(Color.Transparent)
-                            .padding(20.dp)
+                            .padding(20.dp),
                     ) {
-                        Text(
-                            modifier = Modifier.padding(20.dp),
-                            text = "// [Verse 1]\n" +
-                                    "How could my day be bad    \n" +
-                                    "when I'm with you?         \n" +
-                                    "You're the only one who makes me laugh  \n" +
-                                    "So how can my day be bad?  \n" +
-                                    "It's a day for you          \n" +
-                                    "\n" +
-                                    "// [Verse 2]\n" +
-                                    "Lately, life's so boring    \n" +
-                                    "I've been watching Netflix all day long  \n" +
-                                    "I thought there would be    \n" +
-                                    "no things left to watch     \n" +
-                                    "so I let myself out ",
-                            textAlign = TextAlign.Center,
-                        )
+                        Column(Modifier.fillMaxWidth()
+                            .padding(15.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally) {
+                            memoEntity ?.let { mmm ->
+                                Text(text = "${mmm?.memoContent} \n ${mmm.trackId}",textAlign = TextAlign.Center,)
+                            } ?: Text(text = "no load trackid",textAlign = TextAlign.Center,)
+                        }
                     } // c
                 } // box
             } // c
