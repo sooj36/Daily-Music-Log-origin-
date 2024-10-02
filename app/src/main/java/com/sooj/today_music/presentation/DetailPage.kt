@@ -44,7 +44,7 @@ fun DetailPageScreen(
     navController: NavController,
     musicViewModel: MusicViewModel = hiltViewModel(),
     memoViewModel: MemoViewModel = hiltViewModel(),
-    ) {
+) {
 
     // test
     val trackClick by musicViewModel.selectedTrackEntity.collectAsState()
@@ -76,11 +76,7 @@ fun DetailPageScreen(
             .padding(start = 8.dp, end = 8.dp)
     ) {
         Column {
-            Text(text = "test 중")
-            memoEntity ?.let { mmm ->
-                Text(text = "${mmm?.memoContent} \n ${mmm.trackId}")
-            } ?: Text(text = "no load trackid")
-            Text(text = "test 중")
+
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -154,23 +150,13 @@ fun DetailPageScreen(
                             .background(Color.Transparent)
                             .padding(20.dp)
                     ) {
-                        Text(
-                            modifier = Modifier.padding(20.dp),
-                            text = "// [Verse 1]\n" +
-                                    "How could my day be bad    \n" +
-                                    "when I'm with you?         \n" +
-                                    "You're the only one who makes me laugh  \n" +
-                                    "So how can my day be bad?  \n" +
-                                    "It's a day for you          \n" +
-                                    "\n" +
-                                    "// [Verse 2]\n" +
-                                    "Lately, life's so boring    \n" +
-                                    "I've been watching Netflix all day long  \n" +
-                                    "I thought there would be    \n" +
-                                    "no things left to watch     \n" +
-                                    "so I let myself out ",
-                            textAlign = TextAlign.Center,
-                        )
+                        Column(Modifier.fillMaxWidth()
+                            .padding(12.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally) {
+                            memoEntity?.let { mmm ->
+                                Text(text = "${mmm?.memoContent} \n ${mmm.trackId}")
+                            } ?: Text(text = "no load trackid")
+                        }
                     } // c
                 } // box
             } // c

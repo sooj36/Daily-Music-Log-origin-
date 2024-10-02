@@ -136,11 +136,10 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
                         .fillMaxWidth()
                         .padding(15.dp)
                         .clickable {
-//                        navController.navigate("detail_page/${trackEntity.trackId}")
                             navController.navigate("detail_page")
                             // 데이터 전달
-                            musicViewModel.selectTrackEntity_vm(trackEntity)
-                            musicViewModel.selectTrackEntity_vm_test2(trackEntity)
+                            musicViewModel.selectTrackEntity_vm(trackEntity) // img, artist, track
+                            musicViewModel.selectTrackEntity_vm_test2(trackEntity) // trackId
                         },
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.SpaceBetween
