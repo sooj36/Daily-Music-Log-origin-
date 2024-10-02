@@ -140,6 +140,7 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
                             navController.navigate("detail_page")
                             // 데이터 전달
                             musicViewModel.selectTrackEntity_vm(trackEntity)
+                            musicViewModel.selectTrackEntity_vm_test2(trackEntity)
                         },
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.SpaceBetween

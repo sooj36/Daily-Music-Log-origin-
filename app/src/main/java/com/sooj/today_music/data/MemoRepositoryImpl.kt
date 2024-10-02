@@ -21,9 +21,7 @@ class MemoRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getMemo_impl(trackId : Int): Flow<MemoEntity> {
-         return withContext(Dispatchers.IO) {
-            memoDao.getMemoByTrackId(trackId)
-        }
+            return memoDao.getMemoByTrackId(trackId)
     }
 
     override suspend fun editMemo_impl(memoEntity: MemoEntity) {
