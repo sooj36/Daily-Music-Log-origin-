@@ -22,6 +22,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -35,6 +36,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.sooj.today_music.room.MemoEntity
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,6 +45,21 @@ fun DetailPageScreen(
     musicViewModel: MusicViewModel = hiltViewModel(),
     memoViewModel: MemoViewModel = hiltViewModel(),
     ) {
+
+    // test
+    val trackClick by musicViewModel.selectedTrackEntity.collectAsState()
+
+    // 선택된 트랙의 trackid로 memoentity 불러오기
+    LaunchedEffect(trackClick) {
+        trackClick?.let { te ->
+            Log.d("te soo", "Track ID: ${te.trackId}")
+            musicViewModel.loadMemoForTrack_test(te.trackId)
+        }
+    }
+
+    //memoentity감지
+    val memoEntity by musicViewModel.memoContent.collectAsState()
+
     /** 클릭한 트랙 가져오기 */
     val clickedTrack by musicViewModel.selectedTrack
     Log.d("DetailPageScreen", "Clicked track: $clickedTrack")
@@ -52,7 +69,6 @@ fun DetailPageScreen(
 
     val scrollState = rememberScrollState() // 스크롤 상태 기억
 
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -60,6 +76,11 @@ fun DetailPageScreen(
             .padding(start = 8.dp, end = 8.dp)
     ) {
         Column {
+            Text(text = "test 중")
+            memoEntity ?.let { mmm ->
+                Text(text = "${mmm?.memoContent} \n ${mmm.trackId}")
+            } ?: Text(text = "no load trackid")
+            Text(text = "test 중")
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
