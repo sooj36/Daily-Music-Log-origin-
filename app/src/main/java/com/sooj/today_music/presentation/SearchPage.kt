@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -33,6 +34,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -58,10 +61,11 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
         Column {
             Spacer(modifier = Modifier.height(8.dp))
             IconButton(onClick = { navController.popBackStack() }) {
-                Image(imageVector = Icons.Default.LibraryMusic, contentDescription = "list")
+                Image(imageVector = Icons.Default.LibraryMusic, contentDescription = "list",
+                    Modifier.size(30.dp))
             }
             
-            Text(text = "s e a r c h page")
+            Text(text = "   s e a r c h p a g e", fontFamily = FontFamily(Font(R.font.opensans_semibold),))
             Spacer(modifier = Modifier.height(16.dp))
 
             Row(
@@ -88,7 +92,8 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                                 Text(
                                     text = "오늘의 노래를 검색하세요 ! (띄어쓰기 유의)",
                                     style = TextStyle(color = Color.Black),
-                                    fontWeight = FontWeight.ExtraLight
+                                    fontWeight = FontWeight.ExtraLight,
+                                    fontFamily = FontFamily(Font(R.font.sc_dream_4),)
                                 )
                             } else {
                             }
@@ -100,7 +105,8 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                 Spacer(modifier = Modifier.width(8.dp))
 
                 IconButton(onClick = { musicViewModel.getMusic_vm(text) }) {
-                    Image(imageVector = Icons.Default.Search, contentDescription = "search")
+                    Image(imageVector = Icons.Default.Search, contentDescription = "search",
+                        Modifier.size(35.dp))
                 }
             } // row
             LazyVerticalGrid(
@@ -148,13 +154,15 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                         Text(
                             text = track.name.toString(),
                             fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = FontFamily(Font(R.font.opensans_semibold),),
                         )
                         /** 아티스트명 */
                         Text(
                             text = track.artist.toString(),
                             fontSize = 16.sp,
-                            fontWeight = FontWeight.SemiBold
+                            fontWeight = FontWeight.SemiBold,
+                            fontFamily = FontFamily(Font(R.font.opensans_semibold),),
                         )
                     }
                 } // index

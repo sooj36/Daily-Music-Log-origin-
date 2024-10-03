@@ -16,8 +16,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArtTrack
+import androidx.compose.material.icons.filled.ContentCut
 import androidx.compose.material.icons.filled.LibraryMusic
 import androidx.compose.material.icons.filled.RestoreFromTrash
+import androidx.compose.material.icons.filled.SpeakerNotesOff
 import androidx.compose.material.icons.filled.StickyNote2
 import androidx.compose.material.icons.filled.TransferWithinAStation
 import androidx.compose.material3.Card
@@ -32,6 +34,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -39,6 +43,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.sooj.today_music.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -85,7 +90,7 @@ fun DetailPageScreen(
             ) {
 
                 IconButton(onClick = { navController.popBackStack() }) {
-                    Image(imageVector = Icons.Default.LibraryMusic, contentDescription = "NoteList")
+                    Image(imageVector = Icons.Default.LibraryMusic, contentDescription = "NoteList",Modifier.size(28.dp))
                 }
 
                 IconButton(onClick = {
@@ -94,7 +99,7 @@ fun DetailPageScreen(
                     navController.navigate("edit_detail_page")
 //                    }
                 }) {
-                    Image(imageVector = Icons.Default.StickyNote2, contentDescription = "edit")
+                    Image(imageVector = Icons.Default.StickyNote2, contentDescription = "edit", Modifier.size(28.dp))
                 }
 
                 /** 메모 삭제 */
@@ -102,7 +107,7 @@ fun DetailPageScreen(
 
                     memoViewModel.deleteMemo_vm(memoEntity?.trackId ?: return@IconButton)
                 }) {
-                    Image(imageVector = Icons.Default.TransferWithinAStation, contentDescription = "delete")
+                    Image(imageVector = Icons.Default.SpeakerNotesOff, contentDescription = "delete", Modifier.size(28.dp))
                 }
 
                 /** 트랙 삭제 */
@@ -111,7 +116,7 @@ fun DetailPageScreen(
 //                    musicViewModel.deleteSavedTrack(trackClick!!)
                     navController.popBackStack()
                 }) {
-                    Image(imageVector = Icons.Default.ArtTrack, contentDescription = "delete")
+                    Image(imageVector = Icons.Default.ContentCut, contentDescription = "delete",Modifier.size(28.dp))
                 }
             }
             Box(modifier = Modifier) {
@@ -148,6 +153,7 @@ fun DetailPageScreen(
                             .padding(top = 8.dp, bottom = 5.dp),
                         fontWeight = FontWeight.Medium,
                         textAlign = TextAlign.Center,
+                        fontFamily = FontFamily(Font(R.font.opensans_semibold),),
                         fontSize = 17.sp
                     )
 
@@ -157,6 +163,7 @@ fun DetailPageScreen(
                             .padding(top = 3.dp),
                         fontWeight = FontWeight.SemiBold,
                         textAlign = TextAlign.Center,
+                        fontFamily = FontFamily(Font(R.font.opensans_semibold),),
                         fontSize = 23.sp
                     )
                     Card(
@@ -171,8 +178,12 @@ fun DetailPageScreen(
                                 .padding(12.dp),
                             horizontalAlignment = Alignment.CenterHorizontally) {
                             memoEntity?.let { mmm ->
-                                Text(text = "${mmm?.memoContent} \n ${mmm.trackId}")
-                            } ?: Text(text = "메 모 삭 제 됌")
+                                Text(text = "${mmm?.memoContent}",
+                                    fontFamily = FontFamily(Font(R.font.sc_dream_4),),
+                                    fontSize = 15.sp)
+                            } ?: Text(text = "새로 메모 추가하기",
+                                fontFamily = FontFamily(Font(R.font.sc_dream_2),),
+                                fontSize = 17.sp)
                         }
                     } // c
                 } // box

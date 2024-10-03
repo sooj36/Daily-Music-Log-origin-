@@ -77,12 +77,7 @@ fun SelectPageScreen(navController: NavController, musicViewModel: MusicViewMode
             }
 
             Spacer(modifier = Modifier.height(50.dp))
-            Text(
-                text = "<><><><><><><><><><><><><><><><><>",
-                fontSize = 19.sp,
-                fontWeight = FontWeight.ExtraBold,
-                color = Color.Black
-            )
+
 
             LazyVerticalGrid(
                 columns = GridCells.Fixed(1),
@@ -125,11 +120,6 @@ fun SelectPageScreen(navController: NavController, musicViewModel: MusicViewMode
                                 fontWeight = FontWeight.Medium,
                                 color = Color.Black
                             )
-                            Text(
-                                text = "<><><><><><><><><><><><><><><>",
-                                fontSize = 19.sp,
-                                fontWeight = FontWeight.ExtraBold,
-                                color = Color.Black)
                         }
                     }
                 }
