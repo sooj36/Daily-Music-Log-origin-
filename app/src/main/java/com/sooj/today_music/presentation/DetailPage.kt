@@ -15,6 +15,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArtTrack
 import androidx.compose.material.icons.filled.LibraryMusic
 import androidx.compose.material.icons.filled.RestoreFromTrash
 import androidx.compose.material.icons.filled.StickyNote2
@@ -92,16 +93,25 @@ fun DetailPageScreen(
 //                    if (navController.currentDestination?.route != "edit_detail_page") {
                     navController.navigate("edit_detail_page")
 //                    }
-
                 }) {
                     Image(imageVector = Icons.Default.StickyNote2, contentDescription = "edit")
                 }
+
+                /** 메모 삭제 */
                 IconButton(onClick = {
-//삭제
+
                     memoViewModel.deleteMemo_vm(memoEntity?.trackId ?: return@IconButton)
-                    navController.popBackStack()
                 }) {
                     Image(imageVector = Icons.Default.TransferWithinAStation, contentDescription = "delete")
+                }
+
+                /** 트랙 삭제 */
+                IconButton(onClick = {
+                    trackClick?.let { musicViewModel.deleteSavedTrack(it) }
+//                    musicViewModel.deleteSavedTrack(trackClick!!)
+                    navController.popBackStack()
+                }) {
+                    Image(imageVector = Icons.Default.ArtTrack, contentDescription = "delete")
                 }
             }
             Box(modifier = Modifier) {
@@ -155,12 +165,14 @@ fun DetailPageScreen(
                             .background(Color.Transparent)
                             .padding(20.dp)
                     ) {
-                        Column(Modifier.fillMaxWidth()
-                            .padding(12.dp),
+                        Column(
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(12.dp),
                             horizontalAlignment = Alignment.CenterHorizontally) {
                             memoEntity?.let { mmm ->
                                 Text(text = "${mmm?.memoContent} \n ${mmm.trackId}")
-                            } ?: Text(text = "no load trackid")
+                            } ?: Text(text = "메 모 삭 제 됌")
                         }
                     } // c
                 } // box

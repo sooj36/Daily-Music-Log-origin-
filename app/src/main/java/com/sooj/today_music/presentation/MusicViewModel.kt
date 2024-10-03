@@ -183,7 +183,15 @@ class MusicViewModel @Inject constructor(
     //////////////////////
 
     // 트랙 삭제
-    fun deleteSavedTrack() {
+    fun deleteSavedTrack(trackEntity: TrackEntity) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                repository.deleteTrack_impl(trackEntity)
+
+            } catch (e : Exception) {
+                Log.e("delete_tr", "${e.message}")
+            }
+        }
 
     }
 
