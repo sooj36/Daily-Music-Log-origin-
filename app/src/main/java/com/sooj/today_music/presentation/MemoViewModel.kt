@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.sooj.today_music.domain.MemoRepository
 import com.sooj.today_music.room.MemoDao
 import com.sooj.today_music.room.MemoEntity
+import com.sooj.today_music.room.TrackEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,35 +23,17 @@ class MemoViewModel @Inject constructor(
 ) : ViewModel() {
 
     // 각 trackID별로 메모 리스트 관리 (MAP)
-    private val _memoMap = mutableStateOf<Map<Int, List<MemoEntity>>>(emptyMap())
-    val memoMap: State<Map<Int, List<MemoEntity>>> get() = _memoMap
+    private val _memoMap = MutableStateFlow<MemoEntity?>(null)
+    val memoMap: StateFlow<MemoEntity?> get() = _memoMap
 
 
-    // 특정 트랙의 메모를 Flow로 가져오기
-//    fun loadMemoForTrack(trackId: Int) {
-//        viewModelScope.launch {
-//            memoRepository.getMemo_impl(trackId).collect() { memoEntity ->
-//                _memoContent.value = memoEntity // stateflow 업데이트
-//            }
-//        }
-//    }
-
-
-
-    // 메모 DB 저장g
-    fun saveMemo_vm(trackId: Int, memoContent: String) {
+    fun deleteMemo_vm(trackId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val memoEntity = MemoEntity(
-                    trackId = trackId, memoContent = memoContent
-                )
-//                memoDao.insertMemo(memoEntity) // 이건 impl에서 하는 일
-                // 메모 저장
-                memoRepository.saveMemo_impl(memoEntity)
-
+              memoRepository.deleteMemo_impl(trackId)
 
             } catch (e: Exception) {
-                Log.e("saveMemo_vm", "Error saving memo: ${e.message}")
+                Log.e("delete mm", "fail to mm delete ${e.message}")
             }
         }
     }

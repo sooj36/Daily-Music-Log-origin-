@@ -63,8 +63,7 @@ fun EditDetailPageScreen(navController: NavController, musicViewModel: MusicView
                 IconButton(onClick = {
                     navController.navigate("detail_page")
                     clickedTrack?.let { id ->
-                        memoViewModel.saveMemo_vm(id.hashCode(), "")
-                        Log.d("sjjjjjj", "HashCode: ${id.hashCode()}")
+                   //
                     }
                 }) {
                     Image(imageVector = Icons.Default.SaveAlt, contentDescription = "save")

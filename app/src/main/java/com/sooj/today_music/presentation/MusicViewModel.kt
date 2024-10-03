@@ -182,20 +182,6 @@ class MusicViewModel @Inject constructor(
     }
     //////////////////////
 
-    fun loadMmById(trackId: Int) {
-        try {
-            viewModelScope.launch(Dispatchers.IO) {
-                memoRepository.getMemo_impl(trackId).collect() {mm ->
-
-                }
-            }
-
-
-        } catch (e : Exception) {
-            Log.e("loadmmByID", "${e.message}")
-        }
-    }
-
     // 트랙 삭제
     fun deleteSavedTrack() {
 

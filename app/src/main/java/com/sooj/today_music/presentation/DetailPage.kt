@@ -16,7 +16,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LibraryMusic
+import androidx.compose.material.icons.filled.RestoreFromTrash
 import androidx.compose.material.icons.filled.StickyNote2
+import androidx.compose.material.icons.filled.TransferWithinAStation
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
@@ -93,6 +95,13 @@ fun DetailPageScreen(
 
                 }) {
                     Image(imageVector = Icons.Default.StickyNote2, contentDescription = "edit")
+                }
+                IconButton(onClick = {
+//삭제
+                    memoViewModel.deleteMemo_vm(memoEntity?.trackId ?: return@IconButton)
+                    navController.popBackStack()
+                }) {
+                    Image(imageVector = Icons.Default.TransferWithinAStation, contentDescription = "delete")
                 }
             }
             Box(modifier = Modifier) {
