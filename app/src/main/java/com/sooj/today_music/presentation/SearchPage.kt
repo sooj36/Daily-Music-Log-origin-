@@ -40,6 +40,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -56,7 +57,6 @@ import com.sooj.today_music.R
 fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewModel) {
     val searchList by musicViewModel.searchList
 
-    /** val infoList by musicViewModel.infoList */
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -69,7 +69,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                     Modifier.size(30.dp))
             }
             
-            Text(text = "   s e a r c h p a g e", fontFamily = FontFamily(Font(R.font.opensans_semibold),))
+            Text(text = "  << s e a r c h p a g e", fontFamily = FontFamily(Font(R.font.opensans_semibold),))
             Spacer(modifier = Modifier.height(16.dp))
 
             Row(
@@ -114,17 +114,16 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                 }
             } // row
             LazyVerticalGrid(
-                columns = GridCells.Fixed(3),
+                columns = GridCells.Fixed(2),
                 modifier = Modifier
                     .fillMaxSize()
                     .background(Color.LightGray),
             ) {
                 items(searchList.size) { index ->
                     val track = searchList[index]
-
                     Column(
                         modifier = Modifier
-                            .padding(5.dp)
+                            .padding(7.dp)
                             .fillMaxWidth()
                             .clickable {
                                 // 다른 페이지로 이동
@@ -136,14 +135,11 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                                 Log.d(
                                     "1 Storing selected tracks in ViewModel",
                                     "saved ${musicViewModel.selectedTrack.value} &"
-//                                            " ${musicViewModel.saveSelectedTrack_vm().toString()}"
                                 )
-
                             },
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-
 
                         AsyncImage(
                             model = ImageRequest.Builder(LocalContext.current)
@@ -159,15 +155,18 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                         Text(
                             text = track.name.toString(),
                             fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold,
+                            fontWeight = FontWeight.ExtraBold,
                             fontFamily = FontFamily(Font(R.font.opensans_semibold),),
+                            modifier = Modifier.align(Alignment.CenterHorizontally) // 텍스트 중앙 정렬
                         )
+                        Spacer(modifier = Modifier.height(2.dp))
                         /** 아티스트명 */
                         Text(
                             text = track.artist.toString(),
                             fontSize = 16.sp,
-                            fontWeight = FontWeight.SemiBold,
+                            fontWeight = FontWeight.Medium,
                             fontFamily = FontFamily(Font(R.font.opensans_semibold),),
+                            modifier = Modifier.align(Alignment.CenterHorizontally) // 텍스트 중앙 정렬
                         )
                     }
                 } // index
@@ -175,40 +174,6 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
         }
     }
 }
-
-//
-/////// layer 나눌 부분
-//suspend fun getApiMethod(trackName: String, artistName: String): MusicInfoModel_dc? {
-//    return withContext(Dispatchers.IO) {
-//        try {
-//            /** API URL 생성 */
-//            val url = "http://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${BuildConfig.LAST_FM_API_KEY}&artist=${artistName}&track=${trackName}&format=json"
-//
-//            Log.d("ImageInfo", "trackName: $trackName, artistName: $artistName")
-//
-//            val client = OkHttpClient()
-//            val gson = Gson()
-//
-//            /** OKHTTP 이용한 API 요청 */
-//            val request = Request.Builder()
-//                .url(url)
-//                .build()
-//
-//            /** API 호출 및 응답 처리*/
-//            client.newCall(request).execute().use { response ->
-//                if (!response.isSuccessful) {
-//                    return@withContext null
-//                }
-//                val responseBody = response.body?.string()
-//                return@withContext gson.fromJson(responseBody, MusicInfoModel_dc::class.java)
-//            }
-//
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//            return@withContext null
-//        }
-//    }
-//} // getApiMethod
 
 @Preview
 @Composable

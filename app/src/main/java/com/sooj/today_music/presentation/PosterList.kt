@@ -127,7 +127,7 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
                 Modifier
                     .fillMaxWidth()
                     .padding(5.dp)
-                    .border(1.dp, Color.Gray, RoundedCornerShape(15.dp)),
+                    .border(2.dp, Color.LightGray, RoundedCornerShape(10.dp)),
                 colors = CardDefaults.cardColors(containerColor = Color(0xFFFFC1CC)) // 배경색 설정
             ) {
                 Column(
@@ -146,7 +146,7 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
                     AsyncImage(model = trackEntity.imageUrl, contentDescription = "img")
                     Spacer(modifier = Modifier.height(3.dp))
                     trackEntity.trackId?.let { trackId ->
-                        Text(text = "Number : ${trackId.toString()}", fontFamily = FontFamily(Font(R.font.opensans_semibold),)) }
+                        Text(text = "trackId {${trackId}}", fontFamily = FontFamily(Font(R.font.opensans_semibold),)) }
                     Spacer(modifier = Modifier.height(3.dp))
                     trackEntity.trackName?.let { Text(text = it, fontFamily = FontFamily(Font(R.font.opensans_semibold),), fontSize = 20.sp) }
                     Spacer(modifier = Modifier.height(3.dp))
@@ -155,7 +155,7 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
                     Spacer(modifier = Modifier.height(3.dp))
                     // 저장 시간을 date로 변환하여 표시
                     val saveAt = trackEntity.saveAt
-                    val dateFormat = SimpleDateFormat("yy년 MM월 dd일 HH:mm", Locale.getDefault())
+                    val dateFormat = SimpleDateFormat("yy년 MM월 dd일 \n HH:mm", Locale.getDefault())
                     val formattedDate = dateFormat.format(Date(saveAt))
                     Text(text = "${formattedDate}", fontFamily = FontFamily(Font(R.font.opensans_semibold),))
                 }

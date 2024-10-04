@@ -60,7 +60,6 @@ class MusicViewModel @Inject constructor(
     private var _saveResult = MutableStateFlow<Boolean?>(null)
     val saveResult : StateFlow<Boolean?> get() = _saveResult
 
-
     /** track을 기반으로 음악 정보를 검색하고, 그 결과를 viewmodel 상태로 저장 */
     fun getMusic_vm(track: String) {
         viewModelScope.launch(Dispatchers.IO) {
