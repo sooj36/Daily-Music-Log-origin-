@@ -24,6 +24,8 @@ import androidx.compose.material.icons.filled.LibraryMusic
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.LibraryMusic
 import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material.icons.outlined.SettingsBackupRestore
+import androidx.compose.material.icons.outlined.TipsAndUpdates
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -141,7 +143,8 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        /** 앨범 이미지 <기존>*/
+
+
                         AsyncImage(
                             model = ImageRequest.Builder(LocalContext.current)
                                 .data(

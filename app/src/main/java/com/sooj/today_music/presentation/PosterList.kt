@@ -55,14 +55,6 @@ import java.util.Locale
 
 @Composable
 fun PosterListScreen(navController: NavController, musicViewModel: MusicViewModel) {
-    val selectedTrack by musicViewModel.selectedTrack.collectAsState()
-    val loadTrackID by musicViewModel.getAllSavedTracks
-
-    val context = LocalContext.current // localcontext로 컨텍스트 가져오기
-
-    /** 1) 선택된 트랙 가져오기 */
-//    val getImageUrl by musicViewModel.getAlbumImage.collectAsState()
-
     // 저장된 트랙 개수를 불러오기
     LaunchedEffect(Unit) {
         musicViewModel.getAllTracks_vm()

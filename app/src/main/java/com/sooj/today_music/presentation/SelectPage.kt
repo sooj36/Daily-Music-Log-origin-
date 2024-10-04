@@ -3,7 +3,6 @@ package com.sooj.today_music.presentation
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,14 +18,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.SettingsBackupRestore
-import androidx.compose.material.icons.filled.StickyNote2
-import androidx.compose.material.icons.filled.SystemUpdateAlt
 import androidx.compose.material.icons.outlined.SettingsBackupRestore
 import androidx.compose.material.icons.outlined.SystemUpdateAlt
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -51,7 +46,6 @@ fun SelectPageScreen(navController: NavController, musicViewModel: MusicViewMode
     val context = LocalContext.current // localcontext로 context 가져오기
     val saveResult = musicViewModel.saveResult.collectAsState()
 
-
     /** 1. 선택한 트랙 가져오기 */
     val getImageUrl by musicViewModel.getAlbumImage.collectAsState()
     val imgURL = remember { getImageUrl }
@@ -62,7 +56,6 @@ fun SelectPageScreen(navController: NavController, musicViewModel: MusicViewMode
             .fillMaxSize()
             .padding(25.dp)
     ) {
-
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -79,20 +72,15 @@ fun SelectPageScreen(navController: NavController, musicViewModel: MusicViewMode
                     contentDescription = "getTrackData",
                     modifier = Modifier.clickable {
                         musicViewModel.saveSelectedTrack_vm()
-                        saveResult?.value.let { success ->
+                        saveResult.value.let { success ->
                             try {
                                 if (success == true) {
-                                    Toast.makeText(context, "DB로 저장 성공", Toast.LENGTH_LONG).show()
+                                    Toast.makeText(context, "Track 저장 완", Toast.LENGTH_LONG).show()
                                 } else {
-                                    Toast.makeText(
-                                        context,
-                                        "DB 저장 실패 ${error("")}",
-                                        Toast.LENGTH_LONG
-                                    ).show()
+                                    Toast.makeText(context, "DB 저장 실패 ${error("")}", Toast.LENGTH_LONG).show()
                                 }
                             } catch (e: Exception) {
-                                Toast.makeText(context, "-> ${e.message} <-", Toast.LENGTH_LONG)
-                                    .show()
+                                Toast.makeText(context, "-> ${e.message} <-", Toast.LENGTH_LONG).show()
                                 Log.e("@save result", "save result ${e.message}")
                             }
                         }
@@ -102,7 +90,6 @@ fun SelectPageScreen(navController: NavController, musicViewModel: MusicViewMode
             }
 
             Spacer(modifier = Modifier.height(50.dp))
-
 
             LazyVerticalGrid(
                 columns = GridCells.Fixed(1),
@@ -134,14 +121,14 @@ fun SelectPageScreen(navController: NavController, musicViewModel: MusicViewMode
                             }
                             Spacer(modifier = Modifier.height(15.dp))
                             Text(
-                                text = trackInfo?.artist ?: "아티스트",
+                                text = trackInfo.artist ?: "아티스트",
                                 fontSize = 25.sp,
                                 fontWeight = FontWeight.Medium,
                                 color = Color.Black
                             )
 
                             Text(
-                                text = trackInfo?.name ?: "트랙",
+                                text = trackInfo.name ?: "트랙",
                                 fontSize = 30.sp,
                                 fontWeight = FontWeight.Medium,
                                 color = Color.Black

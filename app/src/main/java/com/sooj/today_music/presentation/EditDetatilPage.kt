@@ -47,8 +47,6 @@ fun EditDetailPageScreen(
     memoViewModel: MemoViewModel
 ) {
     val clickedTrack by musicViewModel.selectedTrack.collectAsState()
-    // stateflow는 by  X X X
-//    val getImageUrl = musicViewModel.getAlbumImage
     Log.d("get track for edit", "info < ${clickedTrack} >")
     val scrollState = rememberScrollState()
 

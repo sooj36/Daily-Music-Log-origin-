@@ -58,7 +58,7 @@ fun DetailPageScreen(
     musicViewModel: MusicViewModel = hiltViewModel(),
     memoViewModel: MemoViewModel = hiltViewModel(),
 ) {
-    // test
+    //
     val trackClick by musicViewModel.selectedTrackEntity.collectAsState()
 
     // 선택된 트랙의 trackid로 memoentity 불러오기
@@ -74,11 +74,6 @@ fun DetailPageScreen(
 
     /** 클릭한 트랙 가져오기 */
     val clickedTrack by musicViewModel.selectedTrack.collectAsState()
-    Log.d("DetailPageScreen", "Clicked track: $clickedTrack")
-
-//    val getImageUrl by musicViewModel.getAlbumImage
-//    val getImageUrl = musicViewModel.getAlbumImage.collectAsState()
-//    val imgUrl = remember { getImageUrl }
 
     val scrollState = rememberScrollState() // 스크롤 상태 기억
 
@@ -108,7 +103,6 @@ fun DetailPageScreen(
                         Image(imageVector = Icons.Outlined.SpeakerNotesOff, contentDescription = "delete", Modifier.size(28.dp))
                     }
                 }
-
 
                 /** 트랙 삭제 */
                 IconButton(onClick = {

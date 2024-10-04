@@ -36,10 +36,6 @@ class MusicViewModel @Inject constructor(
     // 검색
     private val _searchList = mutableStateOf<List<Track>>(emptyList()) // 여러개의 객체 담고 있어서 List
     val searchList: State<List<Track>> get() = _searchList
-//
-//    // 선택
-//    private val _selectedTrack = mutableStateOf<Track?>(null)
-//    val selectedTrack: State<Track?> get() = _selectedTrack
 
     // 선택 -> stateflow
     private val _selectedTrack = MutableStateFlow<Track?>(null)
@@ -79,7 +75,6 @@ class MusicViewModel @Inject constructor(
             }
             Log.d("sj_vm(en) GETMUSIC", "Running on thread: ${Thread.currentThread().name}")
         }
-        // getLoadAlbumPoster()
     }
 
     // 선택한 트랙

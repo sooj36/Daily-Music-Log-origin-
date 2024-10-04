@@ -19,15 +19,13 @@ import javax.inject.Inject
 @HiltViewModel
 class MemoViewModel @Inject constructor(
     private val memoRepository: MemoRepository,
-    private val memoDao: MemoDao
 ) : ViewModel() {
 
     // 각 trackID별로 메모 리스트 관리 (MAP)
     private val _memoMap = MutableStateFlow<MemoEntity?>(null)
     val memoMap: StateFlow<MemoEntity?> get() = _memoMap
 
-
-    fun deleteMemo_vm(trackId: Int) {
+    fun deleteMemo_vm(trackId:Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
               memoRepository.deleteMemo_impl(trackId)
