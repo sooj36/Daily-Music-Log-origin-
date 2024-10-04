@@ -76,8 +76,9 @@ fun DetailPageScreen(
     val clickedTrack by musicViewModel.selectedTrack
     Log.d("DetailPageScreen", "Clicked track: $clickedTrack")
 
-    val getImageUrl by musicViewModel.getAlbumImage
-    val imgUrl = remember { getImageUrl }
+//    val getImageUrl by musicViewModel.getAlbumImage
+//    val getImageUrl = musicViewModel.getAlbumImage.collectAsState()
+//    val imgUrl = remember { getImageUrl }
 
     val scrollState = rememberScrollState() // 스크롤 상태 기억
 

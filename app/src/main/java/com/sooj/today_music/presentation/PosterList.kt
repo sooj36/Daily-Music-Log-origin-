@@ -30,6 +30,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -60,9 +61,7 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
     val context = LocalContext.current // localcontext로 컨텍스트 가져오기
 
     /** 1) 선택된 트랙 가져오기 */
-    val getImageUrl by musicViewModel.getAlbumImage
-    val imgUrl = remember { getImageUrl }
-    Log.d("Compose Recomposition", "PosterListScreen recomposed")
+//    val getImageUrl by musicViewModel.getAlbumImage.collectAsState()
 
     // 저장된 트랙 개수를 불러오기
     LaunchedEffect(Unit) {

@@ -41,15 +41,11 @@ class MusicViewModel @Inject constructor(
     private val _selectedTrack = mutableStateOf<Track?>(null)
     val selectedTrack: State<Track?> get() = _selectedTrack
 
-    // 선택 트랙에서 Artist, Track명으로 get.Info 가져오기
-    private val _getAlbumImage = mutableStateOf<String?>(null)
-    val getAlbumImage: State<String?> get() = _getAlbumImage
+    /** 선택 트랙에서 Artist, Track명으로 get.Info 가져오기 -> StateFlow 로 변경 */
+    private val _getAlbumImage = MutableStateFlow<String?>(null)
+    val getAlbumImage: StateFlow<String?> get() = _getAlbumImage
 
-    // 선택 트랙에서 Artist, Track명으로 get.Info 가져오기 -> StateFlow 로 변경
-    private val _getAlbumImage2 = MutableStateFlow<String?>(null)
-    val getAlbumImage2: StateFlow<String?> get() = _getAlbumImage2
-
-    // 모든 트랙 데이터 상태 관리
+    /** 모든 트랙 데이터 상태 관리 */
     private val _getAllSavedTracks = mutableStateOf<List<TrackEntity>>(emptyList())
     val getAllSavedTracks: State<List<TrackEntity>> get() = _getAllSavedTracks
 
@@ -95,7 +91,6 @@ class MusicViewModel @Inject constructor(
             Image2(url = trackEntity.imageUrl, size = "extralarge")
         )
         // 변환된 이미지 리스트를 로그로 출력
-        Log.d("imglist@@@@@", "Image list: $imgList")
         // trackentity -> track 변환
         val convertTrack = Track(
             name = trackEntity.trackName,

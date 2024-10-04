@@ -53,7 +53,8 @@ fun SelectPageScreen(navController: NavController, musicViewModel: MusicViewMode
 
 
     /** 1. 선택한 트랙 가져오기 */
-    val getImageUrl by musicViewModel.getAlbumImage
+//    val getImageUrl by musicViewModel.getAlbumImage
+    val getImageUrl by musicViewModel.getAlbumImage.collectAsState()
     val imgURL = remember { getImageUrl }
 
     /** 2. 앨범 포스터 가져오기 */
@@ -68,28 +69,37 @@ fun SelectPageScreen(navController: NavController, musicViewModel: MusicViewMode
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            Row(Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween) {
+            Row(
+                Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
                 Image(imageVector = Icons.Outlined.SettingsBackupRestore,
                     contentDescription = "edit",
                     Modifier.clickable { navController.popBackStack() })
 
                 Image(imageVector = Icons.Outlined.SystemUpdateAlt,
                     contentDescription = "getTrackData",
-                    modifier = Modifier.clickable { musicViewModel.saveSelectedTrack_vm()
+                    modifier = Modifier.clickable {
+                        musicViewModel.saveSelectedTrack_vm()
                         saveResult?.value.let { success ->
                             try {
                                 if (success == true) {
                                     Toast.makeText(context, "DB로 저장 성공", Toast.LENGTH_LONG).show()
                                 } else {
-                                    Toast.makeText(context, "DB 저장 실패 ${error("")}", Toast.LENGTH_LONG).show()
+                                    Toast.makeText(
+                                        context,
+                                        "DB 저장 실패 ${error("")}",
+                                        Toast.LENGTH_LONG
+                                    ).show()
                                 }
                             } catch (e: Exception) {
-                                Toast.makeText(context, "-> ${e.message} <-", Toast.LENGTH_LONG).show()
+                                Toast.makeText(context, "-> ${e.message} <-", Toast.LENGTH_LONG)
+                                    .show()
                                 Log.e("@save result", "save result ${e.message}")
                             }
                         }
-                    navController.navigate("poster_list")}
+                        navController.navigate("poster_list")
+                    }
                 )
             }
 
@@ -113,10 +123,12 @@ fun SelectPageScreen(navController: NavController, musicViewModel: MusicViewMode
                         {
                             if (imgURL != null) {
                                 Log.d("sj--imgURL", "image URL: ${imgURL}")
-                                AsyncImage(model = imgURL,
+                                AsyncImage(
+                                    model = imgURL,
                                     contentDescription = "poster",
                                     modifier = Modifier
-                                        .size(200.dp))
+                                        .size(200.dp)
+                                )
                             } else {
                                 Image(
                                     painterResource(id = R.drawable.img),
