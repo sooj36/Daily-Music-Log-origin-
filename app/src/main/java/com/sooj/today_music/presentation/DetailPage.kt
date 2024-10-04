@@ -73,7 +73,7 @@ fun DetailPageScreen(
     val memoEntity by musicViewModel.memoContent.collectAsState()
 
     /** 클릭한 트랙 가져오기 */
-    val clickedTrack by musicViewModel.selectedTrack
+    val clickedTrack by musicViewModel.selectedTrack.collectAsState()
     Log.d("DetailPageScreen", "Clicked track: $clickedTrack")
 
 //    val getImageUrl by musicViewModel.getAlbumImage

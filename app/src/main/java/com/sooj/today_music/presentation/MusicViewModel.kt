@@ -36,10 +36,14 @@ class MusicViewModel @Inject constructor(
     // 검색
     private val _searchList = mutableStateOf<List<Track>>(emptyList()) // 여러개의 객체 담고 있어서 List
     val searchList: State<List<Track>> get() = _searchList
+//
+//    // 선택
+//    private val _selectedTrack = mutableStateOf<Track?>(null)
+//    val selectedTrack: State<Track?> get() = _selectedTrack
 
-    // 선택
-    private val _selectedTrack = mutableStateOf<Track?>(null)
-    val selectedTrack: State<Track?> get() = _selectedTrack
+    // 선택 -> stateflow
+    private val _selectedTrack = MutableStateFlow<Track?>(null)
+    val selectedTrack: StateFlow<Track?> get() = _selectedTrack
 
     /** 선택 트랙에서 Artist, Track명으로 get.Info 가져오기 -> StateFlow 로 변경 */
     private val _getAlbumImage = MutableStateFlow<String?>(null)

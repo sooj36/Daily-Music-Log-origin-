@@ -25,6 +25,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -45,7 +46,7 @@ fun EditDetailPageScreen(
     musicViewModel: MusicViewModel,
     memoViewModel: MemoViewModel
 ) {
-    val clickedTrack by musicViewModel.selectedTrack
+    val clickedTrack by musicViewModel.selectedTrack.collectAsState()
     // stateflow는 by  X X X
 //    val getImageUrl = musicViewModel.getAlbumImage
     Log.d("get track for edit", "info < ${clickedTrack} >")

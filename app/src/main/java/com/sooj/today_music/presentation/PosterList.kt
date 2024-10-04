@@ -55,7 +55,7 @@ import java.util.Locale
 
 @Composable
 fun PosterListScreen(navController: NavController, musicViewModel: MusicViewModel) {
-    val selectedTrack by musicViewModel.selectedTrack
+    val selectedTrack by musicViewModel.selectedTrack.collectAsState()
     val loadTrackID by musicViewModel.getAllSavedTracks
 
     val context = LocalContext.current // localcontext로 컨텍스트 가져오기

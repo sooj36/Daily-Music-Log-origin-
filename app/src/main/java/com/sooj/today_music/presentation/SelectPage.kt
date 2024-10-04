@@ -47,18 +47,16 @@ import com.sooj.today_music.R
 
 @Composable
 fun SelectPageScreen(navController: NavController, musicViewModel: MusicViewModel) {
-    val selectedTrack by musicViewModel.selectedTrack
+    val selectedTrack by musicViewModel.selectedTrack.collectAsState()
     val context = LocalContext.current // localcontext로 context 가져오기
     val saveResult = musicViewModel.saveResult.collectAsState()
 
 
     /** 1. 선택한 트랙 가져오기 */
-//    val getImageUrl by musicViewModel.getAlbumImage
     val getImageUrl by musicViewModel.getAlbumImage.collectAsState()
     val imgURL = remember { getImageUrl }
 
     /** 2. 앨범 포스터 가져오기 */
-    val loadTracks by musicViewModel.getAllSavedTracks
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -117,7 +115,6 @@ fun SelectPageScreen(navController: NavController, musicViewModel: MusicViewMode
                             modifier = Modifier
                                 .padding(10.dp)
                                 .fillMaxWidth(),
-//                                .clickable { navController.navigate("detail_page") },
                             horizontalAlignment = Alignment.CenterHorizontally
                         )
                         {
@@ -142,7 +139,6 @@ fun SelectPageScreen(navController: NavController, musicViewModel: MusicViewMode
                                 fontWeight = FontWeight.Medium,
                                 color = Color.Black
                             )
-
 
                             Text(
                                 text = trackInfo?.name ?: "트랙",
