@@ -55,6 +55,10 @@ class MusicViewModel @Inject constructor(
     private val _memoContent = MutableStateFlow<MemoEntity?>(null)
     val memoContent: StateFlow<MemoEntity?> get() = _memoContent
 
+    // db저장 성공 or 실패
+    private var _saveResult = MutableStateFlow<Boolean?>(null)
+    val saveResult : StateFlow<Boolean?> get() = _saveResult
+
 
     /** track을 기반으로 음악 정보를 검색하고, 그 결과를 viewmodel 상태로 저장 */
     fun getMusic_vm(track: String) {
@@ -157,8 +161,10 @@ class MusicViewModel @Inject constructor(
                 )
                 repository.saveSelectedTrack_impl(trackEntity, memoEntity) // db저장 코드
                 Log.d("sj--db save", "track is ${trackEntity} gut")
+                _saveResult.value = true
             } catch (e: Exception) {
                 Log.e("sj--db error", "track is ${e.message} error")
+                _saveResult.value = false
             }
         }
     }
@@ -181,6 +187,8 @@ class MusicViewModel @Inject constructor(
         getMmUseID_vm(trackEntity.trackId) // 자동 생성된 trackId로 MemoEntity 조회
     }
     //////////////////////
+
+
 
     // 트랙 삭제
     fun deleteSavedTrack(trackEntity: TrackEntity) {

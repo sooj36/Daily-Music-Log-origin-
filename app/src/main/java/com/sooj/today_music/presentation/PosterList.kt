@@ -89,21 +89,24 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.End
             ) {
-                IconButton(onClick = { navController.navigate("write_post") }) {
-                    Image(
-                        imageVector = Icons.Default.MusicVideo,
-                        contentDescription = "posting",
-                        Modifier.size(45.dp)
-                    )
+//                IconButton(onClick = { navController.navigate("write_post") }) {
+//                    Image(
+//                        imageVector = Icons.Default.MusicVideo,
+//                        contentDescription = "posting",
+//                        Modifier.size(45.dp)
+//                    )
+//                }
 
-                }
                 Text(
                     text = "My Daliy MUSIC Record <3",
                     fontFamily = FontFamily(Font(R.font.opensans_semibold),),
                     fontStyle = FontStyle.Italic,
-                    fontSize = 20.sp
+                    fontSize = 21.sp,
+                    modifier = Modifier.clickable {
+                        navController.navigate("write_post")
+                    }
                 )
 
 
@@ -153,7 +156,7 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
                     AsyncImage(model = trackEntity.imageUrl, contentDescription = "img")
                     Spacer(modifier = Modifier.height(3.dp))
                     trackEntity.trackId?.let { trackId ->
-                        Text(text = "NB : ${trackId.toString()}", fontFamily = FontFamily(Font(R.font.opensans_semibold),)) }
+                        Text(text = "Number : ${trackId.toString()}", fontFamily = FontFamily(Font(R.font.opensans_semibold),)) }
                     Spacer(modifier = Modifier.height(3.dp))
                     trackEntity.trackName?.let { Text(text = it, fontFamily = FontFamily(Font(R.font.opensans_semibold),), fontSize = 20.sp) }
                     Spacer(modifier = Modifier.height(3.dp))

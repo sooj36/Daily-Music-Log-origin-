@@ -24,6 +24,8 @@ import androidx.compose.material.icons.filled.StickyNote2
 import androidx.compose.material.icons.filled.SystemUpdateAlt
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -45,6 +47,8 @@ import com.sooj.today_music.R
 fun SelectPageScreen(navController: NavController, musicViewModel: MusicViewModel) {
     val selectedTrack by musicViewModel.selectedTrack
     val context = LocalContext.current // localcontext로 context 가져오기
+    val saveResult = musicViewModel.saveResult.collectAsState()
+
 
     /** 1. 선택한 트랙 가져오기 */
     val getImageUrl by musicViewModel.getAlbumImage
@@ -71,7 +75,18 @@ fun SelectPageScreen(navController: NavController, musicViewModel: MusicViewMode
                 Image(imageVector = Icons.Default.SystemUpdateAlt,
                     contentDescription = "getTrackData",
                     modifier = Modifier.clickable { musicViewModel.saveSelectedTrack_vm()
-                        Toast.makeText(context, "DB로 저장", Toast.LENGTH_LONG).show()
+                        saveResult?.value.let { success ->
+                            try {
+                                if (success == true) {
+                                    Toast.makeText(context, "DB로 저장 성공", Toast.LENGTH_LONG).show()
+                                } else {
+                                    Toast.makeText(context, "DB 저장 실패 ${error("")}", Toast.LENGTH_LONG).show()
+                                }
+                            } catch (e: Exception) {
+                                Toast.makeText(context, "-> ${e.message} <-", Toast.LENGTH_LONG).show()
+                                Log.e("@save result", "save result ${e.message}")
+                            }
+                        }
                     navController.navigate("poster_list")}
                 )
             }

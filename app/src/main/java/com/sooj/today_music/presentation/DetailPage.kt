@@ -3,6 +3,7 @@ package com.sooj.today_music.presentation
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,6 +35,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -93,22 +95,16 @@ fun DetailPageScreen(
                     Image(imageVector = Icons.Default.LibraryMusic, contentDescription = "NoteList",Modifier.size(28.dp))
                 }
 
-                IconButton(onClick = {
-//                    // 이미 동일한 페이지에 있을 때 다시 네비게이션 되지 않게
-//                    if (navController.currentDestination?.route != "edit_detail_page") {
-                    navController.navigate("edit_detail_page")
-//                    }
-                }) {
-                    Image(imageVector = Icons.Default.StickyNote2, contentDescription = "edit", Modifier.size(28.dp))
+                if (memoEntity != null) {
+                    /** 메모 삭제 */
+                    IconButton(onClick = {
+
+                        memoViewModel.deleteMemo_vm(memoEntity?.trackId ?: return@IconButton)
+                    }) {
+                        Image(imageVector = Icons.Default.SpeakerNotesOff, contentDescription = "delete", Modifier.size(28.dp))
+                    }
                 }
 
-                /** 메모 삭제 */
-                IconButton(onClick = {
-
-                    memoViewModel.deleteMemo_vm(memoEntity?.trackId ?: return@IconButton)
-                }) {
-                    Image(imageVector = Icons.Default.SpeakerNotesOff, contentDescription = "delete", Modifier.size(28.dp))
-                }
 
                 /** 트랙 삭제 */
                 IconButton(onClick = {
@@ -134,8 +130,18 @@ fun DetailPageScreen(
                             modifier = Modifier.size(200.dp)
                         )
                     } else {
-//                        Image(painterResource(id = R.drawable.img), contentDescription = "error")
-                    }
+                        clickedTrack?.image?.firstOrNull()?.url?.let { DbUrl ->
+                            AsyncImage(
+                                model = DbUrl, contentDescription = "img",
+                                modifier = Modifier
+                                    .size(200.dp)
+                                    .padding(top = 8.dp)
+                            )
+
+                        }
+                        Image(painterResource(id = R.drawable.img), contentDescription = "error")
+                    } //if
+
                     //Coil 사용
                     clickedTrack?.image?.firstOrNull()?.url?.let { DbUrl ->
                         AsyncImage(
@@ -171,6 +177,9 @@ fun DetailPageScreen(
                         modifier = Modifier
                             .background(Color.Transparent)
                             .padding(20.dp)
+                            .clickable {
+                                navController.navigate("edit_detail_page")
+                            }
                     ) {
                         Column(
                             Modifier
