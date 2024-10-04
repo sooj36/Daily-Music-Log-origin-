@@ -57,7 +57,6 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
     val selectedTrack by musicViewModel.selectedTrack
     val loadTrackID by musicViewModel.getAllSavedTracks
 
-
     val context = LocalContext.current // localcontext로 컨텍스트 가져오기
 
     /** 1) 선택된 트랙 가져오기 */

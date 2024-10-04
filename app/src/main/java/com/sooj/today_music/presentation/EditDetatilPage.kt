@@ -17,6 +17,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MusicVideo
 import androidx.compose.material.icons.filled.SaveAlt
+import androidx.compose.material.icons.outlined.MusicVideo
+import androidx.compose.material.icons.outlined.SaveAlt
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
@@ -38,7 +40,11 @@ import coil.compose.AsyncImage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditDetailPageScreen(navController: NavController, musicViewModel: MusicViewModel, memoViewModel: MemoViewModel) {
+fun EditDetailPageScreen(
+    navController: NavController,
+    musicViewModel: MusicViewModel,
+    memoViewModel: MemoViewModel
+) {
     val clickedTrack by musicViewModel.selectedTrack
     val getImageUrl by musicViewModel.getAlbumImage
     Log.d("get track for edit", "info < ${clickedTrack} >")
@@ -57,16 +63,24 @@ fun EditDetailPageScreen(navController: NavController, musicViewModel: MusicView
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 IconButton(onClick = { navController.popBackStack() }) {
-                    Image(imageVector = Icons.Default.MusicVideo, contentDescription = "NoteList")
+                    Image(
+                        imageVector = Icons.Outlined.MusicVideo,
+                        contentDescription = "NoteList",
+                        Modifier.size(28.dp)
+                    )
                 }
 
                 IconButton(onClick = {
                     navController.navigate("detail_page")
                     clickedTrack?.let { id ->
-                   //
+                        //
                     }
                 }) {
-                    Image(imageVector = Icons.Default.SaveAlt, contentDescription = "save")
+                    Image(
+                        imageVector = Icons.Outlined.SaveAlt,
+                        contentDescription = "save",
+                        Modifier.size(28.dp)
+                    )
                 }
             }
             Box(modifier = Modifier) {
@@ -79,9 +93,11 @@ fun EditDetailPageScreen(navController: NavController, musicViewModel: MusicView
                 ) {
 
                     clickedTrack?.image?.firstOrNull()?.url?.let { ImgUrl ->
-                        AsyncImage(model = ImgUrl,
+                        AsyncImage(
+                            model = ImgUrl,
                             contentDescription = "imgurl",
-                            modifier = Modifier.size(200.dp))
+                            modifier = Modifier.size(200.dp)
+                        )
                     }
 
                     Text(
@@ -105,31 +121,6 @@ fun EditDetailPageScreen(navController: NavController, musicViewModel: MusicView
                         mutableStateOf("")
                     }
                     TextField(value = text, onValueChange = { text = it })
-
-                    Card(
-                        shape = RoundedCornerShape(30.dp),
-                        modifier = Modifier
-                            .background(Color.Transparent)
-                            .padding(20.dp)
-                    ) {
-                        Text(
-                            modifier = Modifier.padding(20.dp),
-                            text = "// [Verse 1]\n" +
-                                    "How could my day be bad    \n" +
-                                    "when I'm with you?         \n" +
-                                    "You're the only one who makes me laugh  \n" +
-                                    "So how can my day be bad?  \n" +
-                                    "It's a day for you          \n" +
-                                    "\n" +
-                                    "// [Verse 2]\n" +
-                                    "Lately, life's so boring    \n" +
-                                    "I've been watching Netflix all day long  \n" +
-                                    "I thought there would be    \n" +
-                                    "no things left to watch     \n" +
-                                    "so I let myself out "
-                        )
-                    }
-
                 }
             }
         }

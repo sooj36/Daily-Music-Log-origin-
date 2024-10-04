@@ -23,6 +23,10 @@ import androidx.compose.material.icons.filled.RestoreFromTrash
 import androidx.compose.material.icons.filled.SpeakerNotesOff
 import androidx.compose.material.icons.filled.StickyNote2
 import androidx.compose.material.icons.filled.TransferWithinAStation
+import androidx.compose.material.icons.outlined.ContentCut
+import androidx.compose.material.icons.outlined.LibraryMusic
+import androidx.compose.material.icons.outlined.SpeakerNotesOff
+import androidx.compose.material.icons.rounded.SpeakerNotesOff
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
@@ -54,7 +58,6 @@ fun DetailPageScreen(
     musicViewModel: MusicViewModel = hiltViewModel(),
     memoViewModel: MemoViewModel = hiltViewModel(),
 ) {
-
     // test
     val trackClick by musicViewModel.selectedTrackEntity.collectAsState()
 
@@ -88,11 +91,11 @@ fun DetailPageScreen(
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.Absolute.Right
             ) {
 
                 IconButton(onClick = { navController.popBackStack() }) {
-                    Image(imageVector = Icons.Default.LibraryMusic, contentDescription = "NoteList",Modifier.size(28.dp))
+                    Image(imageVector = Icons.Outlined.LibraryMusic, contentDescription = "NoteList",Modifier.size(28.dp))
                 }
 
                 if (memoEntity != null) {
@@ -101,7 +104,7 @@ fun DetailPageScreen(
 
                         memoViewModel.deleteMemo_vm(memoEntity?.trackId ?: return@IconButton)
                     }) {
-                        Image(imageVector = Icons.Default.SpeakerNotesOff, contentDescription = "delete", Modifier.size(28.dp))
+                        Image(imageVector = Icons.Outlined.SpeakerNotesOff, contentDescription = "delete", Modifier.size(28.dp))
                     }
                 }
 
@@ -112,7 +115,7 @@ fun DetailPageScreen(
 //                    musicViewModel.deleteSavedTrack(trackClick!!)
                     navController.popBackStack()
                 }) {
-                    Image(imageVector = Icons.Default.ContentCut, contentDescription = "delete",Modifier.size(28.dp))
+                    Image(imageVector = Icons.Outlined.ContentCut, contentDescription = "delete",Modifier.size(28.dp))
                 }
             }
             Box(modifier = Modifier) {
@@ -123,24 +126,16 @@ fun DetailPageScreen(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    if (imgUrl != null) {
-                        AsyncImage(
-                            model = imgUrl,
-                            contentDescription = "image",
-                            modifier = Modifier.size(200.dp)
-                        )
-                    } else {
-                        clickedTrack?.image?.firstOrNull()?.url?.let { DbUrl ->
-                            AsyncImage(
-                                model = DbUrl, contentDescription = "img",
-                                modifier = Modifier
-                                    .size(200.dp)
-                                    .padding(top = 8.dp)
-                            )
-
-                        }
-                        Image(painterResource(id = R.drawable.img), contentDescription = "error")
-                    } //if
+//                    if (imgUrl != null) {
+//                        AsyncImage(
+//                            model = imgUrl,
+//                            contentDescription = "image",
+//                            modifier = Modifier.size(200.dp)
+//                                .padding(top = 10.dp)
+//                        )
+//                    } else {
+//                        Image(painterResource(id = R.drawable.img), contentDescription = "error")
+//                    } //if
 
                     //Coil 사용
                     clickedTrack?.image?.firstOrNull()?.url?.let { DbUrl ->

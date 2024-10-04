@@ -25,6 +25,7 @@ get() 커스텀 게터 */
 
 /** private val _infoList = mutableStateOf<List<Album>>(emptyList())
 val infoList: State<List<Album>> get() = _infoList */
+
 @HiltViewModel
 class MusicViewModel @Inject constructor(
     private val repository: SearchRepository,
@@ -43,6 +44,10 @@ class MusicViewModel @Inject constructor(
     // 선택 트랙에서 Artist, Track명으로 get.Info 가져오기
     private val _getAlbumImage = mutableStateOf<String?>(null)
     val getAlbumImage: State<String?> get() = _getAlbumImage
+
+    // 선택 트랙에서 Artist, Track명으로 get.Info 가져오기 -> StateFlow 로 변경
+    private val _getAlbumImage2 = MutableStateFlow<String?>(null)
+    val getAlbumImage2: StateFlow<String?> get() = _getAlbumImage2
 
     // 모든 트랙 데이터 상태 관리
     private val _getAllSavedTracks = mutableStateOf<List<TrackEntity>>(emptyList())

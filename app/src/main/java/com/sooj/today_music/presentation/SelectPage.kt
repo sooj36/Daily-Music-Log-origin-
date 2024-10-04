@@ -22,6 +22,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.SettingsBackupRestore
 import androidx.compose.material.icons.filled.StickyNote2
 import androidx.compose.material.icons.filled.SystemUpdateAlt
+import androidx.compose.material.icons.outlined.SettingsBackupRestore
+import androidx.compose.material.icons.outlined.SystemUpdateAlt
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -68,11 +70,11 @@ fun SelectPageScreen(navController: NavController, musicViewModel: MusicViewMode
         ) {
             Row(Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween) {
-                Image(imageVector = Icons.Default.SettingsBackupRestore,
+                Image(imageVector = Icons.Outlined.SettingsBackupRestore,
                     contentDescription = "edit",
                     Modifier.clickable { navController.popBackStack() })
 
-                Image(imageVector = Icons.Default.SystemUpdateAlt,
+                Image(imageVector = Icons.Outlined.SystemUpdateAlt,
                     contentDescription = "getTrackData",
                     modifier = Modifier.clickable { musicViewModel.saveSelectedTrack_vm()
                         saveResult?.value.let { success ->
@@ -104,8 +106,8 @@ fun SelectPageScreen(navController: NavController, musicViewModel: MusicViewMode
                         Column(
                             modifier = Modifier
                                 .padding(10.dp)
-                                .fillMaxWidth()
-                                .clickable { navController.navigate("detail_page") },
+                                .fillMaxWidth(),
+//                                .clickable { navController.navigate("detail_page") },
                             horizontalAlignment = Alignment.CenterHorizontally
                         )
                         {
@@ -128,6 +130,7 @@ fun SelectPageScreen(navController: NavController, musicViewModel: MusicViewMode
                                 fontWeight = FontWeight.Medium,
                                 color = Color.Black
                             )
+
 
                             Text(
                                 text = trackInfo?.name ?: "트랙",

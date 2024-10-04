@@ -22,6 +22,8 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LibraryMusic
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.LibraryMusic
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -61,7 +63,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
         Column {
             Spacer(modifier = Modifier.height(8.dp))
             IconButton(onClick = { navController.popBackStack() }) {
-                Image(imageVector = Icons.Default.LibraryMusic, contentDescription = "list",
+                Image(imageVector = Icons.Outlined.LibraryMusic, contentDescription = "list",
                     Modifier.size(30.dp))
             }
             
@@ -105,7 +107,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                 Spacer(modifier = Modifier.width(8.dp))
 
                 IconButton(onClick = { musicViewModel.getMusic_vm(text) }) {
-                    Image(imageVector = Icons.Default.Search, contentDescription = "search",
+                    Image(imageVector = Icons.Outlined.Search, contentDescription = "search",
                         Modifier.size(35.dp))
                 }
             } // row
