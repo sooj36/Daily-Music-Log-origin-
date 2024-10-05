@@ -44,7 +44,7 @@ class MusicViewModel @Inject constructor(
     /** 선택 트랙에서 Artist, Track명으로 get.Info 가져오기 -> StateFlow 로 변경 */
     private val _getAlbumImage = MutableStateFlow<String?>(null)
     val getAlbumImage: StateFlow<String?> get() = _getAlbumImage
-
+ 
     /** 모든 트랙 데이터 상태 관리 */
     private val _getAllSavedTracks = mutableStateOf<List<TrackEntity>>(emptyList())
     val getAllSavedTracks: State<List<TrackEntity>> get() = _getAllSavedTracks
@@ -104,6 +104,8 @@ class MusicViewModel @Inject constructor(
     fun getAlbumPoster_vm() {
         val selectedImageInfo = _selectedTrack.value ?: return
 
+        _getAlbumImage.value = null
+
         viewModelScope.launch(Dispatchers.Default) {
             Log.d("sj_vm(st) GETPOSTER", "Running on thread: ${Thread.currentThread().name}")
 
@@ -125,6 +127,26 @@ class MusicViewModel @Inject constructor(
                 Log.e("album info error", "fail to get info $")
             }
             Log.d("sj_vm(en) GETPOSTER", "Running on thread: ${Thread.currentThread().name}")
+        }
+    }
+
+    // new 추가 로직
+    fun test(track : String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            // API1 호출 후 TRACK 정보 가져오
+            val trackInfo = repository.getMusic_impl(track)
+
+            // 가져온 track, artist 정보 사용하여 api2 호출해 이미지 가져오
+            val albumInfo = repository.getAlbumPoster_impl(
+                trackInfo.firstOrNull()?.name ?: "track명 가져오기 fail",
+                trackInfo.firstOrNull()?.artist ?: "artist명 가져오기 fail"
+            )
+
+            // trackInfo, albumInfo 상태로 저장
+            withContext(Dispatchers.Main) {
+                _searchList.value = trackInfo
+                _getAlbumImage.value = albumInfo?.image?.find { it.size == "extralarge"}?.url
+            }
         }
     }
 
@@ -185,8 +207,6 @@ class MusicViewModel @Inject constructor(
         getMmUseID_vm(trackEntity.trackId) // 자동 생성된 trackId로 MemoEntity 조회
     }
     //////////////////////
-
-
 
     // 트랙 삭제
     fun deleteSavedTrack(trackEntity: TrackEntity) {

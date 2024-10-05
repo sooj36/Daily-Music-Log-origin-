@@ -128,7 +128,7 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
                     .fillMaxWidth()
                     .padding(5.dp)
                     .border(2.dp, Color.LightGray, RoundedCornerShape(10.dp)),
-                colors = CardDefaults.cardColors(containerColor = Color(0xFFFFC1CC)) // 배경색 설정
+                colors = CardDefaults.cardColors(containerColor = Color(0xFFFF6F61)) // 배경색 설정
             ) {
                 Column(
                     Modifier
@@ -146,11 +146,11 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
                     AsyncImage(model = trackEntity.imageUrl, contentDescription = "img")
                     Spacer(modifier = Modifier.height(3.dp))
                     trackEntity.trackId?.let { trackId ->
-                        Text(text = "trackId {${trackId}}", fontFamily = FontFamily(Font(R.font.opensans_semibold),)) }
+                        Text(text = "trackId {${trackId}}", fontFamily = FontFamily(Font(R.font.opensans_medium),)) }
                     Spacer(modifier = Modifier.height(3.dp))
-                    trackEntity.trackName?.let { Text(text = it, fontFamily = FontFamily(Font(R.font.opensans_semibold),), fontSize = 20.sp) }
+                    trackEntity.trackName?.let { Text(text = it, fontFamily = FontFamily(Font(R.font.opensans_condensed_regular),), fontSize = 20.sp) }
                     Spacer(modifier = Modifier.height(3.dp))
-                    trackEntity.artistName?.let { Text(text = it, fontFamily = FontFamily(Font(R.font.opensans_semibold),))}
+                    trackEntity.artistName?.let { Text(text = it, fontFamily = FontFamily(Font(R.font.opensans_regular),))}
 
                     Spacer(modifier = Modifier.height(3.dp))
                     // 저장 시간을 date로 변환하여 표시

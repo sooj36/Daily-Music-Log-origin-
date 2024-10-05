@@ -29,6 +29,7 @@ import androidx.compose.material.icons.outlined.TipsAndUpdates
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -56,6 +57,7 @@ import com.sooj.today_music.R
 @Composable
 fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewModel) {
     val searchList by musicViewModel.searchList
+    val getAlbumImage by musicViewModel.getAlbumImage.collectAsState()
 
     Box(
         modifier = Modifier
@@ -69,11 +71,11 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                     Modifier.size(30.dp))
             }
             
-            Text(text = "  << s e a r c h p a g e", fontFamily = FontFamily(Font(R.font.opensans_semibold),))
-            Spacer(modifier = Modifier.height(16.dp))
+            Text(text = "  <<- s e a r c h p a g e", fontFamily = FontFamily(Font(R.font.opensans_semibold),))
+            Spacer(modifier = Modifier.height(15.dp))
 
             Row(
-                modifier = Modifier.padding(start = 8.dp, end = 8.dp),
+                modifier = Modifier.padding(end = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 var text by remember {
@@ -94,7 +96,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                         ) {
                             if (text.isEmpty()) {
                                 Text(
-                                    text = "오늘의 노래를 검색하세요 ! (띄어쓰기 유의)",
+                                    text = "오늘의 노래를 기록하세요 ! (띄어쓰기 유의)",
                                     style = TextStyle(color = Color.Black),
                                     fontWeight = FontWeight.ExtraLight,
                                     fontFamily = FontFamily(Font(R.font.sc_dream_4),)
@@ -108,7 +110,11 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
 
                 Spacer(modifier = Modifier.width(8.dp))
 
-                IconButton(onClick = { musicViewModel.getMusic_vm(text) }) {
+                IconButton(onClick = {
+//                    musicViewModel.getMusic_vm(text)
+                    musicViewModel.test(text)
+
+                }) {
                     Image(imageVector = Icons.Outlined.Search, contentDescription = "search",
                         Modifier.size(35.dp))
                 }
@@ -132,6 +138,10 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                                 // 클릭 시, Viewmodel에 선택된 트랙 저장
                                 musicViewModel.selectTrack_vm(track)
 
+                                // new 추가 !@@@@@@@@@@@@@@22
+                                musicViewModel.selectedTrack
+                                musicViewModel.getAlbumPoster_vm()
+
                                 Log.d(
                                     "1 Storing selected tracks in ViewModel",
                                     "saved ${musicViewModel.selectedTrack.value} &"
@@ -146,6 +156,15 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                                 .data(
                                     track.image?.find { it.size == "extralarge" }?.url?.takeIf { it.isNotEmpty() }
                                         ?: R.drawable.yumi // URL이 비어 있으면 기본 이미지 리소스를 사용
+                                )
+                                .build(),
+                            contentDescription = null
+                        )
+
+                        AsyncImage(
+                            model = ImageRequest.Builder(LocalContext.current)
+                                .data(
+                                    getAlbumImage ?: R.drawable.yumi // URL이 비어 있으면 기본 이미지 리소스를 사용
                                 )
                                 .build(),
                             contentDescription = null
