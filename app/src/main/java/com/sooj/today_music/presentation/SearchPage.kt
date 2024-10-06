@@ -111,7 +111,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
 
                 IconButton(onClick = {
 //                    musicViewModel.getMusic_vm(text)
-//                    musicViewModel.test2(text)
+                    musicViewModel.test2(text)
                     musicViewModel.test_vm(text)
 
                 }) {
@@ -152,16 +152,19 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        AsyncImage(
-                            model = ImageRequest.Builder(LocalContext.current)
-                                .data(
-                                    track.image?.find { it.size == "extralarge" }?.url?.takeIf { it.isNotEmpty() }
-                                        ?: R.drawable.yumi // URL이 비어 있으면 기본 이미지 리소스를 사용
-                                )
-                                .build(),
-                            contentDescription = null
-                        )
 
+                        // 1
+//                        AsyncImage(
+//                            model = ImageRequest.Builder(LocalContext.current)
+//                                .data(
+//                                    track.image?.find { it.size == "extralarge" }?.url?.takeIf { it.isNotEmpty() }
+//                                        ?: R.drawable.yumi // URL이 비어 있으면 기본 이미지 리소스를 사용
+//                                )
+//                                .build(),
+//                            contentDescription = null
+//                        )
+
+                        //2
                         AsyncImage(
                             model = ImageRequest.Builder(LocalContext.current)
                                 .data(
@@ -171,6 +174,15 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                             contentDescription = null
                         )
 
+//                        //3
+                        AsyncImage(
+                            model = ImageRequest.Builder(LocalContext.current)
+                                .data(
+                                    albumUrl ?: R.drawable.yumi // URL이 비어 있으면 기본 이미지 리소스를 사용
+                                )
+                                .build(),
+                            contentDescription = null
+                        )
 //                        AsyncImage(model = albumUrl, contentDescription = "map")
                         Spacer(modifier = Modifier.height(8.dp))
                         /** 트랙명 */

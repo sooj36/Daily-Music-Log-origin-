@@ -134,25 +134,25 @@ class MusicViewModel @Inject constructor(
         }
     }
 
-//    // new 추가 로직 (이전 삭제 또는 수정 예정)
-//    fun test2(track : String) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            // API1 호출 후 TRACK 정보 가져오
-//            val trackInfo = repository.getMusic_impl(track)
-//
-//            // 가져온 track, artist 정보 사용하여 api2 호출해 이미지 가져오
-//            val albumInfo = repository.getAlbumPoster_impl(
-//                trackInfo.firstOrNull()?.name ?: "track명 가져오기 fail",
-//                trackInfo.firstOrNull()?.artist ?: "artist명 가져오기 fail"
-//            )
-//
-//            // trackInfo, albumInfo 상태로 저장
-//            withContext(Dispatchers.Main) {
-//                _searchList_st.value = trackInfo
-//                _getAlbumImage_st.value = albumInfo?.image?.find { it.size == "extralarge"}?.url
-//            }
-//        }
-//    }
+    // new 추가 로직 (이전 삭제 또는 수정 예정)
+    fun test2(track : String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            // API1 호출 후 TRACK 정보 가져오
+            val trackInfo = repository.getMusic_impl(track)
+
+            // 가져온 track, artist 정보 사용하여 api2 호출해 이미지 가져오
+            val albumInfo = repository.getAlbumPoster_impl(
+                trackInfo.firstOrNull()?.name ?: "track명 가져오기 fail",
+                trackInfo.firstOrNull()?.artist ?: "artist명 가져오기 fail"
+            )
+
+            // trackInfo, albumInfo 상태로 저장
+            withContext(Dispatchers.Main) {
+                _searchList_st.value = trackInfo
+                _getAlbumImage_st.value = albumInfo?.image?.find { it.size == "extralarge"}?.url
+            }
+        }
+    }
 
     // 1006 추가 로직 URL -> MAP으로
     fun test_vm(track : String) {
