@@ -178,7 +178,9 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                             fontFamily = FontFamily(Font(R.font.opensans_semibold),),
                             modifier = Modifier.align(Alignment.CenterHorizontally) // 텍스트 중앙 정렬
                         )
+
                         Spacer(modifier = Modifier.height(2.dp))
+
                         /** 아티스트명 */
                         Text(
                             text = track.artist.toString(),
