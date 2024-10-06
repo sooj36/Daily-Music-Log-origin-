@@ -42,12 +42,12 @@ import com.sooj.today_music.R
 
 @Composable
 fun SelectPageScreen(navController: NavController, musicViewModel: MusicViewModel) {
-    val selectedTrack by musicViewModel.selectedTrack.collectAsState()
+    val selectedTrack by musicViewModel.selectedTrack_st.collectAsState()
     val context = LocalContext.current // localcontext로 context 가져오기
-    val saveResult = musicViewModel.saveResult.collectAsState()
+    val saveResult = musicViewModel.saveResult_st.collectAsState()
 
     /** 1. 선택한 트랙 가져오기 */
-    val getImageUrl by musicViewModel.getAlbumImage.collectAsState()
+    val getImageUrl by musicViewModel.getAlbumImage_st.collectAsState()
     val imgURL = remember { getImageUrl }
 
     /** 2. 앨범 포스터 가져오기 */

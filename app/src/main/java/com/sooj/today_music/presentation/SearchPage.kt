@@ -25,6 +25,7 @@ import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -51,8 +52,9 @@ import com.sooj.today_music.R
 
 @Composable
 fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewModel) {
-    val searchList by musicViewModel.searchList
-    val getAlbumImage by musicViewModel.getAlbumImage.collectAsState()
+    val searchList by musicViewModel.searchList_st
+    val getAlbumImage by musicViewModel.getAlbumImage_st.collectAsState()
+    val getAlbumImg_MAP by musicViewModel.getAlbumMap_st.collectAsState()
 
     Box(
         modifier = Modifier
@@ -61,7 +63,9 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
     ) {
         Column {
             Spacer(modifier = Modifier.height(8.dp))
-            IconButton(onClick = { navController.popBackStack() }) {
+            IconButton(onClick = {
+                navController.popBackStack()
+            }) {
                 Image(imageVector = Icons.Outlined.LibraryMusic, contentDescription = "list",
                     Modifier.size(30.dp))
             }
@@ -107,7 +111,8 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
 
                 IconButton(onClick = {
 //                    musicViewModel.getMusic_vm(text)
-                    musicViewModel.test2(text)
+//                    musicViewModel.test2(text)
+                    musicViewModel.test_vm(text)
 
                 }) {
                     Image(imageVector = Icons.Outlined.Search, contentDescription = "search",
@@ -122,6 +127,8 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
             ) {
                 items(searchList.size) { index ->
                     val track = searchList[index]
+                    val albumUrl = getAlbumImg_MAP[track.name] ?: R.drawable.yumi
+
                     Column(
                         modifier = Modifier
                             .padding(7.dp)
@@ -134,18 +141,17 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                                 musicViewModel.selectTrack_vm(track)
 
                                 // new 추가 !@@@@@@@@@@@@@@22
-                                musicViewModel.selectedTrack
+                                musicViewModel.selectedTrack_st
                                 musicViewModel.getAlbumPoster_vm()
 
                                 Log.d(
                                     "1 Storing selected tracks in ViewModel",
-                                    "saved ${musicViewModel.selectedTrack.value} &"
+                                    "saved ${musicViewModel.selectedTrack_st.value} &"
                                 )
                             },
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-
                         AsyncImage(
                             model = ImageRequest.Builder(LocalContext.current)
                                 .data(
@@ -164,6 +170,8 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                                 .build(),
                             contentDescription = null
                         )
+
+//                        AsyncImage(model = albumUrl, contentDescription = "map")
                         Spacer(modifier = Modifier.height(8.dp))
                         /** 트랙명 */
                         Text(
