@@ -44,10 +44,16 @@ class MusicViewModel @Inject constructor(
     /** 선택 트랙에서 Artist, Track명으로 get.Info 가져오기 -> StateFlow 로 변경 */
     private val _getAlbumImage = MutableStateFlow<String?>(null)
     val getAlbumImage: StateFlow<String?> get() = _getAlbumImage
+
+    /** 선택 트랙에서 Artist, Track명으로 get.Info 가져오기 -> StateFlow 로 변경 */
+    private val _getAlbumMap = MutableStateFlow<Map<String,String?>>(emptyMap())
+    val getAlbumMap: StateFlow<Map<String,String?>> get() = _getAlbumMap
  
     /** 모든 트랙 데이터 상태 관리 */
     private val _getAllSavedTracks = mutableStateOf<List<TrackEntity>>(emptyList())
     val getAllSavedTracks: State<List<TrackEntity>> get() = _getAllSavedTracks
+
+
 
     private val _selectedTrackEntity = MutableStateFlow<TrackEntity?>(null)
     val selectedTrackEntity: StateFlow<TrackEntity?> get() = _selectedTrackEntity
@@ -130,8 +136,8 @@ class MusicViewModel @Inject constructor(
         }
     }
 
-    // new 추가 로직
-    fun test(track : String) {
+    // new 추가 로직 (이전 삭제 또는 수정 예정)
+    fun test2(track : String) {
         viewModelScope.launch(Dispatchers.IO) {
             // API1 호출 후 TRACK 정보 가져오
             val trackInfo = repository.getMusic_impl(track)
@@ -146,6 +152,28 @@ class MusicViewModel @Inject constructor(
             withContext(Dispatchers.Main) {
                 _searchList.value = trackInfo
                 _getAlbumImage.value = albumInfo?.image?.find { it.size == "extralarge"}?.url
+            }
+        }
+    }
+
+    // 1006 추가 로직 URL -> MAP으로
+    fun test(track : String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val trackINFO = repository.getMusic_impl(track)
+
+            // 트랙 이름 기반으로 api 2 호출하여 이미지 가져오기
+            val albumImg : Map<String, String?> = trackINFO.associate { url ->
+                val posterUrl = repository.getAlbumPoster_impl(
+                    url.name ?: "fail to load track명",
+                    url.artist ?: "fatil to load artist명"
+                )
+                // 트랙명 key, url value
+                (url.name ?: "track_key") to (posterUrl?.image?.find { it.size == "extralarge" }?.url?: "url error")
+            }
+
+            // 기존 map에 새로운 값 추가
+            withContext(Dispatchers.Main) {
+                _getAlbumMap.value = _getAlbumMap.value + albumImg
             }
         }
     }
