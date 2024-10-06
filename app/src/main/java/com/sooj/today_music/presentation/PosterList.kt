@@ -1,8 +1,5 @@
 package com.sooj.today_music.presentation
 
-import android.util.Log
-import android.widget.Toast
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -14,29 +11,20 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MusicNote
-import androidx.compose.material.icons.filled.MusicVideo
-import androidx.compose.material.icons.filled.SpatialTracking
-import androidx.compose.material.icons.filled.SystemUpdateAlt
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
@@ -61,7 +49,8 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
     }
 
     /** 2) 앨범 포스터 가져오기 */
-    val loadTracks by musicViewModel.getAllSavedTracks
+    val loadTracks by musicViewModel.getAllSavedTracks_st
+
 
     Box(
         modifier = Modifier
@@ -118,11 +107,12 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
 @Composable
 fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
     // 룸에서 가져온 데이터
-    val getAllSaveTracks by musicViewModel.getAllSavedTracks
+    val getAllSaveTracks by musicViewModel.getAllSavedTracks_st
 
     // 그리드 뷰
     LazyVerticalGrid(columns = GridCells.Fixed(2)) {
         items(getAllSaveTracks) { trackEntity ->
+
             Card(
                 Modifier
                     .fillMaxWidth()
@@ -144,6 +134,7 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
                     verticalArrangement = Arrangement.SpaceBetween
                 ) {
                     AsyncImage(model = trackEntity.imageUrl, contentDescription = "img")
+
                     Spacer(modifier = Modifier.height(3.dp))
                     trackEntity.trackId?.let { trackId ->
                         Text(text = "trackId {${trackId}}", fontFamily = FontFamily(Font(R.font.opensans_medium),)) }
@@ -163,6 +154,8 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
         }
     }
 }
+
+
 
 @Preview
 @Composable

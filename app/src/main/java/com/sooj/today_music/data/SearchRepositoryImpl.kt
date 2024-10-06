@@ -55,7 +55,6 @@ class SearchRepositoryImpl @Inject constructor(
                 )
                 if (postResponse.isSuccessful) {
                     val album = postResponse.body()?.track?.album
-                    Log.d("post response gut ", "gut < ${album} >")
                     album
                 } else {
                     Log.e("error", "api call error")
