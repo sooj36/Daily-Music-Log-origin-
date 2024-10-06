@@ -50,6 +50,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import coil.request.CachePolicy
 import coil.request.ImageRequest
 import com.sooj.today_music.R
 
@@ -58,6 +59,8 @@ import com.sooj.today_music.R
 fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewModel) {
     val searchList by musicViewModel.searchList
     val getAlbumImage by musicViewModel.getAlbumImage.collectAsState()
+    val url by musicViewModel.UrlMap_st.collectAsState()
+    Log.d("@@@URL CHECK", "Current URL: $url")
 
     Box(
         modifier = Modifier
@@ -113,6 +116,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                 IconButton(onClick = {
 //                    musicViewModel.getMusic_vm(text)
                     musicViewModel.test(text)
+                    musicViewModel.test_vm(text)
 
                 }) {
                     Image(imageVector = Icons.Outlined.Search, contentDescription = "search",
@@ -137,6 +141,8 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
 
                                 // 클릭 시, Viewmodel에 선택된 트랙 저장
                                 musicViewModel.selectTrack_vm(track)
+                                // test 중
+                                musicViewModel.UrlMap_st
 
                                 // new 추가 !@@@@@@@@@@@@@@22
                                 musicViewModel.selectedTrack
@@ -151,21 +157,35 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
 
-                        AsyncImage(
-                            model = ImageRequest.Builder(LocalContext.current)
-                                .data(
-                                    track.image?.find { it.size == "extralarge" }?.url?.takeIf { it.isNotEmpty() }
-                                        ?: R.drawable.yumi // URL이 비어 있으면 기본 이미지 리소스를 사용
-                                )
-                                .build(),
-                            contentDescription = null
-                        )
-
+//                        // 1
+//                        AsyncImage(
+//                            model = ImageRequest.Builder(LocalContext.current)
+//                                .data(
+//                                    track.image?.find { it.size == "extralarge" }?.url?.takeIf { it.isNotEmpty() }
+//                                        ?: R.drawable.yumi // URL이 비어 있으면 기본 이미지 리소스를 사용
+//                                )
+//                                .build(),
+//                            contentDescription = null
+//                        )
+//
+                        //2
                         AsyncImage(
                             model = ImageRequest.Builder(LocalContext.current)
                                 .data(
                                     getAlbumImage ?: R.drawable.yumi // URL이 비어 있으면 기본 이미지 리소스를 사용
                                 )
+                                .diskCachePolicy(CachePolicy.DISABLED)  // 캐싱 비활성화
+                                .build(),
+                            contentDescription = null
+                        )
+
+                        // 3
+                        AsyncImage(
+                            model = ImageRequest.Builder(LocalContext.current)
+                                .data(
+                                    url ?: R.drawable.yumi // URL이 비어 있으면 기본 이미지 리소스를 사용
+                                )
+                                .diskCachePolicy(CachePolicy.DISABLED)  // 캐싱 비활성화
                                 .build(),
                             contentDescription = null
                         )

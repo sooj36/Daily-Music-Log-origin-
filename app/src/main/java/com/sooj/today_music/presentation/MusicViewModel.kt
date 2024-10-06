@@ -44,6 +44,10 @@ class MusicViewModel @Inject constructor(
     /** 선택 트랙에서 Artist, Track명으로 get.Info 가져오기 -> StateFlow 로 변경 */
     private val _getAlbumImage = MutableStateFlow<String?>(null)
     val getAlbumImage: StateFlow<String?> get() = _getAlbumImage
+
+    //
+    private val _UrlMap_st = MutableStateFlow<Map<String, String?>>(emptyMap())
+    val UrlMap_st : StateFlow<Map<String, String?>> get() = _UrlMap_st
  
     /** 모든 트랙 데이터 상태 관리 */
     private val _getAllSavedTracks = mutableStateOf<List<TrackEntity>>(emptyList())
@@ -130,7 +134,7 @@ class MusicViewModel @Inject constructor(
         }
     }
 
-    // new 추가 로직
+    // new 추가 로직 (수정 OR 삭제 예정)
     fun test(track : String) {
         viewModelScope.launch(Dispatchers.IO) {
             // API1 호출 후 TRACK 정보 가져오
@@ -146,6 +150,27 @@ class MusicViewModel @Inject constructor(
             withContext(Dispatchers.Main) {
                 _searchList.value = trackInfo
                 _getAlbumImage.value = albumInfo?.image?.find { it.size == "extralarge"}?.url
+            }
+        }
+    }
+
+    fun test_vm(track: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            //
+            val track = repository.getMusic_impl(track)
+
+            //
+            val albumImg : Map<String, String?> = track.associate { url ->
+                val posterUrl = repository.getAlbumPoster_impl(
+                    url.name ?: "fail to load track",
+                    url.artist ?: "fail to load artist"
+                )
+                //
+                (url.name ?: "track_key") to (posterUrl?.image?.find { it.size == "extralarge" }?.url ?: "url error")
+            }
+
+            withContext(Dispatchers.Main) {
+                _UrlMap_st.value = _UrlMap_st.value + albumImg
             }
         }
     }
