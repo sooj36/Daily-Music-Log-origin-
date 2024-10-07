@@ -85,6 +85,12 @@
         <mxCell id="86SCbqVBHxB96HFJQSEO-32" value="&lt;div style=&quot;text-align: left;&quot;&gt;Entity (table) 클래스들&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fillColor=#fff2cc;strokeColor=#d6b656;gradientColor=#ffd966;" vertex="1" parent="1">
           <mxGeometry x="270.37" y="790" width="269.25" height="20" as="geometry" />
         </mxCell>
+        <mxCell id="86SCbqVBHxB96HFJQSEO-33" value="" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="570" y="20" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="86SCbqVBHxB96HFJQSEO-35" value="" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="670" y="90" width="120" height="80" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
