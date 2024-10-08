@@ -9,3 +9,5 @@
 5. DataBase - Room
 6. Coroutines / Flow
 7. DI (dagger hilt)
+
+<img width="13600" alt="속성,메서드 별 정_리(241008)" src="https://github.com/user-attachments/assets/8a9b925b-c934-4726-879d-65c39308b562">
