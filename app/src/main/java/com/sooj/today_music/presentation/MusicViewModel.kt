@@ -42,22 +42,13 @@ class MusicViewModel @Inject constructor(
     val selectedTrack_st: StateFlow<Track?> get() = _selectedTrack_st
 
     /** 선택 트랙에서 Artist, Track명으로 get.Info 가져오기 -> StateFlow 로 변경 */
-//<<<<<<< HEAD
-//    private val _getAlbumImage = MutableStateFlow<String?>(null)
-//    val getAlbumImage: StateFlow<String?> get() = _getAlbumImage
-//
-    //  수정예정
-    private val _UrlMap_st = MutableStateFlow<Map<String, String?>>(emptyMap())
-    val UrlMap_st : StateFlow<Map<String, String?>> get() = _UrlMap_st
-//=======
     private val _getAlbumImage_st = MutableStateFlow<String?>(null)
     val getAlbumImage_st: StateFlow<String?> get() = _getAlbumImage_st
 
     /** 선택 트랙에서 Artist, Track명으로 get.Info 가져오기 -> StateFlow 로 변경 */
     private val _getAlbumMap_st = MutableStateFlow<Map<String,String?>>(emptyMap())
     val getAlbumMap_st: StateFlow<Map<String,String?>> get() = _getAlbumMap_st
-//
- 
+
     /** 모든 트랙 데이터 상태 관리 */
     private val _getAllSavedTracks_st = mutableStateOf<List<TrackEntity>>(emptyList())
     val getAllSavedTracks_st: State<List<TrackEntity>> get() = _getAllSavedTracks_st
@@ -145,25 +136,24 @@ class MusicViewModel @Inject constructor(
 
 
     // new 추가 로직 (이전 삭제 또는 수정 예정)
-    fun test2(track : String) {
-
-        viewModelScope.launch(Dispatchers.IO) {
-            // API1 호출 후 TRACK 정보 가져오
-            val trackInfo = repository.getMusic_impl(track)
-
-            // 가져온 track, artist 정보 사용하여 api2 호출해 이미지 가져오
-            val albumInfo = repository.getAlbumPoster_impl(
-                trackInfo.firstOrNull()?.name ?: "track명 가져오기 fail",
-                trackInfo.firstOrNull()?.artist ?: "artist명 가져오기 fail"
-            )
-
-            // trackInfo, albumInfo 상태로 저장
-            withContext(Dispatchers.Main) {
-                _searchList_st.value = trackInfo
-                _getAlbumImage_st.value = albumInfo?.image?.find { it.size == "extralarge"}?.url
-            }
-        }
-    }
+//    fun trackToPoster(track : String) {
+//
+//        viewModelScope.launch(Dispatchers.IO) {
+//            // API1 호출 후 TRACK 정보 가져오
+//            val trackInfo = repository.getMusic_impl(track)
+//
+//            // 가져온 track, artist 정보 사용하여 api2 호출해 이미지 가져오
+//            val albumInfo = repository.getAlbumPoster_impl(
+//                trackInfo.firstOrNull()?.name ?: "track명 가져오기 fail",
+//                trackInfo.firstOrNull()?.artist ?: "artist명 가져오기 fail"
+//            )
+//            // trackInfo, albumInfo 상태로 저장
+//            withContext(Dispatchers.Main) {
+//                _searchList_st.value = trackInfo
+//                _getAlbumImage_st.value = albumInfo?.image?.find { it.size == "extralarge"}?.url
+//            }
+//        }
+//    }
 
     // 1006 추가 로직 URL -> MAP으로
     fun fetchTrackAndUrl_vm(track : String) {

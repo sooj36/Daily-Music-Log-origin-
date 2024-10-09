@@ -21,12 +21,12 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.AllInclusive
 import androidx.compose.material.icons.outlined.LibraryMusic
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -55,7 +55,6 @@ import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.CachePolicy
 import coil.request.ImageRequest
-import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
@@ -65,11 +64,9 @@ import com.sooj.today_music.R
 
 @Composable
 fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewModel) {
-
     val searchList by musicViewModel.searchList_st
     val getAlbumImage = ""
     val getAlbumImg_Map by musicViewModel.getAlbumMap_st.collectAsState()
-
 
     Box(
         modifier = Modifier
@@ -81,11 +78,16 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
             IconButton(onClick = {
                 navController.popBackStack()
             }) {
-                Image(imageVector = Icons.Outlined.LibraryMusic, contentDescription = "list",
-                    Modifier.size(30.dp))
+                Image(
+                    imageVector = Icons.Outlined.LibraryMusic, contentDescription = "list",
+                    Modifier.size(30.dp)
+                )
             }
-            
-            Text(text = "  <<- s e a r c h p a g e", fontFamily = FontFamily(Font(R.font.opensans_semibold),))
+
+            Text(
+                text = "  <<- s e a r c h p a g e",
+                fontFamily = FontFamily(Font(R.font.opensans_semibold))
+            )
             Spacer(modifier = Modifier.height(15.dp))
 
             Row(
@@ -113,7 +115,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                                     text = "오늘의 노래를 기록하세요 !",
                                     style = TextStyle(color = Color.Black),
                                     fontWeight = FontWeight.ExtraLight,
-                                    fontFamily = FontFamily(Font(R.font.sc_dream_4),)
+                                    fontFamily = FontFamily(Font(R.font.sc_dream_4))
                                 )
                             } else {
                             }
@@ -125,15 +127,13 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                 Spacer(modifier = Modifier.width(8.dp))
 
                 IconButton(onClick = {
-//                    musicViewModel.getMusic_vm(text)
-
-                    musicViewModel.test2(text)
-                    musicViewModel.fetchTrackAndUrl_vm(text)
-
-
+                    musicViewModel.getMusic_vm(text)
+                    musicViewModel.fetchTrackAndUrl_vm(text) // Poster Map으로
                 }) {
-                    Image(imageVector = Icons.Outlined.Search, contentDescription = "search",
-                        Modifier.size(35.dp))
+                    Image(
+                        imageVector = Icons.Outlined.Search, contentDescription = "search",
+                        Modifier.size(35.dp)
+                    )
                 }
             } // row
             LazyVerticalGrid(
@@ -145,6 +145,8 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                 items(searchList.size) { index ->
                     val track = searchList[index]
                     val albumUrl = getAlbumImg_Map[track.name]
+
+                    Log.d("@trackInfo@", "trackname ${track.name} @ ${albumUrl}")
 
                     Card(
                         Modifier
@@ -175,23 +177,46 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                             //2 첫번째 데이터가 모두 로드
                             AsyncImage(
                                 model = ImageRequest.Builder(LocalContext.current)
-                                    .data(getAlbumImage ?: Icons.Outlined.Search // URL이 비어 있으면 기본 이미지 리소스를 사용
+                                    .data(
+                                        getAlbumImage
+                                            ?: Icons.Outlined.Search // URL이 비어 있으면 기본 이미지 리소스를 사용
                                     )
                                     .diskCachePolicy(CachePolicy.DISABLED)
                                     .build(),
                                 contentDescription = null,
                             )
 
-                            //3 map으로 수정
+                            //3 map으로 수정 (최종본)
                             AsyncImage(
                                 model = ImageRequest.Builder(LocalContext.current)
                                     .data(
                                         albumUrl // URL이 비어 있으면 기본 이미지 리소스를 사용
                                     )
-                                    .diskCachePolicy(CachePolicy.DISABLED)  // 캐싱 비 활성화
+//                                    .diskCachePolicy(CachePolicy.DISABLED)  // 캐싱 비활성화
+                                    .diskCachePolicy(CachePolicy.ENABLED) // 캐싱 활성화
                                     .build(),
-                                contentDescription = null
+                                contentDescription = "최종 이미지"
                             )
+
+                            val painter = rememberAsyncImagePainter(model = albumUrl)
+                            when(painter.state) {
+                                is AsyncImagePainter.State.Loading -> {
+                                    // 로딩중이면 대체이미지
+                                    Log.d("@@1ImageLoader", "Loading image..")
+                                    CircularProgressIndicator()
+                                }
+                                is AsyncImagePainter.State.Success -> {
+                                    Log.d("@@2ImageLoader", "Image loaded successfully.")
+                                    Image(
+                                        painter = painter,
+                                        contentDescription = "poster",
+                                        modifier = Modifier.fillMaxSize()
+                                    )
+                                }
+                                else -> {
+                                    // 로드 실패시
+                                }
+                            }
 
                             Spacer(modifier = Modifier.height(8.dp))
                             /** 트랙명 */
@@ -199,7 +224,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                                 text = track.name.toString(),
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.ExtraBold,
-                                fontFamily = FontFamily(Font(R.font.opensans_semibold),),
+                                fontFamily = FontFamily(Font(R.font.opensans_semibold)),
                                 modifier = Modifier.align(Alignment.CenterHorizontally) // 텍스트 중앙 정렬
                             )
 
@@ -210,7 +235,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                                 text = track.artist.toString(),
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.Medium,
-                                fontFamily = FontFamily(Font(R.font.opensans_semibold),),
+                                fontFamily = FontFamily(Font(R.font.opensans_semibold)),
                                 modifier = Modifier.align(Alignment.CenterHorizontally) // 텍스트 중앙 정렬
                             )
                         }
@@ -239,7 +264,7 @@ fun AnimatedPreloader(modifier: Modifier = Modifier) {
 
 // lottie 수정 ver
 @Composable
-fun preLoader(albumUrl : String) {
+fun preLoader(albumUrl: String) {
     // coil의 asyncimgpainter 사용하여 이미지 상태 추적
     val painter = rememberAsyncImagePainter(model = albumUrl)
 
@@ -249,15 +274,21 @@ fun preLoader(albumUrl : String) {
                 // 로딩 중이면 preloader
                 AnimatedPreloader(modifier = Modifier.fillMaxSize())
             }
+
             is AsyncImagePainter.State.Success -> {
                 // 로딩 완료 시 이미지 표시
-                Image(painter = painter, contentDescription = null,
-                    modifier = Modifier.fillMaxSize())
+                Image(
+                    painter = painter, contentDescription = null,
+                    modifier = Modifier.fillMaxSize()
+                )
             }
+
             else -> {
                 // 실패 시 대체 이미지
-                Icon(imageVector = Icons.Outlined.Palette, contentDescription = "fail",
-                    modifier = Modifier.size(100.dp))
+                Icon(
+                    imageVector = Icons.Outlined.Palette, contentDescription = "fail",
+                    modifier = Modifier.size(100.dp)
+                )
             }
         }
     }

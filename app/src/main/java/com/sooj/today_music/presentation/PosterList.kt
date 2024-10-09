@@ -137,7 +137,6 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
                         Text(text = "ID값 [ ${trackId} ]", fontFamily = FontFamily(Font(R.font.opensans_medium),)) }
                     Spacer(modifier = Modifier.height(3.dp))
                     AsyncImage(model = trackEntity.imageUrl, contentDescription = "img")
-
                     Spacer(modifier = Modifier.height(3.dp))
                     trackEntity.trackName?.let { Text(text = it, fontFamily = FontFamily(Font(R.font.opensans_condensed_regular),), fontSize = 20.sp) }
                     Spacer(modifier = Modifier.height(3.dp))
