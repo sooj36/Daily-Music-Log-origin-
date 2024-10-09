@@ -59,7 +59,7 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
     ) {
         Column {
             Text(
-                text = "[총 ${loadTracks.size}개 기록 <@ ] \n 리스트 페이지",
+                text = "[총 ${loadTracks.size}개 기록하였습니다 <@ ]",
                 fontWeight = FontWeight.ExtraBold,
                 fontFamily = FontFamily(Font(R.font.sc_dream_3),)
             )

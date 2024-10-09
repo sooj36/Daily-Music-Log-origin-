@@ -25,7 +25,6 @@ import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -54,7 +53,7 @@ import com.sooj.today_music.R
 fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewModel) {
     val searchList by musicViewModel.searchList_st
     val getAlbumImage by musicViewModel.getAlbumImage_st.collectAsState()
-    val getAlbumImg_MAP by musicViewModel.getAlbumMap_st.collectAsState()
+    val getAlbumImg_Map by musicViewModel.getAlbumMap_st.collectAsState()
 
     Box(
         modifier = Modifier
@@ -95,7 +94,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                         ) {
                             if (text.isEmpty()) {
                                 Text(
-                                    text = "오늘의 노래를 기록하세요 ! (띄어쓰기 유의)",
+                                    text = "오늘의 노래를 기록하세요 !",
                                     style = TextStyle(color = Color.Black),
                                     fontWeight = FontWeight.ExtraLight,
                                     fontFamily = FontFamily(Font(R.font.sc_dream_4),)
@@ -111,8 +110,8 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
 
                 IconButton(onClick = {
 //                    musicViewModel.getMusic_vm(text)
-//                    musicViewModel.test2(text)
-                    musicViewModel.test_vm(text)
+                    musicViewModel.test2(text)
+                    musicViewModel.fetchTrackAndUrl_vm(text)
 
                 }) {
                     Image(imageVector = Icons.Outlined.Search, contentDescription = "search",
@@ -127,7 +126,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
             ) {
                 items(searchList.size) { index ->
                     val track = searchList[index]
-                    val albumUrl = getAlbumImg_MAP[track.name] ?: R.drawable.yumi
+                    val albumUrl = getAlbumImg_Map[track.name] ?: R.drawable.yumi
 
                     Column(
                         modifier = Modifier
@@ -152,25 +151,36 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
+
+                        // 1
+//                        AsyncImage(
+//                            model = ImageRequest.Builder(LocalContext.current)
+//                                .data(
+//                                    track.image?.find { it.size == "extralarge" }?.url?.takeIf { it.isNotEmpty() }
+//                                        ?: R.drawable.yumi // URL이 비어 있으면 기본 이미지 리소스를 사용
+//                                )
+//                                .build(),
+//                            contentDescription = null
+//                        )
+
+                        //2
                         AsyncImage(
                             model = ImageRequest.Builder(LocalContext.current)
-                                .data(
-                                    track.image?.find { it.size == "extralarge" }?.url?.takeIf { it.isNotEmpty() }
-                                        ?: R.drawable.yumi // URL이 비어 있으면 기본 이미지 리소스를 사용
+                                .data(getAlbumImage ?: R.drawable.yumi // URL이 비어 있으면 기본 이미지 리소스를 사용
                                 )
                                 .build(),
                             contentDescription = null
                         )
 
+//                        //3
                         AsyncImage(
                             model = ImageRequest.Builder(LocalContext.current)
                                 .data(
-                                    getAlbumImage ?: R.drawable.yumi // URL이 비어 있으면 기본 이미지 리소스를 사용
+                                    albumUrl ?: R.drawable.yumi // URL이 비어 있으면 기본 이미지 리소스를 사용
                                 )
                                 .build(),
                             contentDescription = null
                         )
-
 //                        AsyncImage(model = albumUrl, contentDescription = "map")
                         Spacer(modifier = Modifier.height(8.dp))
                         /** 트랙명 */

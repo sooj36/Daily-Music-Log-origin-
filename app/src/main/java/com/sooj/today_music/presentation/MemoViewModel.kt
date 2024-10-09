@@ -21,9 +21,6 @@ class MemoViewModel @Inject constructor(
     private val memoRepository: MemoRepository,
 ) : ViewModel() {
 
-    // 각 trackID별로 메모 리스트 관리 (MAP)
-    private val _memoMap = MutableStateFlow<MemoEntity?>(null)
-    val memoMap: StateFlow<MemoEntity?> get() = _memoMap
 
     fun deleteMemo_vm(trackId:Int) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -35,7 +32,4 @@ class MemoViewModel @Inject constructor(
             }
         }
     }
-
-    // trackId 에 해당하는 메모 데이터 로드
-
 }

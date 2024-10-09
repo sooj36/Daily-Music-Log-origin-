@@ -1,5 +1,6 @@
-package com.sooj.today_music.data
+package com.sooj.today_music.di
 
+import com.sooj.today_music.data.ApiService_EndPoint
 import com.sooj.today_music.domain.Constant.BASE_URL
 import dagger.Module
 import dagger.Provides
@@ -7,7 +8,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 import javax.inject.Singleton
 /** Retrofit 인스턴스 제공
  * endpoint 객체를 dagger hilt 통해 의존성 주입하여 제공 */
