@@ -46,11 +46,10 @@ fun SelectPageScreen(navController: NavController, musicViewModel: MusicViewMode
     val context = LocalContext.current // localcontext로 context 가져오기
     val saveResult = musicViewModel.saveResult_st.collectAsState()
 
-    /** 1. 선택한 트랙 가져오기 */
-    val getImageUrl by musicViewModel.getAlbumImage_st.collectAsState()
-    val imgURL = remember { getImageUrl }
+    val getUrl by musicViewModel.getAlbumMap_st.collectAsState()
+    val test = getUrl[selectedTrack?.name]
+    val imgURL = remember { test }
 
-    /** 2. 앨범 포스터 가져오기 */
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -105,20 +104,14 @@ fun SelectPageScreen(navController: NavController, musicViewModel: MusicViewMode
                             horizontalAlignment = Alignment.CenterHorizontally
                         )
                         {
-                            if (imgURL != null) {
-                                Log.d("sj--imgURL", "image URL: ${imgURL}")
+                                Log.d("@@imgURL", "image URL: ${imgURL}")
                                 AsyncImage(
-                                    model = imgURL,
+                                    model = imgURL ?: R.drawable.yumi,
                                     contentDescription = "poster",
                                     modifier = Modifier
                                         .size(200.dp)
                                 )
-                            } else {
-                                Image(
-                                    painterResource(id = R.drawable.img),
-                                    contentDescription = "null img"
-                                )
-                            }
+
                             Spacer(modifier = Modifier.height(15.dp))
                             Text(
                                 text = trackInfo.artist ?: "아티스트",

@@ -122,10 +122,6 @@ class MusicViewModel @Inject constructor(
                 val albumImageUrl = albumInfo.image.find { it.size == "extralarge" }?.url
                 withContext(Dispatchers.Main) {
                     _getAlbumImage_st.value = albumImageUrl
-                    Log.d(
-                        "sj_vm getposter withcontext",
-                        "Running on thread: ${Thread.currentThread().name}"
-                    )
                 }
             } else {
                 Log.e("album info error", "fail to get info $")
@@ -133,27 +129,6 @@ class MusicViewModel @Inject constructor(
             Log.d("sj_vm(en) GETPOSTER", "Running on thread: ${Thread.currentThread().name}")
         }
     }
-
-
-    // new 추가 로직 (이전 삭제 또는 수정 예정)
-//    fun trackToPoster(track : String) {
-//
-//        viewModelScope.launch(Dispatchers.IO) {
-//            // API1 호출 후 TRACK 정보 가져오
-//            val trackInfo = repository.getMusic_impl(track)
-//
-//            // 가져온 track, artist 정보 사용하여 api2 호출해 이미지 가져오
-//            val albumInfo = repository.getAlbumPoster_impl(
-//                trackInfo.firstOrNull()?.name ?: "track명 가져오기 fail",
-//                trackInfo.firstOrNull()?.artist ?: "artist명 가져오기 fail"
-//            )
-//            // trackInfo, albumInfo 상태로 저장
-//            withContext(Dispatchers.Main) {
-//                _searchList_st.value = trackInfo
-//                _getAlbumImage_st.value = albumInfo?.image?.find { it.size == "extralarge"}?.url
-//            }
-//        }
-//    }
 
     // 1006 추가 로직 URL -> MAP으로
     fun fetchTrackAndUrl_vm(track : String) {
@@ -167,7 +142,7 @@ class MusicViewModel @Inject constructor(
                     url.artist ?: "fatil to load artist명"
                 )
                 // 트랙명 key, url value
-                (url.name ?: "track_key") to (posterUrl?.image?.find { it.size == "extralarge" }?.url?: "url error")
+                (url.name ?: "track_key") to (posterUrl?.image?.find { it.size == "extralarge" }?.url?: "url error vv")
             }
 
             // 기존 map에 새로운 값 추가

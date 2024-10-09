@@ -60,13 +60,14 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.sooj.today_music.R
-
+import com.sooj.today_music.ui.theme.Pink80
+import com.sooj.today_music.ui.theme.Purple40
 
 @Composable
 fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewModel) {
-    val searchList by musicViewModel.searchList_st
+    val searchList by musicViewModel.searchList_st //
     val getAlbumImage = ""
-    val getAlbumImg_Map by musicViewModel.getAlbumMap_st.collectAsState()
+    val getAlbumImg_Map by musicViewModel.getAlbumMap_st.collectAsState() // poster
 
     Box(
         modifier = Modifier
@@ -98,10 +99,10 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                     mutableStateOf("")
                 }
                 BasicTextField(modifier = Modifier
-                    .width(80.dp)
-                    .weight(8f)
+                    .width(70.dp)
+                    .weight(3f)
                     .border(color = Color.Transparent, width = 1.dp)
-                    .background(Color.LightGray),
+                    .background(Pink80),
                     value = text, onValueChange = { text = it },
                     textStyle = TextStyle(color = Color.Black, fontSize = 15.sp),
                     singleLine = true,
@@ -112,7 +113,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                         ) {
                             if (text.isEmpty()) {
                                 Text(
-                                    text = "오늘의 노래를 기록하세요 !",
+                                    text = "오늘의 노래를 검색하세요 !",
                                     style = TextStyle(color = Color.Black),
                                     fontWeight = FontWeight.ExtraLight,
                                     fontFamily = FontFamily(Font(R.font.sc_dream_4))
@@ -124,10 +125,10 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                     } // decorationBox
                 )
 
-                Spacer(modifier = Modifier.width(8.dp))
+                Spacer(modifier = Modifier.width(6.dp))
 
                 IconButton(onClick = {
-                    musicViewModel.getMusic_vm(text)
+                    musicViewModel.getMusic_vm(text) // 검색 결과
                     musicViewModel.fetchTrackAndUrl_vm(text) // Poster Map으로
                 }) {
                     Image(
@@ -140,19 +141,19 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                 columns = GridCells.Fixed(2),
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.LightGray),
+                    .background(Pink80),
             ) {
                 items(searchList.size) { index ->
-                    val track = searchList[index]
-                    val albumUrl = getAlbumImg_Map[track.name]
+                    val track = searchList[index] // track, artist
+                    val albumUrl = getAlbumImg_Map[track.name] // poster
 
-                    Log.d("@trackInfo@", "trackname ${track.name} @ ${albumUrl}")
+//                    Log.d("@trackInfo@", "trackname ${track.name} @ ${albumUrl}")
 
                     Card(
                         Modifier
                             .fillMaxWidth()
                             .padding(5.dp)
-                            .border(2.dp, Color.LightGray, RoundedCornerShape(10.dp)),
+                            .border(1.dp, Color.Transparent, RoundedCornerShape(7.dp)),
                         colors = CardDefaults.cardColors(containerColor = Color(0xFFF9E5DA)) // 배경색 설정
                     ) {
                         Column(
@@ -164,11 +165,9 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                                     navController.navigate("select_page")
 
                                     // 클릭 시, Viewmodel에 선택된 트랙 저장
-                                    musicViewModel.selectTrack_vm(track)
+                                    musicViewModel.selectTrack_vm(track) // track, artist
+                                    musicViewModel.fetchTrackAndUrl_vm(track.name) // imageurl
 
-                                    // new 추가 !@@@@@@@@@@@@@@22
-                                    musicViewModel.selectedTrack_st
-                                    musicViewModel.getAlbumPoster_vm()
                                 },
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally
@@ -202,7 +201,6 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                             when(painter.state) {
                                 is AsyncImagePainter.State.Loading -> {
                                     // 로딩중이면 대체이미지
-                                    Log.d("@@1ImageLoader", "Loading image..")
                                     CircularProgressIndicator()
                                 }
                                 is AsyncImagePainter.State.Success -> {
@@ -240,55 +238,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                             )
                         }
                     } //card
-
                 } // index
-            }
-        }
-    }
-}
-
-@Composable
-fun AnimatedPreloader(modifier: Modifier = Modifier) {
-    val preloaderLottieComposition by rememberLottieComposition(
-        LottieCompositionSpec.RawRes(
-            R.raw.animation_preloader
-        )
-    )
-
-    val preloaderProgress by animateLottieCompositionAsState(
-        preloaderLottieComposition,
-        iterations = LottieConstants.IterateForever,
-        isPlaying = true
-    )
-}
-
-// lottie 수정 ver
-@Composable
-fun preLoader(albumUrl: String) {
-    // coil의 asyncimgpainter 사용하여 이미지 상태 추적
-    val painter = rememberAsyncImagePainter(model = albumUrl)
-
-    Box {
-        when (painter.state) {
-            is AsyncImagePainter.State.Loading -> {
-                // 로딩 중이면 preloader
-                AnimatedPreloader(modifier = Modifier.fillMaxSize())
-            }
-
-            is AsyncImagePainter.State.Success -> {
-                // 로딩 완료 시 이미지 표시
-                Image(
-                    painter = painter, contentDescription = null,
-                    modifier = Modifier.fillMaxSize()
-                )
-            }
-
-            else -> {
-                // 실패 시 대체 이미지
-                Icon(
-                    imageVector = Icons.Outlined.Palette, contentDescription = "fail",
-                    modifier = Modifier.size(100.dp)
-                )
             }
         }
     }

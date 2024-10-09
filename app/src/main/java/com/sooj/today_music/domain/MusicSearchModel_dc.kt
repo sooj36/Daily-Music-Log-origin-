@@ -26,7 +26,7 @@ data class Trackmatches(
 )
 
 data class Track(
-    val name: String?,
+    val name: String,
     val artist: String?,
 //    val url: String?,
 //    val streamable: String?,
