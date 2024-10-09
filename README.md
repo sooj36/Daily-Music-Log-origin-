@@ -9,3 +9,8 @@
 5. DataBase - Room
 6. Coroutines / Flow
 7. DI (dagger hilt)
+
+
+## 다이어그램
+<img width="10800" alt="각 속성과메서드별 구분(241008)" src="https://github.com/user-attachments/assets/e99cbb7b-d9fd-41b4-85fe-aef1e0608a4b">
+

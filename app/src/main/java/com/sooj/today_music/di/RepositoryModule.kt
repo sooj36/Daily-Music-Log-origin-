@@ -29,13 +29,13 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindsSearchRepository(
+    abstract fun bindSearchRepository(
         searchRepositoryImpl: SearchRepositoryImpl
     ) : SearchRepository
 
     @Binds
     @Singleton
-    abstract fun bindsMemoRepository(
+    abstract fun bindMemoRepository(
         memoRepositoryImpl: MemoRepositoryImpl
     ) : MemoRepository
 }

@@ -16,17 +16,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArtTrack
-import androidx.compose.material.icons.filled.ContentCut
-import androidx.compose.material.icons.filled.LibraryMusic
-import androidx.compose.material.icons.filled.RestoreFromTrash
-import androidx.compose.material.icons.filled.SpeakerNotesOff
-import androidx.compose.material.icons.filled.StickyNote2
-import androidx.compose.material.icons.filled.TransferWithinAStation
 import androidx.compose.material.icons.outlined.ContentCut
 import androidx.compose.material.icons.outlined.LibraryMusic
 import androidx.compose.material.icons.outlined.SpeakerNotesOff
-import androidx.compose.material.icons.rounded.SpeakerNotesOff
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
@@ -35,11 +27,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -59,7 +49,7 @@ fun DetailPageScreen(
     memoViewModel: MemoViewModel = hiltViewModel(),
 ) {
     //
-    val trackClick by musicViewModel.selectedTrackEntity.collectAsState()
+    val trackClick by musicViewModel.selectedTrackEntity_st.collectAsState()
 
     // 선택된 트랙의 trackid로 memoentity 불러오기
     LaunchedEffect(trackClick) {
@@ -70,10 +60,10 @@ fun DetailPageScreen(
     }
 
     //memoentity감지
-    val memoEntity by musicViewModel.memoContent.collectAsState()
+    val memoEntity by musicViewModel.memoContent_st.collectAsState()
 
     /** 클릭한 트랙 가져오기 */
-    val clickedTrack by musicViewModel.selectedTrack.collectAsState()
+    val clickedTrack by musicViewModel.selectedTrack_st.collectAsState()
 
     val scrollState = rememberScrollState() // 스크롤 상태 기억
 

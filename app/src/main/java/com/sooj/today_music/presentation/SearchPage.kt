@@ -20,12 +20,8 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.LibraryMusic
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.LibraryMusic
 import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material.icons.outlined.SettingsBackupRestore
-import androidx.compose.material.icons.outlined.TipsAndUpdates
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,7 +37,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -57,10 +52,11 @@ import com.sooj.today_music.R
 
 @Composable
 fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewModel) {
-    val searchList by musicViewModel.searchList
-    val getAlbumImage by musicViewModel.getAlbumImage.collectAsState()
-    val url by musicViewModel.UrlMap_st.collectAsState()
-    Log.d("@@@URL CHECK", "Current URL: $url")
+
+    val searchList by musicViewModel.searchList_st
+    val getAlbumImage by musicViewModel.getAlbumImage_st.collectAsState()
+    val getAlbumImg_Map by musicViewModel.getAlbumMap_st.collectAsState()
+
 
     Box(
         modifier = Modifier
@@ -69,7 +65,9 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
     ) {
         Column {
             Spacer(modifier = Modifier.height(8.dp))
-            IconButton(onClick = { navController.popBackStack() }) {
+            IconButton(onClick = {
+                navController.popBackStack()
+            }) {
                 Image(imageVector = Icons.Outlined.LibraryMusic, contentDescription = "list",
                     Modifier.size(30.dp))
             }
@@ -99,7 +97,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                         ) {
                             if (text.isEmpty()) {
                                 Text(
-                                    text = "오늘의 노래를 기록하세요 ! (띄어쓰기 유의)",
+                                    text = "오늘의 노래를 기록하세요 !",
                                     style = TextStyle(color = Color.Black),
                                     fontWeight = FontWeight.ExtraLight,
                                     fontFamily = FontFamily(Font(R.font.sc_dream_4),)
@@ -115,8 +113,10 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
 
                 IconButton(onClick = {
 //                    musicViewModel.getMusic_vm(text)
-                    musicViewModel.test(text)
-                    musicViewModel.test_vm(text)
+
+                    musicViewModel.test2(text)
+                    musicViewModel.fetchTrackAndUrl_vm(text)
+
 
                 }) {
                     Image(imageVector = Icons.Outlined.Search, contentDescription = "search",
@@ -131,6 +131,8 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
             ) {
                 items(searchList.size) { index ->
                     val track = searchList[index]
+                    val albumUrl = getAlbumImg_Map[track.name] ?: R.drawable.yumi
+
                     Column(
                         modifier = Modifier
                             .padding(7.dp)
@@ -145,50 +147,53 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                                 musicViewModel.UrlMap_st
 
                                 // new 추가 !@@@@@@@@@@@@@@22
-                                musicViewModel.selectedTrack
+                                musicViewModel.selectedTrack_st
                                 musicViewModel.getAlbumPoster_vm()
 
                                 Log.d(
                                     "1 Storing selected tracks in ViewModel",
-                                    "saved ${musicViewModel.selectedTrack.value} &"
+                                    "saved ${musicViewModel.selectedTrack_st.value} &"
                                 )
                             },
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
 
-//                        // 1
-//                        AsyncImage(
-//                            model = ImageRequest.Builder(LocalContext.current)
-//                                .data(
-//                                    track.image?.find { it.size == "extralarge" }?.url?.takeIf { it.isNotEmpty() }
-//                                        ?: R.drawable.yumi // URL이 비어 있으면 기본 이미지 리소스를 사용
-//                                )
-//                                .build(),
-//                            contentDescription = null
-//                        )
-//
+
+                        Text(text = " // 이건 2")
                         //2
                         AsyncImage(
                             model = ImageRequest.Builder(LocalContext.current)
+                                .data(getAlbumImage ?: R.drawable.yumi // URL이 비어 있으면 기본 이미지 리소스를 사용
+                                )
+                                .build(),
+                            contentDescription = null,
+                        )
+
+
+                        Text(text = " // 이건 3")
+                    //3
+                        AsyncImage(
+                            model = ImageRequest.Builder(LocalContext.current)
                                 .data(
-                                    getAlbumImage ?: R.drawable.yumi // URL이 비어 있으면 기본 이미지 리소스를 사용
+                                    albumUrl ?: R.drawable.yumi // URL이 비어 있으면 기본 이미지 리소스를 사용
                                 )
                                 .diskCachePolicy(CachePolicy.DISABLED)  // 캐싱 비활성화
                                 .build(),
                             contentDescription = null
                         )
 
-                        // 3
-                        AsyncImage(
-                            model = ImageRequest.Builder(LocalContext.current)
-                                .data(
-                                    url ?: R.drawable.yumi // URL이 비어 있으면 기본 이미지 리소스를 사용
-                                )
-                                .diskCachePolicy(CachePolicy.DISABLED)  // 캐싱 비활성화
-                                .build(),
-                            contentDescription = null
-                        )
+//                        // 3
+//                        AsyncImage(
+//                            model = ImageRequest.Builder(LocalContext.current)
+//                                .data(
+//                                    url ?: R.drawable.yumi // URL이 비어 있으면 기본 이미지 리소스를 사용
+//                                )
+//                                .diskCachePolicy(CachePolicy.DISABLED)  // 캐싱 비활성화
+//                                .build(),
+//                            contentDescription = null
+//                        )
+//                        AsyncImage(model = albumUrl, contentDescription = "map")
                         Spacer(modifier = Modifier.height(8.dp))
                         /** 트랙명 */
                         Text(
