@@ -17,14 +17,14 @@ import javax.inject.Inject
 
 
 class SearchRepositoryImpl @Inject constructor(
-    private val musicapi: ApiService_EndPoint,
-    private val trackDao: TrackDao , // 다오 주입받음
+    private val musicApi: ApiService_EndPoint,
+    private val trackDao: TrackDao, // 다오 주입받음
     private val memoDao: MemoDao
 ) : SearchRepository {
     override suspend fun getMusic_impl(track: String): List<Track> {
         return withContext(Dispatchers.IO) {
             Log.d("sj im GETMUSIC", "Running on thread: ${Thread.currentThread().name}")
-            val searchResponse = musicapi.getTrackSearch(
+            val searchResponse = musicApi.getTrackSearch(
                 "track.search", track, BuildConfig.LAST_FM_API_KEY, "json"
             )
 
@@ -50,7 +50,7 @@ class SearchRepositoryImpl @Inject constructor(
             Log.d("sj im GETPOSTER", "Running on thread: ${Thread.currentThread().name}")
             try {
                 //getpostinfo api 호출
-                val postResponse = musicapi.getPostInfo(
+                val postResponse = musicApi.getPostInfo(
                     "track.getInfo", BuildConfig.LAST_FM_API_KEY, artist, track, "json"
                 )
                 if (postResponse.isSuccessful) {

@@ -155,7 +155,7 @@ class MusicViewModel @Inject constructor(
     }
 
     // 1006 추가 로직 URL -> MAP으로
-    fun test_vm(track : String) {
+    fun fetchTrackAndUrl_vm(track : String) {
         viewModelScope.launch(Dispatchers.IO) {
             val trackINFO = repository.getMusic_impl(track)
 
@@ -246,5 +246,4 @@ class MusicViewModel @Inject constructor(
         }
 
     }
-
 }
