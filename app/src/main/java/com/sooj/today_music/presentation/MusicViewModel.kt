@@ -187,27 +187,6 @@ class MusicViewModel @Inject constructor(
         }
     }
 
-    fun test_vm(track: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            //
-            val track = repository.getMusic_impl(track)
-
-            //
-            val albumImg : Map<String, String?> = track.associate { url ->
-                val posterUrl = repository.getAlbumPoster_impl(
-                    url.name ?: "fail to load track",
-                    url.artist ?: "fail to load artist"
-                )
-                //
-                (url.name ?: "track_key") to (posterUrl?.image?.find { it.size == "extralarge" }?.url ?: "url error")
-            }
-
-            withContext(Dispatchers.Main) {
-                _UrlMap_st.value = _UrlMap_st.value + albumImg
-            }
-        }
-    }
-
     // Dao에 저장된 데이터 불러오는 메서드
     fun getAllTracks_vm() {
         viewModelScope.launch(Dispatchers.IO) {

@@ -145,8 +145,8 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
     //Coil
-    implementation ("io.coil-kt:coil:1.2.0")
-    implementation ("io.coil-kt:coil-svg:1.2.0")
+    implementation("io.coil-kt:coil:1.2.0")
+    implementation("io.coil-kt:coil-svg:1.2.0")
     implementation("io.coil-kt:coil-compose:2.5.0")
 
     //Datastore
@@ -156,9 +156,11 @@ dependencies {
 
     //room
     implementation("androidx.room:room-ktx:2.6.1")
-    kapt ("androidx.room:room-compiler:2.6.1")
-}
+    kapt("androidx.room:room-compiler:2.6.1")
 
+    //lotte
+    implementation("com.airbnb.android:lottie-compose:6.5.0")
+}
 kapt {
     correctErrorTypes = true
 }

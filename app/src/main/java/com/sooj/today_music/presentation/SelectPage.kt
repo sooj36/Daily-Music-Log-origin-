@@ -45,7 +45,6 @@ fun SelectPageScreen(navController: NavController, musicViewModel: MusicViewMode
     val selectedTrack by musicViewModel.selectedTrack_st.collectAsState()
     val context = LocalContext.current // localcontext로 context 가져오기
     val saveResult = musicViewModel.saveResult_st.collectAsState()
-//    val getAlbumImg_MAP by musicViewModel.getAlbumMap_st.collectAsState()
 
     /** 1. 선택한 트랙 가져오기 */
     val getImageUrl by musicViewModel.getAlbumImage_st.collectAsState()

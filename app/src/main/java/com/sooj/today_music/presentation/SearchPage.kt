@@ -18,10 +18,16 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.AllInclusive
 import androidx.compose.material.icons.outlined.LibraryMusic
+import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -45,8 +51,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
 import coil.request.CachePolicy
 import coil.request.ImageRequest
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.sooj.today_music.R
 
 
@@ -54,7 +67,7 @@ import com.sooj.today_music.R
 fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewModel) {
 
     val searchList by musicViewModel.searchList_st
-    val getAlbumImage by musicViewModel.getAlbumImage_st.collectAsState()
+    val getAlbumImage = ""
     val getAlbumImg_Map by musicViewModel.getAlbumMap_st.collectAsState()
 
 
@@ -131,91 +144,120 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
             ) {
                 items(searchList.size) { index ->
                     val track = searchList[index]
-                    val albumUrl = getAlbumImg_Map[track.name] ?: R.drawable.yumi
+                    val albumUrl = getAlbumImg_Map[track.name]
 
-                    Column(
-                        modifier = Modifier
-                            .padding(7.dp)
+                    Card(
+                        Modifier
                             .fillMaxWidth()
-                            .clickable {
-                                // 다른 페이지로 이동
-                                navController.navigate("select_page")
-
-                                // 클릭 시, Viewmodel에 선택된 트랙 저장
-                                musicViewModel.selectTrack_vm(track)
-                                // test 중
-                                musicViewModel.UrlMap_st
-
-                                // new 추가 !@@@@@@@@@@@@@@22
-                                musicViewModel.selectedTrack_st
-                                musicViewModel.getAlbumPoster_vm()
-
-                                Log.d(
-                                    "1 Storing selected tracks in ViewModel",
-                                    "saved ${musicViewModel.selectedTrack_st.value} &"
-                                )
-                            },
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
+                            .padding(5.dp)
+                            .border(2.dp, Color.LightGray, RoundedCornerShape(10.dp)),
+                        colors = CardDefaults.cardColors(containerColor = Color(0xFFF9E5DA)) // 배경색 설정
                     ) {
+                        Column(
+                            modifier = Modifier
+                                .padding(7.dp)
+                                .fillMaxWidth()
+                                .clickable {
+                                    // 다른 페이지로 이동
+                                    navController.navigate("select_page")
 
+                                    // 클릭 시, Viewmodel에 선택된 트랙 저장
+                                    musicViewModel.selectTrack_vm(track)
 
-                        Text(text = " // 이건 2")
-                        //2
-                        AsyncImage(
-                            model = ImageRequest.Builder(LocalContext.current)
-                                .data(getAlbumImage ?: R.drawable.yumi // URL이 비어 있으면 기본 이미지 리소스를 사용
-                                )
-                                .build(),
-                            contentDescription = null,
-                        )
+                                    // new 추가 !@@@@@@@@@@@@@@22
+                                    musicViewModel.selectedTrack_st
+                                    musicViewModel.getAlbumPoster_vm()
+                                },
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
 
+                            //2 첫번째 데이터가 모두 로드
+                            AsyncImage(
+                                model = ImageRequest.Builder(LocalContext.current)
+                                    .data(getAlbumImage ?: Icons.Outlined.Search // URL이 비어 있으면 기본 이미지 리소스를 사용
+                                    )
+                                    .diskCachePolicy(CachePolicy.DISABLED)
+                                    .build(),
+                                contentDescription = null,
+                            )
 
-                        Text(text = " // 이건 3")
-                    //3
-                        AsyncImage(
-                            model = ImageRequest.Builder(LocalContext.current)
-                                .data(
-                                    albumUrl ?: R.drawable.yumi // URL이 비어 있으면 기본 이미지 리소스를 사용
-                                )
-                                .diskCachePolicy(CachePolicy.DISABLED)  // 캐싱 비활성화
-                                .build(),
-                            contentDescription = null
-                        )
+                            //3 map으로 수정
+                            AsyncImage(
+                                model = ImageRequest.Builder(LocalContext.current)
+                                    .data(
+                                        albumUrl // URL이 비어 있으면 기본 이미지 리소스를 사용
+                                    )
+                                    .diskCachePolicy(CachePolicy.DISABLED)  // 캐싱 비 활성화
+                                    .build(),
+                                contentDescription = null
+                            )
 
-//                        // 3
-//                        AsyncImage(
-//                            model = ImageRequest.Builder(LocalContext.current)
-//                                .data(
-//                                    url ?: R.drawable.yumi // URL이 비어 있으면 기본 이미지 리소스를 사용
-//                                )
-//                                .diskCachePolicy(CachePolicy.DISABLED)  // 캐싱 비활성화
-//                                .build(),
-//                            contentDescription = null
-//                        )
-//                        AsyncImage(model = albumUrl, contentDescription = "map")
-                        Spacer(modifier = Modifier.height(8.dp))
-                        /** 트랙명 */
-                        Text(
-                            text = track.name.toString(),
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.ExtraBold,
-                            fontFamily = FontFamily(Font(R.font.opensans_semibold),),
-                            modifier = Modifier.align(Alignment.CenterHorizontally) // 텍스트 중앙 정렬
-                        )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            /** 트랙명 */
+                            Text(
+                                text = track.name.toString(),
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.ExtraBold,
+                                fontFamily = FontFamily(Font(R.font.opensans_semibold),),
+                                modifier = Modifier.align(Alignment.CenterHorizontally) // 텍스트 중앙 정렬
+                            )
 
-                        Spacer(modifier = Modifier.height(2.dp))
+                            Spacer(modifier = Modifier.height(2.dp))
 
-                        /** 아티스트명 */
-                        Text(
-                            text = track.artist.toString(),
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Medium,
-                            fontFamily = FontFamily(Font(R.font.opensans_semibold),),
-                            modifier = Modifier.align(Alignment.CenterHorizontally) // 텍스트 중앙 정렬
-                        )
-                    }
+                            /** 아티스트명 */
+                            Text(
+                                text = track.artist.toString(),
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Medium,
+                                fontFamily = FontFamily(Font(R.font.opensans_semibold),),
+                                modifier = Modifier.align(Alignment.CenterHorizontally) // 텍스트 중앙 정렬
+                            )
+                        }
+                    } //card
+
                 } // index
+            }
+        }
+    }
+}
+
+@Composable
+fun AnimatedPreloader(modifier: Modifier = Modifier) {
+    val preloaderLottieComposition by rememberLottieComposition(
+        LottieCompositionSpec.RawRes(
+            R.raw.animation_preloader
+        )
+    )
+
+    val preloaderProgress by animateLottieCompositionAsState(
+        preloaderLottieComposition,
+        iterations = LottieConstants.IterateForever,
+        isPlaying = true
+    )
+}
+
+// lottie 수정 ver
+@Composable
+fun preLoader(albumUrl : String) {
+    // coil의 asyncimgpainter 사용하여 이미지 상태 추적
+    val painter = rememberAsyncImagePainter(model = albumUrl)
+
+    Box {
+        when (painter.state) {
+            is AsyncImagePainter.State.Loading -> {
+                // 로딩 중이면 preloader
+                AnimatedPreloader(modifier = Modifier.fillMaxSize())
+            }
+            is AsyncImagePainter.State.Success -> {
+                // 로딩 완료 시 이미지 표시
+                Image(painter = painter, contentDescription = null,
+                    modifier = Modifier.fillMaxSize())
+            }
+            else -> {
+                // 실패 시 대체 이미지
+                Icon(imageVector = Icons.Outlined.Palette, contentDescription = "fail",
+                    modifier = Modifier.size(100.dp))
             }
         }
     }
