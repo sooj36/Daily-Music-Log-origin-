@@ -27,11 +27,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.sooj.today_music.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -41,7 +44,8 @@ fun EditDetailPageScreen(
     memoViewModel: MemoViewModel
 ) {
     val clickedTrack by musicViewModel.selectedTrack_st.collectAsState()
-    Log.d("get track for edit", "info < ${clickedTrack} >")
+    val memoEntity by musicViewModel.memoContent_st.collectAsState()
+
     val scrollState = rememberScrollState()
 
     Box(
@@ -64,11 +68,13 @@ fun EditDetailPageScreen(
                     )
                 }
 
+                // update dao 로
                 IconButton(onClick = {
                     navController.navigate("detail_page")
-                    clickedTrack?.let { id ->
-                        //
-                    }
+
+                    memoEntity?.let { memoViewModel.updateMemo_vm(memoEntity = it) }
+
+
                 }) {
                     Image(
                         imageVector = Icons.Outlined.SaveAlt,
@@ -111,10 +117,29 @@ fun EditDetailPageScreen(
                         fontSize = 17.sp
                     )
 
-                    var text by remember {
-                        mutableStateOf("")
+                    // 메모데이터로드
+                    Column(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(12.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        memoEntity?.let { mm ->
+                            Text(
+                                text = "${mm.memoContent}",
+                                fontFamily = FontFamily(Font(R.font.sc_dream_4)),
+                                fontSize = 15.sp
+                            )
+                        }
                     }
-                    TextField(value = text, onValueChange = { text = it })
+
+                    var text by remember {
+                        mutableStateOf(memoEntity?.memoContent)
+                    }
+                    text?.let {
+                        TextField(value = text!!, onValueChange = { text = it })
+                    }
+                    memoEntity?.memoContent = text.toString()
                 }
             }
         }

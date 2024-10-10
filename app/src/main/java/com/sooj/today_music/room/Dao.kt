@@ -22,6 +22,7 @@ interface MemoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMemo(memoEntity: MemoEntity)
 
+    //@Update 함수의 문제는 파라미터로 엔티티 객체를 전달해야 한다는 점
     @Update
     suspend fun updateMemo(memoEntity: MemoEntity)
 

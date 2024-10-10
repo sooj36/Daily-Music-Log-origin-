@@ -150,6 +150,7 @@ fun DetailPageScreen(
                         fontFamily = FontFamily(Font(R.font.opensans_semibold),),
                         fontSize = 23.sp
                     )
+                    // 메모장
                     Card(
                         shape = RoundedCornerShape(30.dp),
                         modifier = Modifier
@@ -157,6 +158,7 @@ fun DetailPageScreen(
                             .padding(20.dp)
                             .clickable {
                                 navController.navigate("edit_detail_page")
+                                memoEntity
                             }
                     ) {
                         Column(
