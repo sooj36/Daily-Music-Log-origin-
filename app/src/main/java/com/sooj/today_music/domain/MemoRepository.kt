@@ -8,6 +8,7 @@ import java.util.concurrent.Flow
 
 interface MemoRepository  {
     suspend fun saveMemo_impl(memoEntity: MemoEntity)
+//    suspend fun saveMemo_impl(trackid: Int)
 
     suspend fun getMemo_impl(trackId : Int): kotlinx.coroutines.flow.Flow<MemoEntity>
 

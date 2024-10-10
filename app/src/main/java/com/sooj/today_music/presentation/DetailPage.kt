@@ -40,6 +40,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.sooj.today_music.R
+import com.sooj.today_music.room.MemoEntity
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -172,7 +173,14 @@ fun DetailPageScreen(
                                     fontSize = 15.sp)
                             } ?: Text(text = "새로 메모 추가하기",
                                 fontFamily = FontFamily(Font(R.font.sc_dream_2),),
-                                fontSize = 17.sp)
+                                fontSize = 17.sp,
+                                modifier = Modifier.clickable {
+                                    // 새로 메모 추가 로직
+                                    val test = trackClick!!.trackId
+                                    val newMm = MemoEntity(test, memoContent = "추가된 코드")
+                                        memoViewModel.insertMemo_vm(newMm)
+                                    navController.navigate("edit_detail_page")
+                                })
                         }
                     } // c
                 } // box

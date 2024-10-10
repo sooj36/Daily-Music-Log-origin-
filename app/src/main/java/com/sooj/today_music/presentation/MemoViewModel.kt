@@ -21,6 +21,16 @@ class MemoViewModel @Inject constructor(
     private val memoRepository: MemoRepository,
 ) : ViewModel() {
 
+    fun insertMemo_vm(memoEntity: MemoEntity) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                memoRepository.saveMemo_impl(memoEntity)
+            } catch (e:Exception) {
+                Log.e("insert m error", "${e.message}")
+            }
+        }
+    }
+
     fun updateMemo_vm(memoEntity: MemoEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             try {

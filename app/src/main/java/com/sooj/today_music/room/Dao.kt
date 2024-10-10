@@ -19,6 +19,7 @@ interface MemoDao {
     @Query("SELECT * FROM MemoEntity WHERE trackId = :trackId LIMIT 1")
     fun getMemoByTrackId(trackId: Int): Flow<MemoEntity>
 
+    //@insert 도 entity전체를 넘겨줘야함
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMemo(memoEntity: MemoEntity)
 

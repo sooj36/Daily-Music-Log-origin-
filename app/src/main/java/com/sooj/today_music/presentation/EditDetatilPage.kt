@@ -15,6 +15,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.MusicVideo
 import androidx.compose.material.icons.outlined.SaveAlt
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -116,30 +117,16 @@ fun EditDetailPageScreen(
                         textAlign = TextAlign.Center,
                         fontSize = 17.sp
                     )
-
-                    // 메모데이터로드
-                    Column(
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(12.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        memoEntity?.let { mm ->
-                            Text(
-                                text = "${mm.memoContent}",
-                                fontFamily = FontFamily(Font(R.font.sc_dream_4)),
-                                fontSize = 15.sp
-                            )
+                    Card {
+                        var text by remember {
+                            mutableStateOf(memoEntity?.memoContent)
                         }
+                        text?.let {
+                            TextField(value = text!!, onValueChange = { text = it })
+                        }
+                        memoEntity?.memoContent = text.toString()
                     }
 
-                    var text by remember {
-                        mutableStateOf(memoEntity?.memoContent)
-                    }
-                    text?.let {
-                        TextField(value = text!!, onValueChange = { text = it })
-                    }
-                    memoEntity?.memoContent = text.toString()
                 }
             }
         }
