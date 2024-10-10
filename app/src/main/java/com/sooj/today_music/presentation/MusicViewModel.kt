@@ -138,8 +138,8 @@ class MusicViewModel @Inject constructor(
             // 트랙 이름 기반으로 api 2 호출하여 이미지 가져오기
             val albumImg : Map<String, String?> = trackINFO.associate { url ->
                 val posterUrl = repository.getAlbumPoster_impl(
-                    url.name ?: "fail to load track명",
-                    url.artist ?: "fatil to load artist명"
+                    url.name ?: "fail to load track",
+                    url.artist ?: "fail to load artist"
                 )
                 // 트랙명 key, url value
                 (url.name ?: "track_key") to (posterUrl?.image?.find { it.size == "extralarge" }?.url?: "url error vv")
@@ -166,22 +166,33 @@ class MusicViewModel @Inject constructor(
     }
 
     // 선택된 트랙을 데이터베이스에 저장
+    /////////////////////////////////////////수정할 부분
+    ////////////선택된 트랙을 데이터베이스에 저장하는 건 맞지만
+    /////////이미지부분 변경해야함 //////////////////////////
     fun saveSelectedTrack_vm() {
-        val trackToSave = _selectedTrack_st.value ?: return
-        val imgToSave = _getAlbumImage_st.value ?: return
+        val trackToSave = _selectedTrack_st.value
+        val urlToSave = _getAlbumMap_st.value
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val trackEntity = TrackEntity(
-                    trackName = trackToSave.name ?: return@launch,
-                    artistName = trackToSave.artist ?: return@launch,
-                    imageUrl = imgToSave,
-                    saveAt = System.currentTimeMillis()
-                )
-                val memoEntity = MemoEntity(
-                    trackId = trackEntity.trackId,
-                    memoContent = "오늘의 음악을 기록하세요 !"
-                )
-                repository.saveSelectedTrack_impl(trackEntity, memoEntity) // db저장 코드
+                val trackEntity = urlToSave[trackToSave?.name]?.let {
+                    TrackEntity(
+                        trackName = trackToSave?.name ?: return@launch,
+                        artistName = trackToSave.artist ?: return@launch,
+                        imageUrl = it, //
+                        saveAt = System.currentTimeMillis()
+                    )
+                }
+                val memoEntity = trackEntity?.trackId?.let {
+                    MemoEntity(
+                        trackId = it,
+                        memoContent = "오늘의 음악을 기록하세요 !"
+                    )
+                }
+                if (trackEntity != null) {
+                    if (memoEntity != null) {
+                        repository.saveSelectedTrack_impl(trackEntity, memoEntity)
+                    }
+                } // db저장 코드
                 Log.d("sj--db save", "track is ${trackEntity} gut")
                 _saveResult_st.value = true
             } catch (e: Exception) {
