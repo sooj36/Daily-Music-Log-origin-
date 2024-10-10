@@ -142,7 +142,7 @@ class MusicViewModel @Inject constructor(
                     url.artist ?: "fail to load artist"
                 )
                 // 트랙명 key, url value
-                (url.name ?: "track_key") to (posterUrl?.image?.find { it.size == "extralarge" }?.url?: "url error vv")
+                (url.name ?: "track_key") to (posterUrl?.image?.find { it.size == "extralarge" }?.url)
             }
 
             // 기존 map에 새로운 값 추가
@@ -224,6 +224,10 @@ class MusicViewModel @Inject constructor(
     // 검색 페이지 검색 값 초기화
     fun clearSearchResults() {
         _searchList_st.value = emptyList()  // 검색 결과 초기화
+    }
+
+    fun clearMap() {
+        _getAlbumMap_st.value = emptyMap()
     }
 
     // 트랙 삭제

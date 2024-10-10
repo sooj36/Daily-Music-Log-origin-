@@ -40,6 +40,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -80,7 +81,6 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
             Spacer(modifier = Modifier.height(8.dp))
             IconButton(onClick = {
                 navController.popBackStack()
-
                 musicViewModel.clearSearchResults() // 검색 값 초기화
             }) {
                 Image(
@@ -130,7 +130,9 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                 Spacer(modifier = Modifier.width(6.dp))
 
                 IconButton(onClick = {
+                    musicViewModel.clearMap()
                     musicViewModel.getMusic_vm(text) // 검색 결과
+
                     musicViewModel.fetchTrackAndUrl_vm(text) // Poster Map으로
                 }) {
                     Image(
@@ -186,37 +188,27 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                                     .build(),
                                 contentDescription = null,
                             )
+                            Log.d("@@1", "# ${getAlbumImage}")
+                            Log.d("@@2", "# ${getAlbumImg_Map}")
 
-                            //3 map으로 수정 (최종본)
-                            AsyncImage(
-                                model = ImageRequest.Builder(LocalContext.current)
-                                    .data(
-                                        albumUrl // URL이 비어 있으면 기본 이미지 리소스를 사용
-                                    )
-//                                    .diskCachePolicy(CachePolicy.DISABLED)  // 캐싱 비활성화
-                                    .diskCachePolicy(CachePolicy.ENABLED) // 캐싱 활성화
-                                    .build(),
-                                contentDescription = "최종 이미지"
-                            )
 
-                            val painter = rememberAsyncImagePainter(model = albumUrl)
-                            when(painter.state) {
-                                is AsyncImagePainter.State.Loading -> {
-                                    // 로딩중이면 대체이미지
-                                    CircularProgressIndicator()
-                                }
-                                is AsyncImagePainter.State.Success -> {
-                                    Log.d("@@2ImageLoader", "Image loaded successfully.")
-                                    Image(
-                                        painter = painter,
-                                        contentDescription = "poster",
-                                        modifier = Modifier.fillMaxSize()
-                                    )
-                                }
-                                else -> {
-                                    // 로드 실패시
-                                }
+                            // 3 map으로 수정 (최종본)
+                            if (albumUrl != null) {
+                                AsyncImage(
+                                    model = ImageRequest.Builder(LocalContext.current)
+                                        .data(
+                                            albumUrl
+                                        )
+                                        .diskCachePolicy(CachePolicy.DISABLED)  // 캐싱 비활성화
+//                                    .diskCachePolicy(CachePolicy.ENABLED) // 캐싱 활성화
+                                        .build(),
+                                    contentDescription = "최종 이미지"
+                                )
+                            } else {
+                                // null 이면 기본이미지
+                                R.drawable.yumi
                             }
+
 
                             Spacer(modifier = Modifier.height(8.dp))
                             /** 트랙명 */
