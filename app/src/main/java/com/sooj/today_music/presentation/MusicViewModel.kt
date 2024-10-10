@@ -202,8 +202,7 @@ class MusicViewModel @Inject constructor(
         }
     }
 
-    //////////////////
-    // 트랙 선택 시 trackId 이용하여 memoentity 불러오기
+    // 트랙 선택 시 trackId으로 memoentity 불러오기
     fun getMmUseID_vm(trackId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -219,7 +218,6 @@ class MusicViewModel @Inject constructor(
         _selectedTrackEntity_st.value = trackEntity
         getMmUseID_vm(trackEntity.trackId) // 자동 생성된 trackId로 MemoEntity 조회
     }
-    //////////////////////
 
     // 검색 페이지 검색 값 초기화
     fun clearSearchResults() {

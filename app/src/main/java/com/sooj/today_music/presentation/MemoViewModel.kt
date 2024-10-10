@@ -36,7 +36,7 @@ class MemoViewModel @Inject constructor(
             try {
                 memoRepository.editMemo_impl(memoEntity)
             } catch (e : Exception) {
-                Log.d("updatememo error", "${e.message}")
+                Log.d("update m error", "${e.message}")
             }
         }
     }
@@ -48,7 +48,7 @@ class MemoViewModel @Inject constructor(
               memoRepository.deleteMemo_impl(trackId)
 
             } catch (e: Exception) {
-                Log.e("delete mm", "fail to mm delete ${e.message}")
+                Log.e("delete mm error", "fail to mm delete ${e.message}")
             }
         }
     }

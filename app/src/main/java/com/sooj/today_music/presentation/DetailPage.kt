@@ -177,7 +177,7 @@ fun DetailPageScreen(
                                 modifier = Modifier.clickable {
                                     // 새로 메모 추가 로직
                                     val test = trackClick!!.trackId
-                                    val newMm = MemoEntity(test, memoContent = "추가된 코드")
+                                    val newMm = MemoEntity(test, memoContent = "")
                                         memoViewModel.insertMemo_vm(newMm)
                                     navController.navigate("edit_detail_page")
                                 })

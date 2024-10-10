@@ -70,13 +70,6 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.End
             ) {
-//                IconButton(onClick = { navController.navigate("write_post") }) {
-//                    Image(
-//                        imageVector = Icons.Default.MusicVideo,
-//                        contentDescription = "posting",
-//                        Modifier.size(45.dp)
-//                    )
-//                }
 
                 Text(
                     text = "My Daliy MUSIC Record <3",
@@ -88,13 +81,6 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
                     }
                 )
 
-
-//                Image(imageVector = Icons.Default.SystemUpdateAlt,
-//                    contentDescription = "getTrackData",
-//                    modifier = Modifier.clickable {
-//                        musicViewModel.saveSelectedTrack_vm()
-//                        Toast.makeText(context, "DB로 저장", Toast.LENGTH_LONG).show()
-//                    })
             }
             Spacer(modifier = Modifier.height(15.dp))
 
@@ -133,9 +119,9 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.SpaceBetween
                 ) {
-                    trackEntity.trackId?.let { trackId ->
-                        Text(text = "ID값 [ ${trackId} ]", fontFamily = FontFamily(Font(R.font.opensans_medium),)) }
-                    Spacer(modifier = Modifier.height(3.dp))
+//                    trackEntity.trackId?.let { trackId ->
+//                        Text(text = "ID값 [ ${trackId} ]", fontFamily = FontFamily(Font(R.font.opensans_medium),)) }
+//                    Spacer(modifier = Modifier.height(3.dp))
                     AsyncImage(model = trackEntity.imageUrl, contentDescription = "img")
                     Spacer(modifier = Modifier.height(3.dp))
                     trackEntity.trackName?.let { Text(text = it, fontFamily = FontFamily(Font(R.font.opensans_condensed_regular),), fontSize = 20.sp) }
