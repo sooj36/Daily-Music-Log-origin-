@@ -68,7 +68,9 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
     val searchList by musicViewModel.searchList_st //
     val getAlbumImage = ""
     val getAlbumImg_Map by musicViewModel.getAlbumMap_st.collectAsState() // poster
-
+    var text by remember {
+        mutableStateOf("")
+    }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -78,6 +80,8 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
             Spacer(modifier = Modifier.height(8.dp))
             IconButton(onClick = {
                 navController.popBackStack()
+
+                musicViewModel.clearSearchResults() // 검색 값 초기화
             }) {
                 Image(
                     imageVector = Icons.Outlined.LibraryMusic, contentDescription = "list",
@@ -95,9 +99,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                 modifier = Modifier.padding(end = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                var text by remember {
-                    mutableStateOf("")
-                }
+
                 BasicTextField(modifier = Modifier
                     .width(70.dp)
                     .weight(3f)

@@ -54,7 +54,6 @@ fun DetailPageScreen(
     // 선택된 트랙의 trackid로 memoentity 불러오기
     LaunchedEffect(trackClick) {
         trackClick?.let { te ->
-            Log.d("te soo", "Track ID: ${te.trackId}")
             musicViewModel.getMmUseID_vm(te.trackId)
         }
     }
@@ -97,7 +96,6 @@ fun DetailPageScreen(
                 /** 트랙 삭제 */
                 IconButton(onClick = {
                     trackClick?.let { musicViewModel.deleteSavedTrack(it) }
-//                    musicViewModel.deleteSavedTrack(trackClick!!)
                     navController.popBackStack()
                 }) {
                     Image(imageVector = Icons.Outlined.ContentCut, contentDescription = "delete",Modifier.size(28.dp))

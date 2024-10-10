@@ -221,6 +221,11 @@ class MusicViewModel @Inject constructor(
     }
     //////////////////////
 
+    // 검색 페이지 검색 값 초기화
+    fun clearSearchResults() {
+        _searchList_st.value = emptyList()  // 검색 결과 초기화
+    }
+
     // 트랙 삭제
     fun deleteSavedTrack(trackEntity: TrackEntity) {
         viewModelScope.launch(Dispatchers.IO) {
