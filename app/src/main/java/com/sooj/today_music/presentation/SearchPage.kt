@@ -21,6 +21,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.LibraryMusic
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.outlined.Search
@@ -76,9 +77,11 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
         modifier = Modifier
             .fillMaxSize()
             .padding(start = 8.dp, end = 8.dp)
+            .background(Color(0xFFEDEDE3))
     ) {
         Column {
             Spacer(modifier = Modifier.height(8.dp))
+            Image(imageVector = Icons.Outlined.Home, contentDescription = "home")
             IconButton(onClick = {
                 navController.popBackStack()
                 musicViewModel.clearSearchResults() // 검색 값 초기화

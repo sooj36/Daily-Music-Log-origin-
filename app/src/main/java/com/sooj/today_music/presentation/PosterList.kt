@@ -1,5 +1,6 @@
 package com.sooj.today_music.presentation
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -55,11 +56,12 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .background(Color(0xFFEDEDE3))
             .padding(12.dp)
     ) {
         Column {
             Text(
-                text = "[총 ${loadTracks.size}개 기록하였습니다 <@ ]",
+                text = "[총 ${loadTracks.size}]",
                 fontWeight = FontWeight.ExtraBold,
                 fontFamily = FontFamily(Font(R.font.sc_dream_3),)
             )
@@ -72,7 +74,7 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
             ) {
 
                 Text(
-                    text = "My Daliy MUSIC Record <3",
+                    text = "my daliy MUSIC record <3",
                     fontFamily = FontFamily(Font(R.font.opensans_semibold),),
                     fontStyle = FontStyle.Italic,
                     fontSize = 21.sp,
@@ -104,12 +106,12 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
                     .fillMaxWidth()
                     .padding(5.dp)
                     .border(2.dp, Color.LightGray, RoundedCornerShape(10.dp)),
-                colors = CardDefaults.cardColors(containerColor = Color(0xFFF9E5DA)) // 배경색 설정
+//                colors = CardDefaults.cardColors(containerColor = Color(0xFFEFC0C0)) // 배경색 설정
             ) {
                 Column(
                     Modifier
                         .fillMaxWidth()
-                        .padding(15.dp)
+                        .padding(5.dp)
                         .clickable {
                             navController.navigate("detail_page")
                             // 데이터 전달
@@ -117,23 +119,33 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
                             musicViewModel.loadTrackID_vm(trackEntity) // trackId
                         },
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.SpaceBetween
-                ) {
-//                    trackEntity.trackId?.let { trackId ->
-//                        Text(text = "ID값 [ ${trackId} ]", fontFamily = FontFamily(Font(R.font.opensans_medium),)) }
-//                    Spacer(modifier = Modifier.height(3.dp))
-                    AsyncImage(model = trackEntity.imageUrl, contentDescription = "img")
-                    Spacer(modifier = Modifier.height(3.dp))
-                    trackEntity.trackName?.let { Text(text = it, fontFamily = FontFamily(Font(R.font.opensans_condensed_regular),), fontSize = 20.sp) }
-                    Spacer(modifier = Modifier.height(3.dp))
-                    trackEntity.artistName?.let { Text(text = it, fontFamily = FontFamily(Font(R.font.opensans_regular),))}
 
-                    Spacer(modifier = Modifier.height(3.dp))
-                    // 저장 시간을 date로 변환하여 표시
+                ) {
                     val saveAt = trackEntity.saveAt
-                    val dateFormat = SimpleDateFormat("yy년 MM월 dd일 \n HH:mm", Locale.getDefault())
+                    val dateFormat = SimpleDateFormat("< MM/dd >", Locale.getDefault())
                     val formattedDate = dateFormat.format(Date(saveAt))
                     Text(text = "${formattedDate}", fontFamily = FontFamily(Font(R.font.opensans_semibold),))
+
+                    // 저장 시간을 date로 변환하여 표시
+//                    val saveAt = trackEntity.saveAt
+//                    val dateFormat = SimpleDateFormat("yyyy년 MM월 dd일 HH:mm", Locale.getDefault())
+//                    val formattedDate = dateFormat.format(Date(saveAt))
+//                    Text(text = "${formattedDate}", fontFamily = FontFamily(Font(R.font.opensans_semibold),))
+
+                    Spacer(modifier = Modifier.height(3.dp))
+                    trackEntity.trackName?.let { Text(text = it,fontWeight = FontWeight.ExtraBold, fontFamily = FontFamily(Font(R.font.opensans_medium),), fontSize = 20.sp) }
+
+                    Spacer(modifier = Modifier.height(3.dp))
+
+                    trackEntity.artistName?.let { Text(text = it,
+                        fontWeight = FontWeight.ExtraBold, fontFamily = FontFamily(Font(R.font.opensans_regular),))}
+
+                    Spacer(modifier = Modifier.height(3.dp))
+
+                    AsyncImage(model = trackEntity.imageUrl, contentDescription = "img")
+
+                    Spacer(modifier = Modifier.height(3.dp))
+
                 }
             } // card
         }
