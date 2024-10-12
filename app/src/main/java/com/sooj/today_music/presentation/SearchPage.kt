@@ -160,7 +160,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                         Modifier
                             .fillMaxWidth()
                             .padding(5.dp)
-                            .border(1.dp, Color.Transparent, RoundedCornerShape(7.dp)),
+                            .border(1.dp, Color.Transparent, RoundedCornerShape(70.dp)),
                         colors = CardDefaults.cardColors(containerColor = Color(0xFFF9E5DA)) // 배경색 설정
                     ) {
                         Column(

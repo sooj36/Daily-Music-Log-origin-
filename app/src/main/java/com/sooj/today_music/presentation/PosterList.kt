@@ -63,7 +63,7 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
             Text(
                 text = "[총 ${loadTracks.size}]",
                 fontWeight = FontWeight.ExtraBold,
-                fontFamily = FontFamily(Font(R.font.sc_dream_3),)
+                fontFamily = FontFamily(Font(R.font.sc_dream_3))
             )
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -75,7 +75,7 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
 
                 Text(
                     text = "my daliy MUSIC record <3",
-                    fontFamily = FontFamily(Font(R.font.opensans_semibold),),
+                    fontFamily = FontFamily(Font(R.font.paperlogy_6semibold)),
                     fontStyle = FontStyle.Italic,
                     fontSize = 21.sp,
                     modifier = Modifier.clickable {
@@ -100,13 +100,13 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
     // 그리드 뷰
     LazyVerticalGrid(columns = GridCells.Fixed(2)) {
         items(getAllSaveTracks) { trackEntity ->
-
+//
             Card(
                 Modifier
                     .fillMaxWidth()
                     .padding(5.dp)
-                    .border(2.dp, Color.LightGray, RoundedCornerShape(10.dp)),
-//                colors = CardDefaults.cardColors(containerColor = Color(0xFFEFC0C0)) // 배경색 설정
+                    .border(1.dp, Color.LightGray, RoundedCornerShape(50.dp)),
+                colors = CardDefaults.cardColors(containerColor = Color.Transparent) // 배경색 설정
             ) {
                 Column(
                     Modifier
@@ -120,11 +120,14 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
                         },
                     horizontalAlignment = Alignment.CenterHorizontally,
 
-                ) {
+                    ) {
                     val saveAt = trackEntity.saveAt
                     val dateFormat = SimpleDateFormat("< MM/dd >", Locale.getDefault())
                     val formattedDate = dateFormat.format(Date(saveAt))
-                    Text(text = "${formattedDate}", fontFamily = FontFamily(Font(R.font.opensans_semibold),))
+                    Text(
+                        text = "${formattedDate}",
+                        fontFamily = FontFamily(Font(R.font.opensans_semibold))
+                    )
 
                     // 저장 시간을 date로 변환하여 표시
 //                    val saveAt = trackEntity.saveAt
@@ -133,25 +136,36 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
 //                    Text(text = "${formattedDate}", fontFamily = FontFamily(Font(R.font.opensans_semibold),))
 
                     Spacer(modifier = Modifier.height(3.dp))
-                    trackEntity.trackName?.let { Text(text = it,fontWeight = FontWeight.ExtraBold, fontFamily = FontFamily(Font(R.font.opensans_medium),), fontSize = 20.sp) }
+                    trackEntity.trackName?.let {
+                        Text(
+                            text = it,
+                            fontWeight = FontWeight.Medium,
+                            fontFamily = FontFamily(Font(R.font.opensans_medium)),
+                            fontSize = 20.sp
+                        )
+                    }
 
                     Spacer(modifier = Modifier.height(3.dp))
 
-                    trackEntity.artistName?.let { Text(text = it,
-                        fontWeight = FontWeight.ExtraBold, fontFamily = FontFamily(Font(R.font.opensans_regular),))}
+                    trackEntity.artistName?.let {
+                        Text(
+                            text = it,
+                            fontWeight = FontWeight.Medium,
+                            fontFamily = FontFamily(Font(R.font.opensans_regular))
+                        )
+                    }
 
                     Spacer(modifier = Modifier.height(3.dp))
 
                     AsyncImage(model = trackEntity.imageUrl, contentDescription = "img")
 
-                    Spacer(modifier = Modifier.height(3.dp))
+                    Spacer(modifier = Modifier.height(10.dp))
 
                 }
             } // card
         }
     }
 }
-
 
 
 @Preview

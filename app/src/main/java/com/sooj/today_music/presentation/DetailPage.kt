@@ -78,36 +78,39 @@ fun DetailPageScreen(
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Absolute.Right
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
 
                 IconButton(onClick = { navController.popBackStack() }) {
                     Image(imageVector = Icons.Outlined.LibraryMusic, contentDescription = "NoteList",Modifier.size(28.dp))
                 }
 
-                if (memoEntity != null) {
-                    /** 메모 삭제 */
-                    IconButton(onClick = {
+                Row {
+                    if (memoEntity != null) {
+                        /** 메모 삭제 */
+                        IconButton(onClick = {
 
-                        memoViewModel.deleteMemo_vm(memoEntity?.trackId ?: return@IconButton)
-                    }) {
-                        Image(imageVector = Icons.Outlined.SpeakerNotesOff, contentDescription = "delete", Modifier.size(28.dp))
+                            memoViewModel.deleteMemo_vm(memoEntity?.trackId ?: return@IconButton)
+                        }) {
+                            Image(imageVector = Icons.Outlined.SpeakerNotesOff, contentDescription = "delete", Modifier.size(28.dp))
+                        }
                     }
-                }
 
-                /** 트랙 삭제 */
-                IconButton(onClick = {
-                    trackClick?.let { musicViewModel.deleteSavedTrack(it) }
-                    navController.popBackStack()
-                }) {
-                    Image(imageVector = Icons.Outlined.ContentCut, contentDescription = "delete",Modifier.size(28.dp))
-                }
+                    /** 트랙 삭제 */
+                    IconButton(onClick = {
+                        trackClick?.let { musicViewModel.deleteSavedTrack(it) }
+                        navController.popBackStack()
+                    }) {
+                        Image(imageVector = Icons.Outlined.ContentCut, contentDescription = "delete",Modifier.size(28.dp))
+                    }
+                }// icon
+
             }
             Box(modifier = Modifier) {
                 Column(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Color.LightGray),
+                        .fillMaxWidth(),
+//                        .background(Color.LightGray),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -139,7 +142,7 @@ fun DetailPageScreen(
                             .padding(top = 8.dp, bottom = 5.dp),
                         fontWeight = FontWeight.Medium,
                         textAlign = TextAlign.Center,
-                        fontFamily = FontFamily(Font(R.font.opensans_semibold),),
+                        fontFamily = FontFamily(Font(R.font.paperlogy_7bold),),
                         fontSize = 17.sp
                     )
 
@@ -149,7 +152,7 @@ fun DetailPageScreen(
                             .padding(top = 3.dp),
                         fontWeight = FontWeight.SemiBold,
                         textAlign = TextAlign.Center,
-                        fontFamily = FontFamily(Font(R.font.opensans_semibold),),
+                        fontFamily = FontFamily(Font(R.font.paperlogy_8extrabold),),
                         fontSize = 23.sp
                     )
                     // 메모장
@@ -170,16 +173,16 @@ fun DetailPageScreen(
                             horizontalAlignment = Alignment.CenterHorizontally) {
                             memoEntity?.let { mmm ->
                                 Text(text = "${mmm?.memoContent}",
-                                    fontFamily = FontFamily(Font(R.font.sc_dream_4),),
+                                    fontFamily = FontFamily(Font(R.font.paperlogy_4regular),),
                                     fontSize = 15.sp)
                             } ?: Text(text = "새로 메모 추가하기",
-                                fontFamily = FontFamily(Font(R.font.sc_dream_2),),
+                                fontFamily = FontFamily(Font(R.font.paperlogy_5medium),),
                                 fontSize = 17.sp,
                                 modifier = Modifier.clickable {
                                     // 새로 메모 추가 로직
                                     val test = trackClick!!.trackId
                                     val newMm = MemoEntity(test, memoContent = "")
-                                        memoViewModel.insertMemo_vm(newMm)
+                                    memoViewModel.insertMemo_vm(newMm)
                                     navController.navigate("edit_detail_page")
                                 })
                         }
