@@ -62,6 +62,7 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.sooj.today_music.R
+import com.sooj.today_music.ui.theme.Pink40
 import com.sooj.today_music.ui.theme.Pink80
 import com.sooj.today_music.ui.theme.Purple40
 
@@ -76,12 +77,11 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(start = 8.dp, end = 8.dp)
             .background(Color(0xFFEDEDE3))
     ) {
         Column {
             Spacer(modifier = Modifier.height(8.dp))
-            Image(imageVector = Icons.Outlined.Home, contentDescription = "home")
+//            Image(imageVector = Icons.Outlined.Home, contentDescription = "home")
             IconButton(onClick = {
                 navController.popBackStack()
                 musicViewModel.clearSearchResults() // 검색 값 초기화
@@ -92,22 +92,18 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                 )
             }
 
-            Text(
-                text = "  <<- s e a r c h p a g e",
-                fontFamily = FontFamily(Font(R.font.opensans_semibold))
-            )
             Spacer(modifier = Modifier.height(15.dp))
 
             Row(
-                modifier = Modifier.padding(end = 8.dp),
+                modifier = Modifier.padding(start = 8.dp, end = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
 
                 BasicTextField(modifier = Modifier
                     .width(70.dp)
                     .weight(3f)
-                    .border(color = Color.Transparent, width = 1.dp)
-                    .background(Pink80),
+                    .border(color = Color.LightGray, width = 3.dp)
+                    .background(Color.LightGray),
                     value = text, onValueChange = { text = it },
                     textStyle = TextStyle(color = Color.Black, fontSize = 15.sp),
                     singleLine = true,
@@ -119,9 +115,9 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                             if (text.isEmpty()) {
                                 Text(
                                     text = "오늘의 노래를 검색하세요 !",
-                                    style = TextStyle(color = Color.Black),
+                                    style = TextStyle(color = Color.DarkGray),
                                     fontWeight = FontWeight.ExtraLight,
-                                    fontFamily = FontFamily(Font(R.font.sc_dream_4))
+                                    fontFamily = FontFamily(Font(R.font.paperlogy_4regular))
                                 )
                             } else {
                             }
@@ -148,7 +144,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                 columns = GridCells.Fixed(2),
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Pink80),
+                    .background((Pink40)),
             ) {
                 items(searchList.size) { index ->
                     val track = searchList[index] // track, artist

@@ -9,7 +9,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 // 인터페이스를 구현한 Retrofit API 인스턴스
 
-
 interface ApiService_EndPoint {
     @GET("2.0/")
     suspend fun getTrackSearch(

@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -87,6 +89,7 @@ fun EditDetailPageScreen(
                     )
                 }
             }
+            Spacer(modifier = Modifier.height(10.dp))
             Box(modifier = Modifier) {
                 Column(
                     modifier = Modifier
@@ -110,6 +113,7 @@ fun EditDetailPageScreen(
                             .fillMaxWidth()
                             .padding(start = 8.dp),
                         textAlign = TextAlign.Center,
+                        fontFamily = FontFamily(Font(R.font.paperlogy_7bold),),
                         fontSize = 17.sp
                     )
                     Text(
@@ -118,8 +122,10 @@ fun EditDetailPageScreen(
                             .fillMaxWidth()
                             .padding(start = 8.dp),
                         textAlign = TextAlign.Center,
-                        fontSize = 17.sp
+                        fontFamily = FontFamily(Font(R.font.paperlogy_8extrabold)),
+                        fontSize = 23.sp
                     )
+                    Spacer(modifier = Modifier.height(15.dp))
                     Card {
                         var text by remember {
                             mutableStateOf(memoEntity?.memoContent)

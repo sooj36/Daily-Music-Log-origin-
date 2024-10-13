@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.GenericShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -30,6 +31,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -75,7 +77,7 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
 
                 Text(
                     text = "my daliy MUSIC record <3",
-                    fontFamily = FontFamily(Font(R.font.paperlogy_6semibold)),
+                    fontFamily = FontFamily(Font(R.font.paperlogy_7bold)),
                     fontStyle = FontStyle.Italic,
                     fontSize = 21.sp,
                     modifier = Modifier.clickable {
@@ -84,7 +86,7 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
                 )
 
             }
-            Spacer(modifier = Modifier.height(15.dp))
+            Spacer(modifier = Modifier.height(25.dp))
 
             Bookmark(navController, musicViewModel = musicViewModel)
 
@@ -101,11 +103,13 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
     LazyVerticalGrid(columns = GridCells.Fixed(2)) {
         items(getAllSaveTracks) { trackEntity ->
 //
+
             Card(
                 Modifier
                     .fillMaxWidth()
                     .padding(5.dp)
-                    .border(1.dp, Color.LightGray, RoundedCornerShape(50.dp)),
+                    .border(3.dp, Color.LightGray, RoundedCornerShape(35.dp)),
+
                 colors = CardDefaults.cardColors(containerColor = Color.Transparent) // 배경색 설정
             ) {
                 Column(
@@ -122,7 +126,7 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
 
                     ) {
                     val saveAt = trackEntity.saveAt
-                    val dateFormat = SimpleDateFormat("< MM/dd >", Locale.getDefault())
+                    val dateFormat = SimpleDateFormat("MM월 dd일", Locale.getDefault())
                     val formattedDate = dateFormat.format(Date(saveAt))
                     Text(
                         text = "${formattedDate}",
@@ -139,19 +143,21 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
                     trackEntity.trackName?.let {
                         Text(
                             text = it,
-                            fontWeight = FontWeight.Medium,
-                            fontFamily = FontFamily(Font(R.font.opensans_medium)),
-                            fontSize = 20.sp
+                            fontWeight = FontWeight.SemiBold,
+                            fontFamily = FontFamily(Font(R.font.paperlogy_5medium)),
+                            fontSize = 15.sp,
+                            textAlign = TextAlign.Center // 텍스트 중앙 정렬
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(3.dp))
+                    Spacer(modifier = Modifier.height(2.dp))
 
                     trackEntity.artistName?.let {
                         Text(
                             text = it,
                             fontWeight = FontWeight.Medium,
-                            fontFamily = FontFamily(Font(R.font.opensans_regular))
+                            fontFamily = FontFamily(Font(R.font.paperlogy_5medium)),
+                            textAlign = TextAlign.Center // 텍스트 중앙 정렬
                         )
                     }
 
