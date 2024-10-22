@@ -69,7 +69,7 @@ import com.sooj.today_music.ui.theme.Purple40
 @Composable
 fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewModel) {
     val searchList by musicViewModel.searchList_st //
-    val getAlbumImage = ""
+//    val getAlbumImage = ""
     val getAlbumImg_Map by musicViewModel.getAlbumMap_st.collectAsState() // poster
     var text by remember {
         mutableStateOf("")
@@ -176,20 +176,17 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
 
-                            //2 첫번째 데이터가 모두 로드
-                            AsyncImage(
-                                model = ImageRequest.Builder(LocalContext.current)
-                                    .data(
-                                        getAlbumImage
-                                            ?: Icons.Outlined.Search // URL이 비어 있으면 기본 이미지 리소스를 사용
-                                    )
-                                    .diskCachePolicy(CachePolicy.DISABLED)
-                                    .build(),
-                                contentDescription = null,
-                            )
-                            Log.d("@@1", "# ${getAlbumImage}")
-                            Log.d("@@2", "# ${getAlbumImg_Map}")
-
+//                            //2 첫번째 데이터가 모두 로드
+//                            AsyncImage(
+//                                model = ImageRequest.Builder(LocalContext.current)
+//                                    .data(
+//                                        getAlbumImage
+//                                            ?: Icons.Outlined.Search // URL이 비어 있으면 기본 이미지 리소스를 사용
+//                                    )
+//                                    .diskCachePolicy(CachePolicy.DISABLED)
+//                                    .build(),
+//                                contentDescription = null,
+//                            )
 
                             // 3 map으로 수정 (최종본)
                             if (albumUrl != null) {
@@ -204,7 +201,6 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                                     contentDescription = "최종 이미지"
                                 )
                             } else {
-                                // null 이면 기본이미지
                                 R.drawable.yumi
                             }
 

@@ -31,7 +31,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -54,7 +58,6 @@ fun SelectPageScreen(navController: NavController, musicViewModel: MusicViewMode
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(25.dp)
             .background(Color(0xFFEDEDE3))
     ) {
         Column(
@@ -62,16 +65,18 @@ fun SelectPageScreen(navController: NavController, musicViewModel: MusicViewMode
                 .fillMaxWidth()
         ) {
             Row(
-                Modifier.fillMaxWidth(),
+                Modifier.fillMaxWidth()
+                    .padding(top = 8.dp, start = 5.dp, end = 5.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Image(imageVector = Icons.Outlined.SettingsBackupRestore,
                     contentDescription = "edit",
-                    Modifier.clickable { navController.popBackStack() })
+                    Modifier.clickable { navController.popBackStack() }
+                        .size(30.dp))
 
                 Image(imageVector = Icons.Outlined.SystemUpdateAlt,
                     contentDescription = "getTrackData",
-                    modifier = Modifier.clickable {
+                    modifier = Modifier.size(30.dp).clickable {
                         musicViewModel.saveSelectedTrack_vm()
                         saveResult.value.let { success ->
                             try {
@@ -90,7 +95,7 @@ fun SelectPageScreen(navController: NavController, musicViewModel: MusicViewMode
                 )
             }
 
-            Spacer(modifier = Modifier.height(50.dp))
+            Spacer(modifier = Modifier.height(25.dp))
 
             LazyVerticalGrid(
                 columns = GridCells.Fixed(1),
@@ -119,14 +124,19 @@ fun SelectPageScreen(navController: NavController, musicViewModel: MusicViewMode
                                 text = trackInfo.artist ?: "아티스트",
                                 fontSize = 25.sp,
                                 fontWeight = FontWeight.Medium,
-                                color = Color.Black
+                                color = Color.Black,
+                                fontFamily = FontFamily(Font(R.font.paperlogy_4regular)),
+                                textAlign = TextAlign.Center // 텍스트 중앙 정렬
                             )
+                            Spacer(modifier = Modifier.height(5.dp))
 
                             Text(
                                 text = trackInfo.name ?: "트랙",
-                                fontSize = 30.sp,
+                                fontSize = 25.sp,
                                 fontWeight = FontWeight.Medium,
-                                color = Color.Black
+                                color = Color.Black,
+                                fontFamily = FontFamily(Font(R.font.paperlogy_5medium)),
+                                textAlign = TextAlign.Center
                             )
                         }
                     }

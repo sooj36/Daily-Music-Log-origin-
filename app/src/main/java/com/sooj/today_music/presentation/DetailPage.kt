@@ -73,7 +73,6 @@ fun DetailPageScreen(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(scrollState)
-            .padding(start = 8.dp, end = 8.dp)
             .background(Color(0xFFEDEDE3))
     ) {
         Column {
