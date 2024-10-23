@@ -81,7 +81,6 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
     ) {
         Column {
             Spacer(modifier = Modifier.height(8.dp))
-//            Image(imageVector = Icons.Outlined.Home, contentDescription = "home")
             IconButton(onClick = {
                 navController.popBackStack()
                 musicViewModel.clearSearchResults() // 검색 값 초기화
