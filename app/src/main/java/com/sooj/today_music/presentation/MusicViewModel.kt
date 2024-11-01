@@ -238,6 +238,15 @@ class MusicViewModel @Inject constructor(
                 Log.e("delete_tr", "${e.message}")
             }
         }
-
     }
 }
+
+
+// 1. @HiltViewModel을 통해 Hilt를 사용하여 의존성 주입을 적용
+// 2. viewModelScope.launch 사용하여 비동기 작업 처리
+// 3. StateFlow 사용하여 반응형 데이터 스트림 구현
+// 4. Repo 패턴 : 주입받아 데이터 처리 위임
+// 5. Room Database : 두 Entity 사용해 로컬 데이터 베이스 작업
+// 6. API 호출
+// 7. 상태 관리 : mutableStateOf 와 mutableStateFlow 사용해 UI 상태 관리
+// 8. 멀티 스레딩 : 디스패처 .IO / .Main 사용
