@@ -34,8 +34,12 @@ class MusicViewModel @Inject constructor(
 ) : ViewModel() {
 
     // 검색
-    private val _searchList_st = mutableStateOf<List<Track>>(emptyList()) // 여러개의 객체 담고 있어서 List
-    val searchList_st: State<List<Track>> get() = _searchList_st
+//    private val _searchList_st = mutableStateOf<List<Track>>(emptyList()) // 여러개의 객체 담고 있어서 List
+//    val searchList_st: State<List<Track>> get() = _searchList_st
+
+    // 검색
+    private val _searchList_st = MutableStateFlow<List<Track>>(emptyList()) // 여러개의 객체 담고 있어서 List
+    val searchList_st: StateFlow<List<Track>> get() = _searchList_st
 
     // 선택 -> stateflow
     private val _selectedTrack_st = MutableStateFlow<Track?>(null)

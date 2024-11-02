@@ -68,7 +68,7 @@ import com.sooj.today_music.ui.theme.Purple40
 
 @Composable
 fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewModel) {
-    val searchList by musicViewModel.searchList_st //
+    val searchList by musicViewModel.searchList_st.collectAsState() //
 //    val getAlbumImage = ""
     val getAlbumImg_Map by musicViewModel.getAlbumMap_st.collectAsState() // poster
     var text by remember {
