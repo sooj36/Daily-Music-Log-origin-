@@ -149,8 +149,6 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                     val track = searchList[index] // track, artist
                     val albumUrl = getAlbumImg_Map[track.name] // poster
 
-//                    Log.d("@trackInfo@", "trackname ${track.name} @ ${albumUrl}")
-
                     Card(
                         Modifier
                             .fillMaxWidth()

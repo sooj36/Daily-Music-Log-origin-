@@ -13,8 +13,10 @@ import com.sooj.today_music.room.MemoEntity
 import com.sooj.today_music.room.TrackEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -37,9 +39,10 @@ class MusicViewModel @Inject constructor(
 //    private val _searchList_st = mutableStateOf<List<Track>>(emptyList()) // 여러개의 객체 담고 있어서 List
 //    val searchList_st: State<List<Track>> get() = _searchList_st
 
-    // 검색
+    // 검색 stateflow
     private val _searchList_st = MutableStateFlow<List<Track>>(emptyList()) // 여러개의 객체 담고 있어서 List
     val searchList_st: StateFlow<List<Track>> get() = _searchList_st
+
 
     // 선택 -> stateflow
     private val _selectedTrack_st = MutableStateFlow<Track?>(null)
@@ -76,6 +79,7 @@ class MusicViewModel @Inject constructor(
                 val trackInfo = repository.getMusic_impl(track)
                 withContext(Dispatchers.Main) {
                     _searchList_st.value = trackInfo
+
                 }
             } catch (e: Exception) {
                 Log.e("sj VIEWMODEL ERROR!!", "ERROR FETCHING TRACK INFO ${e.message}")
@@ -96,7 +100,7 @@ class MusicViewModel @Inject constructor(
         val imgList = listOf(
             Image2(url = trackEntity.imageUrl, size = "extralarge")
         )
-        // 변환된 이미지 리스트를 로그로 출력
+
         // trackentity -> track 변환
         val convertTrack = Track(
             name = trackEntity.trackName,
