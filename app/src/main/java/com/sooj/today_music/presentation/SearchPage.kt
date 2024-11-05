@@ -164,9 +164,10 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                                     // 다른 페이지로 이동
                                     navController.navigate("select_page")
 
-                                    // 클릭 시, Viewmodel에 선택된 트랙 저장
                                     musicViewModel.selectTrack_vm(track) // track, artist
-                                    musicViewModel.fetchTrackAndUrl_vm(track.name) // imageurl
+
+//                                    musicViewModel.fetchTrackAndUrl_vm(track.name) // track 기반 url 요청 함수라 필요없음
+
 
                                 },
                             verticalArrangement = Arrangement.Center,

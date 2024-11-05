@@ -90,9 +90,12 @@ class MusicViewModel @Inject constructor(
 
     // 선택한 트랙
     fun selectTrack_vm(track: Track) {
-        /** track 선택 시 즉시 상태 업데이트*/
-        getAlbumPoster_vm() // 앨범 포스터 불러오기
+        Log.d("SELECT_TRACK", "Selected Track - Name: ${track.name}, Artist: ${track.artist}")
         _selectedTrack_st.value = track
+        // 추가 로그: 선택된 트랙 상태 업데이트 후 상태 확인
+        Log.d("SELECT_TRACK", "Updated _selectedTrack_st - ${_selectedTrack_st.value}")
+//        getAlbumPoster_vm() // 앨범 포스터 불러오기
+
     }
 
     fun selectTrackEntity_vm(trackEntity: TrackEntity) {
