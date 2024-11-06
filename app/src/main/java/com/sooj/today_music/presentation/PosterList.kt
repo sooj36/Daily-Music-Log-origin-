@@ -102,7 +102,6 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
     // 그리드 뷰
     LazyVerticalGrid(columns = GridCells.Fixed(2)) {
         items(getAllSaveTracks) { trackEntity ->
-//
 
             Card(
                 Modifier
@@ -120,7 +119,7 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
                             navController.navigate("detail_page")
                             // 데이터 전달
                             musicViewModel.selectTrackEntity_vm(trackEntity) // img, artist, track
-                            musicViewModel.loadTrackID_vm(trackEntity) // trackId
+//                            musicViewModel.loadTrackID_vm(trackEntity) // trackId
                         },
                     horizontalAlignment = Alignment.CenterHorizontally,
 

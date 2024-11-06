@@ -132,6 +132,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                     musicViewModel.getMusic_vm(text) // 검색 결과
 
                     musicViewModel.fetchTrackAndUrl_vm(text) // Poster Map으로
+                    // 로그에 결과 요청 값 두번씩 찍히는 이유
                 }) {
                     Image(
                         imageVector = Icons.Outlined.Search, contentDescription = "search",
@@ -166,8 +167,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
 
                                     musicViewModel.selectTrack_vm(track) // track, artist
 
-//                                    musicViewModel.fetchTrackAndUrl_vm(track.name) // track 기반 url 요청 함수라 필요없음
-
+                                    musicViewModel.fetchTrackAndUrl_vm(track.name) // track 기반 url 요청 함수라 필요없음
 
                                 },
                             verticalArrangement = Arrangement.Center,
