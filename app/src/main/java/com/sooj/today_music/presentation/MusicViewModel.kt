@@ -76,7 +76,7 @@ class MusicViewModel @Inject constructor(
 
     /** track을 기반으로 음악 정보를 검색하고, 그 결과를 viewmodel 상태로 저장 */
     fun getMusic_vm(track: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.Main) {
             Log.d("sj_vm(st) GETMUSIC", "Running on thread: ${Thread.currentThread().name}")
             try {
                 val trackInfo = repository.getMusic_impl(track)
@@ -148,7 +148,7 @@ class MusicViewModel @Inject constructor(
     fun fetchTrackAndUrl_vm(track : String) {
         _startTime.value = System.currentTimeMillis()
 
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.Main) {
             val trackINFO = repository.getMusic_impl(track)
 
             // 트랙 이름 기반으로 api 2 호출하여 이미지 가져오기
@@ -170,7 +170,7 @@ class MusicViewModel @Inject constructor(
 
     // Dao에 저장된 데이터 불러오는 메서드
     fun getAllTracks_vm() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.Main) {
             try {
                 _getAllSavedTracks_st.value = repository.getAllTracks_impl()
                 Log.d("sj--call all data", "tracks load ${_getAllSavedTracks_st.value.size} gut ")
@@ -188,7 +188,7 @@ class MusicViewModel @Inject constructor(
     fun saveSelectedTrack_vm() {
         val trackToSave = _selectedTrack_st.value
         val urlToSave = _getAlbumMap_st.value
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.Main) {
             try {
                 val trackEntity = urlToSave[trackToSave?.name]?.let {
                     TrackEntity(
@@ -220,7 +220,7 @@ class MusicViewModel @Inject constructor(
 
     // 트랙 선택 시 trackId으로 memoentity 불러오기
     fun getMmUseID_vm(trackId: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.Main) {
             try {
                 memoRepository.getMemo_impl(trackId).collect() { mm ->
                     _memoContent_st.value = mm
@@ -246,7 +246,7 @@ class MusicViewModel @Inject constructor(
 
     // 트랙 삭제
     fun deleteSavedTrack(trackEntity: TrackEntity) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.Main) {
             try {
                 repository.deleteTrack_impl(trackEntity)
 

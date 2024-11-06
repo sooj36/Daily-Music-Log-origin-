@@ -23,7 +23,7 @@ class SearchRepositoryImpl @Inject constructor(
     private val memoDao: MemoDao
 ) : SearchRepository {
     override suspend fun getMusic_impl(track: String): List<Track> {
-        return withContext(Dispatchers.IO) {
+        return withContext(Dispatchers.Main) {
             Log.d("sj im GETMUSIC", "Running on thread: ${Thread.currentThread().name}")
             val searchResponse = musicApi.getTrackSearch(
                 "track.search", track, BuildConfig.LAST_FM_API_KEY, "json"
@@ -47,7 +47,7 @@ class SearchRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getAlbumPoster_impl(track: String, artist: String): Album? {
-        return withContext(Dispatchers.IO) {
+        return withContext(Dispatchers.Main) {
             Log.d("sj im GETPOSTER", "Running on thread: ${Thread.currentThread().name}")
             try {
                 //getpostinfo api 호출
@@ -70,7 +70,7 @@ class SearchRepositoryImpl @Inject constructor(
 
     @Transaction
     override suspend fun saveSelectedTrack_impl(trackEntity: TrackEntity, memoEntity: MemoEntity) {
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.Main) {
             Log.d("sj im(st) SAVE", "Running on thread: ${Thread.currentThread().name}")
 //            trackDao.insertData(trackEntity) // 트랙만 저장됌
             val trackId = trackDao.insertData(trackEntity).toInt()
@@ -84,14 +84,14 @@ class SearchRepositoryImpl @Inject constructor(
 
     override suspend fun getAllTracks_impl(): List<TrackEntity> {
         Log.d("sj im GETALL", "Running on thread: ${Thread.currentThread().name}")
-        return withContext(Dispatchers.IO) {
+        return withContext(Dispatchers.Main) {
             trackDao.getAllData()
         }
         Log.d("sj im(beh) GETALL", "Running on thread: ${Thread.currentThread().name}")
     }
 
     override suspend fun deleteTrack_impl(trackEntity: TrackEntity) {
-        return withContext(Dispatchers.IO) {
+        return withContext(Dispatchers.Main) {
 
             trackDao.deleteData(trackEntity)
         }

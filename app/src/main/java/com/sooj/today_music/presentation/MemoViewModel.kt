@@ -22,7 +22,7 @@ class MemoViewModel @Inject constructor(
 ) : ViewModel() {
 
     fun insertMemo_vm(memoEntity: MemoEntity) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.Main) {
             try {
                 memoRepository.saveMemo_impl(memoEntity)
             } catch (e:Exception) {
@@ -32,7 +32,7 @@ class MemoViewModel @Inject constructor(
     }
 
     fun updateMemo_vm(memoEntity: MemoEntity) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.Main) {
             try {
                 memoRepository.editMemo_impl(memoEntity)
             } catch (e : Exception) {
@@ -43,7 +43,7 @@ class MemoViewModel @Inject constructor(
 
 
     fun deleteMemo_vm(trackId:Int) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.Main) {
             try {
               memoRepository.deleteMemo_impl(trackId)
 
