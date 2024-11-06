@@ -17,7 +17,7 @@ data class Track2(
     val listeners: String,
     val playcount: String,
     val artist: Artist,
-    val album: Album,
+    val album: Album, //
 )
 
 data class Streamable(
@@ -31,7 +31,7 @@ data class Artist(
     val url: String
 )
 
-data class Album(
+data class Album( //
     val artist: String,
     val title: String,
     val mbid: String?,
@@ -40,7 +40,7 @@ data class Album(
 )
 
 
-data class Image(
+data class Image( //
     @SerializedName("#text") val url: String,
     val size : String
 )

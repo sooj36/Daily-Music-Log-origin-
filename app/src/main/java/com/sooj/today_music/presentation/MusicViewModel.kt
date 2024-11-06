@@ -34,6 +34,9 @@ class MusicViewModel @Inject constructor(
     private val memoRepository: MemoRepository
     /** viewmodel 생성 시 Hilt가 알아서 repo 제공해주고, 이 주입받은 repo통해 데이터 처리*/
 ) : ViewModel() {
+    // 로드 시작 시간 기록용
+    private val _startTime = MutableStateFlow(0L)
+    val startTime : StateFlow<Long> get() = _startTime
 
     // 검색
 //    private val _searchList_st = mutableStateOf<List<Track>>(emptyList()) // 여러개의 객체 담고 있어서 List
@@ -143,6 +146,8 @@ class MusicViewModel @Inject constructor(
 
     // 1006 추가 로직 URL -> MAP으로
     fun fetchTrackAndUrl_vm(track : String) {
+        _startTime.value = System.currentTimeMillis()
+
         viewModelScope.launch(Dispatchers.IO) {
             val trackINFO = repository.getMusic_impl(track)
 

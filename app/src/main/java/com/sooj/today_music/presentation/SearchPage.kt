@@ -74,6 +74,17 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
     var text by remember {
         mutableStateOf("")
     }
+
+    //
+    val endTime = remember { mutableStateOf(0L) }
+    val loadTime = remember { mutableStateOf(0L) }
+    val startTime by musicViewModel.startTime.collectAsState()
+
+    if (searchList.isNotEmpty() && endTime.value == 0L) {
+        endTime.value = System.currentTimeMillis()
+        loadTime.value = endTime.value - startTime
+        Log.d("sjsj", "UI LOAD ${loadTime.value}ms")
+    }
     Box(
         modifier = Modifier
             .fillMaxSize()

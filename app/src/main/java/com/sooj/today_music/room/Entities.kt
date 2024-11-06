@@ -15,7 +15,6 @@ data class TrackEntity(
 )
 
 @Entity(
-
     foreignKeys = [
         ForeignKey(
             entity = TrackEntity::class,
