@@ -211,6 +211,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                                 )
                             } else {
                                 R.drawable.yumi
+
                             }
 
 
