@@ -1,5 +1,6 @@
 package com.sooj.today_music.presentation
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -12,13 +13,20 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.GenericShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AlarmAdd
+import androidx.compose.material.icons.outlined.Alarm
+import androidx.compose.material.icons.outlined.AlarmAdd
+import androidx.compose.material.icons.outlined.LibraryMusic
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -51,10 +59,9 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
         musicViewModel.getAllTracks_vm()
     }
 
-    /** 2) 앨범 포스터 가져오기 */
+    /* 앨범 포스터 가져오기 */
     val loadTracks by musicViewModel.getAllSavedTracks_st
-
-
+    
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -62,11 +69,24 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
             .padding(12.dp)
     ) {
         Column {
-            Text(
-                text = "[총 ${loadTracks.size}]",
-                fontWeight = FontWeight.ExtraBold,
-                fontFamily = FontFamily(Font(R.font.sc_dream_3))
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = "[총 ${loadTracks.size}]",
+                    fontWeight = FontWeight.ExtraBold,
+                    fontFamily = FontFamily(Font(R.font.sc_dream_3))
+                )
+
+                IconButton(onClick = { navController.navigate("alarm_page") }) {
+                    Image(imageVector = Icons.Outlined.AlarmAdd, contentDescription = "NoteList",Modifier.size(28.dp))
+                }
+
+
+            }
+
 
             Spacer(modifier = Modifier.height(20.dp))
             Row(

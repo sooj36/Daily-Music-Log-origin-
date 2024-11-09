@@ -1,5 +1,6 @@
 package com.sooj.today_music.presentation
 
+import android.app.AlarmManager
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -13,10 +14,8 @@ import com.sooj.today_music.room.MemoEntity
 import com.sooj.today_music.room.TrackEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -172,7 +171,7 @@ class MusicViewModel @Inject constructor(
     fun getAllTracks_vm() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                _getAllSavedTracks_st.value = repository.getAllTracks_impl()
+                _getAllSavedTracks_st.value = repository.getAllTracksPaged_impl()
                 Log.d("sj--call all data", "tracks load ${_getAllSavedTracks_st.value.size} gut ")
             } catch (e: Exception) {
                 Log.e("sj--call data_error", "트랙s 로드 ${e.message} 오류")

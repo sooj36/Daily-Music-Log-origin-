@@ -1,5 +1,6 @@
 package com.sooj.today_music.domain
 
+import androidx.paging.PagingSource
 import com.sooj.today_music.BuildConfig
 import com.sooj.today_music.room.MemoEntity
 import com.sooj.today_music.room.TrackEntity
@@ -12,7 +13,9 @@ interface SearchRepository {
 
     suspend fun saveSelectedTrack_impl(trackEntity: TrackEntity, memoEntity: MemoEntity)
 
-    suspend fun getAllTracks_impl() : List<TrackEntity>
+//    suspend fun getAllTracks_impl() : List<TrackEntity>
+
+    suspend fun getAllTracksPaged_impl(): List<TrackEntity>
 
     suspend fun deleteTrack_impl(trackEntity: TrackEntity)
 

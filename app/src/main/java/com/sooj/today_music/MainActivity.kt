@@ -14,6 +14,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.sooj.today_music.presentation.AlarmPageScreen
 import com.sooj.today_music.presentation.DetailPageScreen
 import com.sooj.today_music.presentation.EditDetailPageScreen
 import com.sooj.today_music.presentation.PosterListScreen
@@ -55,6 +56,7 @@ class MainActivity : ComponentActivity() {
                         composable(Screen.WritePost.route) { SearchPageScreen(navController, musicViewModel) }
                         composable(Screen.EditDetailPage.route) { EditDetailPageScreen(navController, musicViewModel, memoViewModel)}
                         composable(Screen.SelectPage.route) { SelectPageScreen(navController, musicViewModel)}
+                        composable(Screen.AlarmPage.route) { AlarmPageScreen(navController)}
                     }
                 }
             }

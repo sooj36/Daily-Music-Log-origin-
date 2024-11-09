@@ -7,6 +7,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import com.sooj.today_music.data.paging.PagingSource
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -37,6 +38,9 @@ interface TrackDao {
 
     @Query("SELECT * FROM trackentity") // 모든 트랙 조회
     suspend fun getAllData(): List<TrackEntity>
+
+//    @Query("SELECT * FROM trackentity") // 모든 트랙 조회 -> 페이징 적용
+//    suspend fun getAllDataPaged(): PagingSource
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertData(trackEntity: TrackEntity): Long

@@ -5,5 +5,6 @@ enum class Screen(val route : String) {
     DetailPage("detail_page"),
     WritePost("write_post"),
     EditDetailPage("edit_detail_page"),
-    SelectPage("select_page")
+    SelectPage("select_page"),
+    AlarmPage("alarm_page"),
 }

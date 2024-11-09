@@ -2,10 +2,10 @@ package com.sooj.today_music.data
 
 
 import android.util.Log
+import androidx.paging.PagingSource
 import androidx.room.Transaction
 import com.sooj.today_music.BuildConfig
 import com.sooj.today_music.domain.Album
-import com.sooj.today_music.domain.Image
 import com.sooj.today_music.domain.SearchRepository
 import com.sooj.today_music.domain.Track
 import com.sooj.today_music.room.MemoDao
@@ -82,9 +82,19 @@ class SearchRepositoryImpl @Inject constructor(
         Log.d("sj im(en) SAVE", "Running on thread: ${Thread.currentThread().name}")
     }
 
-    override suspend fun getAllTracks_impl(): List<TrackEntity> {
+//    override suspend fun getAllTracks_impl(): List<TrackEntity> {
+//        Log.d("sj im GETALL", "Running on thread: ${Thread.currentThread().name}")
+//        return withContext(Dispatchers.IO) {
+//            trackDao.getAllData()
+//        }
+//        Log.d("sj im(beh) GETALL", "Running on thread: ${Thread.currentThread().name}")
+//    }
+
+    // 페이징3로 변경
+    override suspend fun getAllTracksPaged_impl(): List<TrackEntity> {
         Log.d("sj im GETALL", "Running on thread: ${Thread.currentThread().name}")
         return withContext(Dispatchers.IO) {
+//            trackDao.getAllDataPaged()
             trackDao.getAllData()
         }
         Log.d("sj im(beh) GETALL", "Running on thread: ${Thread.currentThread().name}")
