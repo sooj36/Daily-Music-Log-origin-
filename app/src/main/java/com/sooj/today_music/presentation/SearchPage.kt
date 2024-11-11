@@ -108,7 +108,8 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                 musicViewModel.clearSearchResults() // 검색 값 초기화
             }) {
                 Image(
-                    imageVector = Icons.Outlined.LibraryMusic, contentDescription = "list",
+                    imageVector = Icons.Outlined.LibraryMusic,
+                    contentDescription = "list",
                     Modifier.size(30.dp)
                 )
             }
@@ -125,13 +126,13 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                     .weight(3f)
                     .border(color = Color.LightGray, width = 3.dp)
                     .background(Color.LightGray),
-                    value = text, onValueChange = { text = it },
+                    value = text,
+                    onValueChange = { text = it },
                     textStyle = TextStyle(color = Color.Black, fontSize = 15.sp),
                     singleLine = true,
                     decorationBox = { innerTextField ->
                         Box(
-                            modifier = Modifier
-                                .padding(8.dp)
+                            modifier = Modifier.padding(8.dp)
                         ) {
                             if (text.isEmpty()) {
                                 Text(
@@ -157,7 +158,8 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                     // 로그에 결과 요청 값 두번씩 찍히는 이유
                 }) {
                     Image(
-                        imageVector = Icons.Outlined.Search, contentDescription = "search",
+                        imageVector = Icons.Outlined.Search,
+                        contentDescription = "search",
                         Modifier.size(35.dp)
                     )
                 }
@@ -208,38 +210,17 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
 //                                contentDescription = null,
 //                            )
 
-
-                            // 3 map으로 수정 (최종본)
-                            if (albumUrl != null) {
-                                AsyncImage(
-                                    model = ImageRequest.Builder(LocalContext.current)
-                                        .data(
-                                            albumUrl
-                                        )
-                                        .diskCachePolicy(CachePolicy.DISABLED)  // 캐싱 비활성화
-//                                    .diskCachePolicy(CachePolicy.ENABLED) // 캐싱 활성화
-                                        .build(),
-                                    contentDescription = "최종 이미지"
-                                )
-                            } else {
-                                CircularProgressIndicator(modifier = Modifier.size(48.dp))
-                            }
-
                             // Glide로 이미지 로드 상태 관리
-//                            com.skydoves.landscapist.glide.GlideImage(imageModel = { albumUrl })
-                            var imageBitmap by remember {
-                                mutableStateOf<ImageBitmap?>(null)
-                            }
+                            var imageBitmap by remember { mutableStateOf<ImageBitmap?>(null) }
                             val context = LocalContext.current
 
                             LaunchedEffect(albumUrl) {
                                 if (albumUrl != null) {
                                     withContext(Dispatchers.IO) {
-                                        val bitmap = Glide.with(context)
-                                            .asBitmap()
-                                            .load( albumUrl ) // 로드할 이미지 url 설정
+                                        val bitmap = Glide.with(context).asBitmap()
+                                            .load(albumUrl) // 로드할 이미지 url 설정
                                             .submit() // 비동기 이미지 로드 작업을 시작하고, RequestFutureTarge 객체 반환
-                                            .get() // 요청 완료되면 반환
+                                            .get()
                                         imageBitmap = bitmap.asImageBitmap()
                                     }
                                 }
@@ -255,9 +236,22 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                             }
 
 
-
-
-
+                            // 3 map으로 수정 (최종본)
+//                            if (albumUrl != null) {
+//                                AsyncImage(
+//                                    model = ImageRequest.Builder(LocalContext.current)
+//                                        .data(
+//                                            albumUrl
+//                                        )
+////                                        .diskCachePolicy(CachePolicy.DISABLED)  // 캐싱 비활성화
+////                                    .diskCachePolicy(CachePolicy.ENABLED) // 캐싱 활성화
+//                                        .build(),
+//                                    contentDescription = "최종 이미지"
+//                                )
+//                            } else {
+//                                CircularProgressIndicator(modifier = Modifier.size(48.dp))
+//                            }
+//
 
                             Spacer(modifier = Modifier.height(8.dp))
                             /** 트랙명 */
