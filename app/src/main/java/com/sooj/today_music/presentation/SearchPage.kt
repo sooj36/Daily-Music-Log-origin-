@@ -2,6 +2,8 @@ package com.sooj.today_music.presentation
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.util.Log
 import android.widget.ImageView
 import androidx.compose.foundation.Image
@@ -40,6 +42,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -69,11 +72,16 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.sooj.today_music.R
 import com.sooj.today_music.ui.theme.Pink40
 import com.sooj.today_music.ui.theme.Pink80
 import com.sooj.today_music.ui.theme.Purple40
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.coroutineContext
 
@@ -210,6 +218,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
 //                                contentDescription = null,
 //                            )
 
+                            Text(text = "Glide")
                             // Glide로 이미지 로드 상태 관리
                             var imageBitmap by remember { mutableStateOf<ImageBitmap?>(null) }
                             val context = LocalContext.current
@@ -219,9 +228,24 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                                     withContext(Dispatchers.IO) {
                                         val bitmap = Glide.with(context).asBitmap()
                                             .load(albumUrl) // 로드할 이미지 url 설정
-                                            .submit() // 비동기 이미지 로드 작업을 시작하고, RequestFutureTarge 객체 반환
-                                            .get()
-                                        imageBitmap = bitmap.asImageBitmap()
+                                            .into(object : CustomTarget<Bitmap>() {
+                                                override fun onResourceReady(
+                                                    resource: Bitmap,
+                                                    transition: Transition<in Bitmap>?
+                                                ) {
+                                                    imageBitmap = resource.asImageBitmap()
+                                                }
+
+                                                override fun onLoadCleared(placeholder: Drawable?) {
+                                                    TODO("Not yet implemented")
+                                                    // 이미지 로드 취소 된 경우
+                                                }
+                                            })
+//                                            .submit() // 비동기 이미지 로드 작업을 시작하고, RequestFutureTarge 객체 반환
+//                                            .get()
+//                                        withContext(Dispatchers.Main) {
+//                                            imageBitmap = bitmap.asImageBitmap()
+//                                        }
                                     }
                                 }
                             }
@@ -235,22 +259,35 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                                 CircularProgressIndicator(modifier = Modifier.size(48.dp))
                             }
 
+                            Text(text = "Coil")
+                            //로딩 시간 설정
+                            var isLoading by remember { mutableStateOf(true) }
+                            var coroutineScope = rememberCoroutineScope()
 
-                            // 3 map으로 수정 (최종본)
-//                            if (albumUrl != null) {
-//                                AsyncImage(
-//                                    model = ImageRequest.Builder(LocalContext.current)
-//                                        .data(
-//                                            albumUrl
-//                                        )
-////                                        .diskCachePolicy(CachePolicy.DISABLED)  // 캐싱 비활성화
-////                                    .diskCachePolicy(CachePolicy.ENABLED) // 캐싱 활성화
-//                                        .build(),
-//                                    contentDescription = "최종 이미지"
-//                                )
-//                            } else {
-//                                CircularProgressIndicator(modifier = Modifier.size(48.dp))
-//                            }
+                            LaunchedEffect(Unit) {
+                                coroutineScope.launch {
+                                    delay(5000)
+                                    isLoading = false
+                                }
+                            }
+
+                            if (albumUrl != null) {
+                                AsyncImage(
+                                    model = ImageRequest.Builder(LocalContext.current)
+                                        .data(
+                                            albumUrl
+                                        )
+//                                    .diskCachePolicy(CachePolicy.DISABLED)  // 캐싱 비활성화
+//                                    .diskCachePolicy(CachePolicy.ENABLED) // 캐싱 활성화
+                                        .build(),
+                                    contentDescription = "최종 이미지",
+                                    onSuccess = { isLoading = false },
+                                    onError = { isLoading = false }
+                                )
+                            } else {
+                                CircularProgressIndicator(modifier = Modifier.size(48.dp))
+                            }
+
 //
 
                             Spacer(modifier = Modifier.height(8.dp))

@@ -79,7 +79,7 @@ class MusicViewModel @Inject constructor(
             Log.d("sj_vm(st) GETMUSIC", "Running on thread: ${Thread.currentThread().name}")
             try {
                 val trackInfo = repository.getMusic_impl(track)
-                withContext(Dispatchers.Main) {
+                withContext(Dispatchers.Main.immediate) {
                     _searchList_st.value = trackInfo
 
                 }
@@ -133,7 +133,7 @@ class MusicViewModel @Inject constructor(
             if (albumInfo != null) {
                 Log.d("getting album post", "album < ${albumInfo} >")
                 val albumImageUrl = albumInfo.image.find { it.size == "extralarge" }?.url
-                withContext(Dispatchers.Main) {
+                withContext(Dispatchers.Main.immediate) {
                     _getAlbumImage_st.value = albumImageUrl
                 }
             } else {
@@ -161,7 +161,7 @@ class MusicViewModel @Inject constructor(
             }
 
             // 기존 map에 새로운 값 추가
-            withContext(Dispatchers.Main) {
+            withContext(Dispatchers.Main.immediate) {
                 _getAlbumMap_st.value = _getAlbumMap_st.value + albumImg
             }
         }
