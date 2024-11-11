@@ -31,7 +31,7 @@ class MemoRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteMemo_impl(trackid : Int) {
-        return withContext(Dispatchers.Default) {
+        return withContext(Dispatchers.IO) {
             memoDao.deleteMemo(trackid)
         }
     }

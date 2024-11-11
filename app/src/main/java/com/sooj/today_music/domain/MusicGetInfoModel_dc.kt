@@ -31,7 +31,7 @@ data class Artist(
     val url: String
 )
 
-data class Album( //
+data class Album(
     val artist: String,
     val title: String,
     val mbid: String?,

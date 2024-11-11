@@ -1,6 +1,9 @@
 package com.sooj.today_music.presentation
 
+import android.app.Activity
+import android.content.Context
 import android.util.Log
+import android.widget.ImageView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -32,6 +35,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -40,6 +44,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -49,6 +55,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -61,10 +68,14 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
+import com.bumptech.glide.Glide
 import com.sooj.today_music.R
 import com.sooj.today_music.ui.theme.Pink40
 import com.sooj.today_music.ui.theme.Pink80
 import com.sooj.today_music.ui.theme.Purple40
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import kotlin.coroutines.coroutineContext
 
 @Composable
 fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewModel) {
@@ -197,6 +208,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
 //                                contentDescription = null,
 //                            )
 
+
                             // 3 map으로 수정 (최종본)
                             if (albumUrl != null) {
                                 AsyncImage(
@@ -210,9 +222,41 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                                     contentDescription = "최종 이미지"
                                 )
                             } else {
-                                R.drawable.yumi
-
+                                CircularProgressIndicator(modifier = Modifier.size(48.dp))
                             }
+
+                            // Glide로 이미지 로드 상태 관리
+//                            com.skydoves.landscapist.glide.GlideImage(imageModel = { albumUrl })
+                            var imageBitmap by remember {
+                                mutableStateOf<ImageBitmap?>(null)
+                            }
+                            val context = LocalContext.current
+
+                            LaunchedEffect(albumUrl) {
+                                if (albumUrl != null) {
+                                    withContext(Dispatchers.IO) {
+                                        val bitmap = Glide.with(context)
+                                            .asBitmap()
+                                            .load( albumUrl ) // 로드할 이미지 url 설정
+                                            .submit() // 비동기 이미지 로드 작업을 시작하고, RequestFutureTarge 객체 반환
+                                            .get() // 요청 완료되면 반환
+                                        imageBitmap = bitmap.asImageBitmap()
+                                    }
+                                }
+                            }
+
+                            // 이미지 UI 표시 (Glide)
+                            if (imageBitmap != null) {
+                                Image(bitmap = imageBitmap!!, contentDescription = "앨범 이미지")
+
+                            } else {
+                                // 로딩 중일때,
+                                CircularProgressIndicator(modifier = Modifier.size(48.dp))
+                            }
+
+
+
+
 
 
                             Spacer(modifier = Modifier.height(8.dp))

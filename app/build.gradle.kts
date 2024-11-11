@@ -183,7 +183,13 @@ dependencies {
 
     // 알림
     implementation("androidx.core:core-ktx:1.9.0")
+
+////    // Glide
+    implementation("com.github.bumptech.glide:glide:4.12.0")
+//    implementation("com.github.skydoves:landscapist-glide:2.4.2")
 }
+
+
 kapt {
     correctErrorTypes = true
 }

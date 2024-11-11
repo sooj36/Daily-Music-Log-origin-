@@ -109,46 +109,46 @@ class SearchRepositoryImpl @Inject constructor(
 
 
     // 현재 사용 X //
-    override suspend fun getPostInfo_impl(track: String): List<Album> {
-        val searchResponse = musicApi.getTrackSearch(
-            "track.search", track, BuildConfig.LAST_FM_API_KEY, "json"
-        )
-
-        if (searchResponse.isSuccessful) {
-            val searchList = searchResponse.body()?.results?.trackmatches?.track ?: emptyList()
-
-            // 각 트랙의 세부정보를 가져오기 위해 추가적인 API 호출 //
-            val getAlbumPost = searchList.mapNotNull { trackItem ->
-                val artistName = trackItem.artist!!
-                val trackName = trackItem.name
-
-                // getPostInfo API 이용해서 이미지 정보 가져오기 //
-                val postResponse = musicApi.getPostInfo(
-                    "track.getInfo", BuildConfig.LAST_FM_API_KEY, artistName, trackName, "json"
-                )
-                Log.d("포스트 응답", "$${postResponse.body()}")
-
-                // post 응답 성공 시 //
-                if (postResponse.isSuccessful) {
-                    val postList = postResponse.body()?.track // track2 타입임
-                    postList?.let { track ->
-                        Album(
-                            artist = artistName,
-                            title = trackName,
-                            mbid = track.mbid,
-                            url = track.url ?: "",
-                            image = track.album.image ?: emptyList()
-                        )
-                    }
-                } else {
-                    Log.e("PostInfo 에러", "PostInfo 에러 코드는 ${postResponse.code()}")
-                    null
-                }
-            } // 여러 개의 리스트를 하나로 평탄화 .flatten
-            return getAlbumPost
-        } else {
-            Log.e("", "")
-            return emptyList()
-        }
-    }
+//    override suspend fun getPostInfo_impl(track: String): List<Album> {
+//        val searchResponse = musicApi.getTrackSearch(
+//            "track.search", track, BuildConfig.LAST_FM_API_KEY, "json"
+//        )
+//
+//        if (searchResponse.isSuccessful) {
+//            val searchList = searchResponse.body()?.results?.trackmatches?.track ?: emptyList()
+//
+//            // 각 트랙의 세부정보를 가져오기 위해 추가적인 API 호출 //
+//            val getAlbumPost = searchList.mapNotNull { trackItem ->
+//                val artistName = trackItem.artist!!
+//                val trackName = trackItem.name
+//
+//                // getPostInfo API 이용해서 이미지 정보 가져오기 //
+//                val postResponse = musicApi.getPostInfo(
+//                    "track.getInfo", BuildConfig.LAST_FM_API_KEY, artistName, trackName, "json"
+//                )
+//                Log.d("포스트 응답", "$${postResponse.body()}")
+//
+//                // post 응답 성공 시 //
+//                if (postResponse.isSuccessful) {
+//                    val postList = postResponse.body()?.track // track2 타입임
+//                    postList?.let { track ->
+//                        Album(
+//                            artist = artistName,
+//                            title = trackName,
+//                            mbid = track.mbid,
+//                            url = track.url ?: "",
+//                            image = track.album.image ?: emptyList()
+//                        )
+//                    }
+//                } else {
+//                    Log.e("PostInfo 에러", "PostInfo 에러 코드는 ${postResponse.code()}")
+//                    null
+//                }
+//            } // 여러 개의 리스트를 하나로 평탄화 .flatten
+//            return getAlbumPost
+//        } else {
+//            Log.e("", "")
+//            return emptyList()
+//        }
+//    }
 }
