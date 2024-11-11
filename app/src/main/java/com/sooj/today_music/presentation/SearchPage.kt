@@ -218,46 +218,46 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
 //                                contentDescription = null,
 //                            )
 
-                            Text(text = "Glide")
-                            // Glide로 이미지 로드 상태 관리
-                            var imageBitmap by remember { mutableStateOf<ImageBitmap?>(null) }
-                            val context = LocalContext.current
+//                            Text(text = "Glide")
+//                            // Glide로 이미지 로드 상태 관리
+//                            var imageBitmap by remember { mutableStateOf<ImageBitmap?>(null) }
+//                            val context = LocalContext.current
+//
+//                            LaunchedEffect(albumUrl) {
+//                                if (albumUrl != null) {
+//                                    withContext(Dispatchers.IO) {
+//                                        val bitmap = Glide.with(context).asBitmap()
+//                                            .load(albumUrl) // 로드할 이미지 url 설정
+//                                            .into(object : CustomTarget<Bitmap>() {
+//                                                override fun onResourceReady(
+//                                                    resource: Bitmap,
+//                                                    transition: Transition<in Bitmap>?
+//                                                ) {
+//                                                    imageBitmap = resource.asImageBitmap()
+//                                                }
+//
+//                                                override fun onLoadCleared(placeholder: Drawable?) {
+//                                                    TODO("Not yet implemented")
+//                                                    // 이미지 로드 취소 된 경우
+//                                                }
+//                                            })
+////                                            .submit() // 비동기 이미지 로드 작업을 시작하고, RequestFutureTarge 객체 반환
+////                                            .get()
+////                                        withContext(Dispatchers.Main) {
+////                                            imageBitmap = bitmap.asImageBitmap()
+////                                        }
+//                                    }
+//                                }
+//                            }
 
-                            LaunchedEffect(albumUrl) {
-                                if (albumUrl != null) {
-                                    withContext(Dispatchers.IO) {
-                                        val bitmap = Glide.with(context).asBitmap()
-                                            .load(albumUrl) // 로드할 이미지 url 설정
-                                            .into(object : CustomTarget<Bitmap>() {
-                                                override fun onResourceReady(
-                                                    resource: Bitmap,
-                                                    transition: Transition<in Bitmap>?
-                                                ) {
-                                                    imageBitmap = resource.asImageBitmap()
-                                                }
-
-                                                override fun onLoadCleared(placeholder: Drawable?) {
-                                                    TODO("Not yet implemented")
-                                                    // 이미지 로드 취소 된 경우
-                                                }
-                                            })
-//                                            .submit() // 비동기 이미지 로드 작업을 시작하고, RequestFutureTarge 객체 반환
-//                                            .get()
-//                                        withContext(Dispatchers.Main) {
-//                                            imageBitmap = bitmap.asImageBitmap()
-//                                        }
-                                    }
-                                }
-                            }
-
-                            // 이미지 UI 표시 (Glide)
-                            if (imageBitmap != null) {
-                                Image(bitmap = imageBitmap!!, contentDescription = "앨범 이미지")
-
-                            } else {
-                                // 로딩 중일때,
-                                CircularProgressIndicator(modifier = Modifier.size(48.dp))
-                            }
+//                            // 이미지 UI 표시 (Glide)
+//                            if (imageBitmap != null) {
+//                                Image(bitmap = imageBitmap!!, contentDescription = "앨범 이미지")
+//
+//                            } else {
+//                                // 로딩 중일때,
+//                                CircularProgressIndicator(modifier = Modifier.size(48.dp))
+//                            }
 
                             Text(text = "Coil")
                             //로딩 시간 설정
@@ -278,7 +278,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                                             albumUrl
                                         )
 //                                    .diskCachePolicy(CachePolicy.DISABLED)  // 캐싱 비활성화
-//                                    .diskCachePolicy(CachePolicy.ENABLED) // 캐싱 활성화
+                                    .diskCachePolicy(CachePolicy.ENABLED) // 캐싱 활성화
                                         .build(),
                                     contentDescription = "최종 이미지",
                                     onSuccess = { isLoading = false },
