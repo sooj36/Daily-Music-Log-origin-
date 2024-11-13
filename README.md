@@ -20,45 +20,20 @@
 #### 해결 및 과제
 **[데이터 클래스 설계 오류]**
 
-**(S)**
-- "하나의 검색어에 여러 앨범 데이터가 반환된다"는 가정하에 요청 받은 앨범 포스터 URL 반환 값을 List<Album>으로 설정
-▷ **두 API 호출하는 과정에서 반환 값이 틀리는 에러**
+![image](https://github.com/user-attachments/assets/58cdde3d-a5df-44bb-9350-875087fdd70a)
 
-**(T)**
-- API 반환 구조와 실제 데이터의 관계에 따라 정확한 데이터 반환하도록 수정
 
-**(A)**
-- 받을 Album 데이터 "들" 이라고 생각해 List로 표현했던 문제
 
-**(A)-1**
-- mapNotNull을 활용하여 유효한 데이터 리스트만 담으려 했지만,
-mapNotNull은 결과를 List 로 묶기에 반환 값이 List<List<Track2>>가
-되는 문제로 flatten으로  평탄화 해주려 함
-
-다만, 앨범 포스터 URL 하나만 가져오면 되는데, List로 가져오는 게 비효율적이라는 생각이 듦
-필요 이상의 많은 데이터를 수집하게 됨으로 코드 변경
-
-**(A)-2**
-- **특정 트랙의 앨범 포스터 URL만 가져오는 것에 집중하여** 구조 최적화
-"선택 트랙 정보" 하나에 집중하여,
-단일 API 호출로 트랙의 앨범 이미지 URL만 가져오는 방식으로 변경
+![image](https://github.com/user-attachments/assets/2334da79-4859-4cea-b62d-796c979d30b3)
 
 ----------------------------------------------------------------
 
-특정 트랙 선택
-       ↓
-선택한 track / artist을 활용한 앨범 포스터 URL 요청 함수 호출
-      ↓
-요청 받은 URL을 가져와 Dispatchers.Main으로 메인 스레드로 전환하여
-UI 상태 업데이트
-       ↓
-가져온 URL을 _getAlbumImage 상태 변수에 저장하여 UI 최신 값 로드
+![image](https://github.com/user-attachments/assets/2c80def8-a250-4b73-b56b-79d5de7f5bac)
 
 ----------------------------------------------------------------
 
+![image](https://github.com/user-attachments/assets/d29a0f7f-79e6-4d3b-bc54-5e833c13a073)
 
-**(R)**
-- 불필요한 데이터 리스트가 아닌 필요한 앨범 포스터 URL만 가져오는 구조로 최적화하여 필요한 데이터를 즉시 가져와 UI 업데이트 원활하게 이루어지도록 개선
 
 ## 기술스택
 1. Compose
