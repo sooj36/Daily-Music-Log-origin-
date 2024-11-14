@@ -2,29 +2,59 @@
   
 ![UML 318](https://github.com/user-attachments/assets/3f1f54b3-9880-47f3-82bc-4be5f48d0632)
 
+<div align="center">
+  
+# Daily Music Log
 
-# DailyMusicLog
-#### 기간 및 인원
+ </div>
+ 
+## 기간 및 인원
 - 2024.08.19 ~ 2024.10.10 (2개월)  /  AOS 1명(개인 프로젝트)
 
 
-#### 소개
-- 오늘의 노래를 검색하여 저장하고 간단한 메모를 함께 저장할 수 있는 어플
+## 소개
+- 오늘의 노래를 검색하고 간단한 메모와 함께 저장할 수 있는 어플
 
 
-#### 트러블 슈팅(1)
+
+-----
+
+## (1) 검색 페이지 / 선택 트랙 페이지 / 로컬 DB 저장 트랙 로드 페이지
+
 <div align="center">
-#### 상황 및 과제
-- ①-[track.search] API의 { Track명 / Artist명 / 포스터URL } 의 실시간 데이터 값을 UI에 업데이트 했을 때, **앨범 포스터 URL이 모두 기본 이미지로 로드되는 문제**
+  
+![image](https://github.com/user-attachments/assets/91c9ec23-62e7-43b0-9d16-873f4c0d0428)
+
+ </div>
+
+<div align="center">
+  
+### 트러블 슈팅(1)
+
+#### < 상황 및 과제 >
+![image](https://github.com/user-attachments/assets/3a8cd49f-41ea-481d-9157-87157f9e1a70)
+  
+ 
+ 
+①-[track.search] API의 { Track명 / Artist명 / 포스터URL } 의 실시간 데이터 값을 UI에 업데이트 했을 때,
+
+**앨범 포스터 URL이 모두 기본 이미지로 로드되는 문제**
+
 (이미지 URL이 모두 기본 이미지)
+
+</div>
 
 - ②-[track.getInfo] API에서 실제 포터스터 URL이 나오는 것을 발견
 - Track / Artist 객체를 어떻게 담을 수 있을지 고민하다 기존 ① 요청 결과로 두 메서드의 값을 알 수 있으니 API①의 결과값으로, API② 데이터를 요청 받는 것으로 구상
 - 먼저 두 API를 활용하여 데이터가 불러와지는 것을 확인하고 싶었기에
 **"클릭한 데이터" 기준의 URL을 가져오기로 결정**
-
+  
+<div align="center">
+  
 #### 해결 및 과제
+
 **[데이터 클래스 설계 오류]**
+
 "하나의 검색어에 여러 앨범 데이터가 반환된다"는 가정하에 요청 받은 앨범 포스터 URL 반환 값을 List<Album> 으로 설정
 ▷ 두 APi를 호출하는 과정에서 반환 값이 틀리는 에러
 
