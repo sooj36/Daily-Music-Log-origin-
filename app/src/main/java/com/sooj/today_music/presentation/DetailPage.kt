@@ -175,13 +175,13 @@ fun DetailPageScreen(
                                 .padding(12.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            memoEntity?.let { mmm ->
+                            memoEntity.let { mmm ->
                                 Text(
-                                    text = "${mmm?.memoContent}",
+                                    text = "${mmm?.memoContent ?: "오늘의 음악을 기록하세요!!!"}",
                                     fontFamily = FontFamily(Font(R.font.paperlogy_4regular)),
                                     fontSize = 15.sp
                                 )
-                            } ?: Text(text = "새로 메모 추가하기_basic",
+                            } ?: Text(text = "새로 메모 추가하기",
                                 fontFamily = FontFamily(Font(R.font.paperlogy_5medium)),
                                 fontSize = 17.sp,
                                 modifier = Modifier.clickable {

@@ -16,11 +16,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Museum
 import androidx.compose.material.icons.outlined.MusicVideo
 import androidx.compose.material.icons.outlined.SaveAlt
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedCard
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -68,7 +71,7 @@ fun EditDetailPageScreen(
             ) {
                 IconButton(onClick = { navController.popBackStack() }) {
                     Image(
-                        imageVector = Icons.Outlined.MusicVideo,
+                        imageVector = Icons.Outlined.Museum,
                         contentDescription = "NoteList",
                         Modifier.size(28.dp)
                     )
@@ -113,7 +116,7 @@ fun EditDetailPageScreen(
                             .fillMaxWidth()
                             .padding(start = 8.dp),
                         textAlign = TextAlign.Center,
-                        fontFamily = FontFamily(Font(R.font.paperlogy_7bold),),
+                        fontFamily = FontFamily(Font(R.font.paperlogy_7bold)),
                         fontSize = 17.sp
                     )
                     Text(
@@ -126,15 +129,16 @@ fun EditDetailPageScreen(
                         fontSize = 23.sp
                     )
                     Spacer(modifier = Modifier.height(15.dp))
+
                     Card {
                         var text by remember {
-                            mutableStateOf(memoEntity?.memoContent)
+                            mutableStateOf(memoEntity?.memoContent ?: " ")
                         }
                         text?.let {
                             TextField(value = text!!, onValueChange = { text = it })
                         }
                         memoEntity?.memoContent = text.toString()
-                    }
+                    } // 기존 카드
                 }
             }
         }

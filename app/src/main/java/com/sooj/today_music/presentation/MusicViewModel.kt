@@ -191,7 +191,7 @@ class MusicViewModel @Inject constructor(
                 val memoEntity = trackEntity?.trackId?.let {
                     MemoEntity(
                         trackId = it,
-                        memoContent = "오늘의 음악을 기록하세요 !"
+                        memoContent = ""
                     )
                 }
                 if (trackEntity != null) {
