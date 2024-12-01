@@ -64,7 +64,7 @@ fun DetailPageScreen(
 
     //memoentity감지
     val memoEntity by musicViewModel.memoContent_st.collectAsState()
-    Log.d("sooj", "memoEntity?.trackId${memoEntity?.trackId}")
+    Log.d("mem", "memoEntity?.trackId${memoEntity?.trackId}")
     /** 클릭한 트랙 가져오기 */
     val clickedTrack by musicViewModel.selectedTrack_st.collectAsState()
 
@@ -95,8 +95,10 @@ fun DetailPageScreen(
                     if (memoEntity != null) {
                         /** 메모 삭제 */
                         IconButton(onClick = {
+                            memoViewModel.run {
+                                deleteMemo_vm(memoEntity?.trackId ?: return@IconButton)
 
-                            memoViewModel.deleteMemo_vm(memoEntity?.trackId ?: return@IconButton)
+                            }
                         }) {
                             Image(
                                 imageVector = Icons.Outlined.SpeakerNotesOff,
@@ -104,7 +106,7 @@ fun DetailPageScreen(
                                 Modifier.size(28.dp)
                             )
                         }
-                    }
+                    } // 메모 삭제
 
                     /** 트랙 삭제 */
                     IconButton(onClick = {
@@ -175,22 +177,31 @@ fun DetailPageScreen(
                                 .padding(12.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            memoEntity.let { mmm ->
+                            memoEntity?.let { mmm ->
                                 Text(
-                                    text = "${mmm?.memoContent ?: "오늘의 음악을 기록하세요!!!"}",
+                                    text = "${mmm?.memoContent}",
                                     fontFamily = FontFamily(Font(R.font.paperlogy_4regular)),
                                     fontSize = 15.sp
                                 )
-                            } ?: Text(text = "새로 메모 추가하기",
+                            } ?: Text(text = "메 모 추 가 N E W",
                                 fontFamily = FontFamily(Font(R.font.paperlogy_5medium)),
                                 fontSize = 17.sp,
                                 modifier = Modifier.clickable {
-                                    // 새로 메모 추가 로직
+//                                     새로 메모 추가 로직
+                                    trackClick?.let { new ->
+                                        val test = new.trackId
+                                        val newMm = MemoEntity(test, memoContent = "new Mm")
+                                        memoViewModel.insertMemo_vm(newMm)
+                                        navController.navigate("edit_detail_page")
+                                    }
+
 //                                    if (trackClick != null) {
-                                    val test = trackClick!!.trackId
-                                    val newMm = MemoEntity(test, memoContent = "")
-                                    memoViewModel.insertMemo_vm(newMm)
-                                    navController.navigate("edit_detail_page")
+//                                        val test = trackClick!!.trackId // 선택된 트랙 trackId 가져옴
+//                                        Log.d("mem", "newMemo ${test}")
+//                                        val newMm =
+//                                            MemoEntity(test, memoContent = "") // 새로운 MemoEntity 생성
+//                                        memoViewModel.insertMemo_vm(newMm) // 메모 데이터를 DB 삽입
+//                                        navController.navigate("edit_detail_page") // 화면 전환
 //                                    }
                                 })
                         }
