@@ -51,19 +51,20 @@ fun DetailPageScreen(
     musicViewModel: MusicViewModel = hiltViewModel(),
     memoViewModel: MemoViewModel = hiltViewModel(),
 ) {
-    //
+
     val trackClick by musicViewModel.selectedTrackEntity_st.collectAsState()
 
     // 선택된 트랙의 trackid로 memoentity 불러오기
     LaunchedEffect(trackClick) {
         trackClick?.let { te ->
             musicViewModel.getMmUseID_vm(te.trackId)
+            Log.d("mem", "getMmUseID_vm${trackClick}")
         }
     }
 
     //memoentity감지
     val memoEntity by musicViewModel.memoContent_st.collectAsState()
-
+    Log.d("sooj", "memoEntity?.trackId${memoEntity?.trackId}")
     /** 클릭한 트랙 가져오기 */
     val clickedTrack by musicViewModel.selectedTrack_st.collectAsState()
 
@@ -83,7 +84,11 @@ fun DetailPageScreen(
             ) {
 
                 IconButton(onClick = { navController.popBackStack() }) {
-                    Image(imageVector = Icons.Outlined.LibraryMusic, contentDescription = "NoteList",Modifier.size(28.dp))
+                    Image(
+                        imageVector = Icons.Outlined.LibraryMusic,
+                        contentDescription = "NoteList",
+                        Modifier.size(28.dp)
+                    )
                 }
 
                 Row {
@@ -93,7 +98,11 @@ fun DetailPageScreen(
 
                             memoViewModel.deleteMemo_vm(memoEntity?.trackId ?: return@IconButton)
                         }) {
-                            Image(imageVector = Icons.Outlined.SpeakerNotesOff, contentDescription = "delete", Modifier.size(28.dp))
+                            Image(
+                                imageVector = Icons.Outlined.SpeakerNotesOff,
+                                contentDescription = "delete",
+                                Modifier.size(28.dp)
+                            )
                         }
                     }
 
@@ -102,7 +111,11 @@ fun DetailPageScreen(
                         trackClick?.let { musicViewModel.deleteSavedTrack(it) }
                         navController.popBackStack()
                     }) {
-                        Image(imageVector = Icons.Outlined.ContentCut, contentDescription = "delete",Modifier.size(28.dp))
+                        Image(
+                            imageVector = Icons.Outlined.ContentCut,
+                            contentDescription = "delete",
+                            Modifier.size(28.dp)
+                        )
                     }
                 }// icon
 
@@ -115,16 +128,6 @@ fun DetailPageScreen(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-//                    if (imgUrl != null) {
-//                        AsyncImage(
-//                            model = imgUrl,
-//                            contentDescription = "image",
-//                            modifier = Modifier.size(200.dp)
-//                                .padding(top = 10.dp)
-//                        )
-//                    } else {
-//                        Image(painterResource(id = R.drawable.img), contentDescription = "error")
-//                    } //if
 
                     //Coil 사용
                     clickedTrack?.image?.firstOrNull()?.url?.let { DbUrl ->
@@ -134,7 +137,6 @@ fun DetailPageScreen(
                                 .size(200.dp)
                                 .padding(top = 8.dp)
                         )
-
                     }
 
                     Text(
@@ -143,7 +145,7 @@ fun DetailPageScreen(
                             .padding(top = 8.dp, bottom = 5.dp),
                         fontWeight = FontWeight.Medium,
                         textAlign = TextAlign.Center,
-                        fontFamily = FontFamily(Font(R.font.paperlogy_7bold),),
+                        fontFamily = FontFamily(Font(R.font.paperlogy_7bold)),
                         fontSize = 17.sp
                     )
 
@@ -153,7 +155,7 @@ fun DetailPageScreen(
                             .padding(top = 3.dp),
                         fontWeight = FontWeight.SemiBold,
                         textAlign = TextAlign.Center,
-                        fontFamily = FontFamily(Font(R.font.paperlogy_8extrabold),),
+                        fontFamily = FontFamily(Font(R.font.paperlogy_8extrabold)),
                         fontSize = 23.sp
                     )
                     // 메모장
@@ -171,20 +173,25 @@ fun DetailPageScreen(
                             Modifier
                                 .fillMaxWidth()
                                 .padding(12.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally) {
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
                             memoEntity?.let { mmm ->
-                                Text(text = "${mmm?.memoContent}",
-                                    fontFamily = FontFamily(Font(R.font.paperlogy_4regular),),
-                                    fontSize = 15.sp)
-                            } ?: Text(text = "새로 메모 추가하기",
-                                fontFamily = FontFamily(Font(R.font.paperlogy_5medium),),
+                                Text(
+                                    text = "${mmm?.memoContent}",
+                                    fontFamily = FontFamily(Font(R.font.paperlogy_4regular)),
+                                    fontSize = 15.sp
+                                )
+                            } ?: Text(text = "새로 메모 추가하기_basic",
+                                fontFamily = FontFamily(Font(R.font.paperlogy_5medium)),
                                 fontSize = 17.sp,
                                 modifier = Modifier.clickable {
                                     // 새로 메모 추가 로직
+//                                    if (trackClick != null) {
                                     val test = trackClick!!.trackId
                                     val newMm = MemoEntity(test, memoContent = "")
                                     memoViewModel.insertMemo_vm(newMm)
                                     navController.navigate("edit_detail_page")
+//                                    }
                                 })
                         }
                     } // c

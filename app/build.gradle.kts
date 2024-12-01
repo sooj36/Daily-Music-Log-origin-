@@ -180,6 +180,9 @@ dependencies {
 
     // optional - Jetpack Compose integration
     implementation("androidx.paging:paging-compose:3.3.2")
+
+//    debugImplementation ("com.squareup.leakcanary:leakcanary-android:2.7")
+
 }
 kapt {
     correctErrorTypes = true

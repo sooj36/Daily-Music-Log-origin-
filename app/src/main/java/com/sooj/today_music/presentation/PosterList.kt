@@ -119,7 +119,7 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
                             navController.navigate("detail_page")
                             // 데이터 전달
                             musicViewModel.selectTrackEntity_vm(trackEntity) // img, artist, track
-//                            musicViewModel.loadTrackID_vm(trackEntity) // trackId
+                            musicViewModel.loadTrackID_vm(trackEntity) // memo
                         },
                     horizontalAlignment = Alignment.CenterHorizontally,
 
@@ -131,12 +131,6 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
                         text = "${formattedDate}",
                         fontFamily = FontFamily(Font(R.font.opensans_semibold))
                     )
-
-                    // 저장 시간을 date로 변환하여 표시
-//                    val saveAt = trackEntity.saveAt
-//                    val dateFormat = SimpleDateFormat("yyyy년 MM월 dd일 HH:mm", Locale.getDefault())
-//                    val formattedDate = dateFormat.format(Date(saveAt))
-//                    Text(text = "${formattedDate}", fontFamily = FontFamily(Font(R.font.opensans_semibold),))
 
                     Spacer(modifier = Modifier.height(3.dp))
                     trackEntity.trackName?.let {

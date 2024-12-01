@@ -1,6 +1,11 @@
 package com.sooj.today_music.presentation
 
+import android.app.Activity
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.util.Log
+import android.widget.ImageView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -32,14 +37,18 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -49,6 +58,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -61,10 +71,17 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
+
 import com.sooj.today_music.R
 import com.sooj.today_music.ui.theme.Pink40
 import com.sooj.today_music.ui.theme.Pink80
 import com.sooj.today_music.ui.theme.Purple40
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlin.coroutines.coroutineContext
 
 @Composable
 fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewModel) {
@@ -97,7 +114,8 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                 musicViewModel.clearSearchResults() // 검색 값 초기화
             }) {
                 Image(
-                    imageVector = Icons.Outlined.LibraryMusic, contentDescription = "list",
+                    imageVector = Icons.Outlined.LibraryMusic,
+                    contentDescription = "list",
                     Modifier.size(30.dp)
                 )
             }
@@ -114,13 +132,13 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                     .weight(3f)
                     .border(color = Color.LightGray, width = 3.dp)
                     .background(Color.LightGray),
-                    value = text, onValueChange = { text = it },
+                    value = text,
+                    onValueChange = { text = it },
                     textStyle = TextStyle(color = Color.Black, fontSize = 15.sp),
                     singleLine = true,
                     decorationBox = { innerTextField ->
                         Box(
-                            modifier = Modifier
-                                .padding(8.dp)
+                            modifier = Modifier.padding(8.dp)
                         ) {
                             if (text.isEmpty()) {
                                 Text(
@@ -146,7 +164,8 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                     // 로그에 결과 요청 값 두번씩 찍히는 이유
                 }) {
                     Image(
-                        imageVector = Icons.Outlined.Search, contentDescription = "search",
+                        imageVector = Icons.Outlined.Search,
+                        contentDescription = "search",
                         Modifier.size(35.dp)
                     )
                 }
@@ -197,23 +216,76 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
 //                                contentDescription = null,
 //                            )
 
-                            // 3 map으로 수정 (최종본)
+//                            Text(text = "Glide")
+//                            // Glide로 이미지 로드 상태 관리
+//                            var imageBitmap by remember { mutableStateOf<ImageBitmap?>(null) }
+//                            val context = LocalContext.current
+//
+//                            LaunchedEffect(albumUrl) {
+//                                if (albumUrl != null) {
+//                                    withContext(Dispatchers.IO) {
+//                                        val bitmap = Glide.with(context).asBitmap()
+//                                            .load(albumUrl) // 로드할 이미지 url 설정
+//                                            .into(object : CustomTarget<Bitmap>() {
+//                                                override fun onResourceReady(
+//                                                    resource: Bitmap,
+//                                                    transition: Transition<in Bitmap>?
+//                                                ) {
+//                                                    imageBitmap = resource.asImageBitmap()
+//                                                }
+//
+//                                                override fun onLoadCleared(placeholder: Drawable?) {
+//                                                    TODO("Not yet implemented")
+//                                                    // 이미지 로드 취소 된 경우
+//                                                }
+//                                            })
+////                                            .submit() // 비동기 이미지 로드 작업을 시작하고, RequestFutureTarge 객체 반환
+////                                            .get()
+////                                        withContext(Dispatchers.Main) {
+////                                            imageBitmap = bitmap.asImageBitmap()
+////                                        }
+//                                    }
+//                                }
+//                            }
+
+//                            // 이미지 UI 표시 (Glide)
+//                            if (imageBitmap != null) {
+//                                Image(bitmap = imageBitmap!!, contentDescription = "앨범 이미지")
+//
+//                            } else {
+//                                // 로딩 중일때,
+//                                CircularProgressIndicator(modifier = Modifier.size(48.dp))
+//                            }
+
+                            //로딩 시간 설정
+                            var isLoading by remember { mutableStateOf(true) }
+                            var coroutineScope = rememberCoroutineScope()
+
+                            LaunchedEffect(Unit) {
+                                coroutineScope.launch {
+                                    delay(5000)
+                                    isLoading = false
+                                }
+                            }
+
                             if (albumUrl != null) {
                                 AsyncImage(
                                     model = ImageRequest.Builder(LocalContext.current)
                                         .data(
                                             albumUrl
                                         )
-                                        .diskCachePolicy(CachePolicy.DISABLED)  // 캐싱 비활성화
-//                                    .diskCachePolicy(CachePolicy.ENABLED) // 캐싱 활성화
+//                                    .diskCachePolicy(CachePolicy.DISABLED)  // 캐싱 비활성화
+                                    .diskCachePolicy(CachePolicy.ENABLED) // 캐싱 활성화
                                         .build(),
-                                    contentDescription = "최종 이미지"
+                                    contentDescription = "최종 이미지",
+                                    onSuccess = { isLoading = false },
+                                    onError = { isLoading = false }
                                 )
                             } else {
-                                R.drawable.yumi
-
+                                CircularProgressIndicator(modifier = Modifier.size(48.dp))
                             }
 
+//
 
                             Spacer(modifier = Modifier.height(8.dp))
                             /** 트랙명 */

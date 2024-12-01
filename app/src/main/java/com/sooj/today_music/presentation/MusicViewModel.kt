@@ -16,17 +16,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-
-/** _searchList.value <-- _searchList 값 가져와 외부에 노출
- * val searchList: State<List<Track>> get() = _searchList
-get() 커스텀 게터 */
-
-/** private val _infoList = mutableStateOf<List<Album>>(emptyList())
-val infoList: State<List<Album>> get() = _infoList */
 
 @HiltViewModel
 class MusicViewModel @Inject constructor(
@@ -36,43 +30,39 @@ class MusicViewModel @Inject constructor(
 ) : ViewModel() {
     // 로드 시작 시간 기록용
     private val _startTime = MutableStateFlow(0L)
-    val startTime : StateFlow<Long> get() = _startTime
-
-    // 검색
-//    private val _searchList_st = mutableStateOf<List<Track>>(emptyList()) // 여러개의 객체 담고 있어서 List
-//    val searchList_st: State<List<Track>> get() = _searchList_st
+    val startTime : StateFlow<Long> get() = _startTime.asStateFlow()
 
     // 검색 stateflow
-    private val _searchList_st = MutableStateFlow<List<Track>>(emptyList()) // 여러개의 객체 담고 있어서 List
-    val searchList_st: StateFlow<List<Track>> get() = _searchList_st
+    private val _searchList_st = MutableStateFlow<List<Track>>(emptyList()) // 여러 개의 객체 담고 있어서 List
+    val searchList_st: StateFlow<List<Track>> get() = _searchList_st.asStateFlow()
 
 
     // 선택 -> stateflow
     private val _selectedTrack_st = MutableStateFlow<Track?>(null)
-    val selectedTrack_st: StateFlow<Track?> get() = _selectedTrack_st
+    val selectedTrack_st: StateFlow<Track?> get() = _selectedTrack_st.asStateFlow()
 
-    /** 선택 트랙에서 Artist, Track명으로 get.Info 가져오기 -> StateFlow 로 변경 */
-    private val _getAlbumImage_st = MutableStateFlow<String?>(null)
-    val getAlbumImage_st: StateFlow<String?> get() = _getAlbumImage_st
+//    /** 선택 트랙에서 Artist, Track명으로 get.Info 가져오기 -> StateFlow 로 변경 */
+//    private val _getAlbumImage_st = MutableStateFlow<String?>(null)
+//    val getAlbumImage_st: StateFlow<String?> get() = _getAlbumImage_st.asStateFlow()
 
     /** 선택 트랙에서 Artist, Track명으로 get.Info 가져오기 -> StateFlow 로 변경 */
     private val _getAlbumMap_st = MutableStateFlow<Map<String,String?>>(emptyMap())
-    val getAlbumMap_st: StateFlow<Map<String,String?>> get() = _getAlbumMap_st
+    val getAlbumMap_st: StateFlow<Map<String,String?>> get() = _getAlbumMap_st.asStateFlow()
 
     /** 모든 트랙 데이터 상태 관리 */
     private val _getAllSavedTracks_st = mutableStateOf<List<TrackEntity>>(emptyList())
     val getAllSavedTracks_st: State<List<TrackEntity>> get() = _getAllSavedTracks_st
 
     private val _selectedTrackEntity_st = MutableStateFlow<TrackEntity?>(null)
-    val selectedTrackEntity_st: StateFlow<TrackEntity?> get() = _selectedTrackEntity_st
+    val selectedTrackEntity_st: StateFlow<TrackEntity?> get() = _selectedTrackEntity_st.asStateFlow()
 
     // 선택
     private val _memoContent_st = MutableStateFlow<MemoEntity?>(null)
-    val memoContent_st: StateFlow<MemoEntity?> get() = _memoContent_st
+    val memoContent_st: StateFlow<MemoEntity?> get() = _memoContent_st.asStateFlow()
 
     // db저장 성공 or 실패
     private var _saveResult_st = MutableStateFlow<Boolean?>(null)
-    val saveResult_st : StateFlow<Boolean?> get() = _saveResult_st
+    val saveResult_st : StateFlow<Boolean?> get() = _saveResult_st.asStateFlow()
 
     /** track을 기반으로 음악 정보를 검색하고, 그 결과를 viewmodel 상태로 저장 */
     fun getMusic_vm(track: String) {
@@ -119,30 +109,30 @@ class MusicViewModel @Inject constructor(
     }
 
     // 선택한 트랙으로 앨범포스터 가져오기
-    fun getAlbumPoster_vm() {
-        val selectedImageInfo = _selectedTrack_st.value ?: return
-
-        _getAlbumImage_st.value = null
-
-        viewModelScope.launch(Dispatchers.Default) {
-            Log.d("sj_vm(st) GETPOSTER", "Running on thread: ${Thread.currentThread().name}")
-
-            val albumInfo = repository.getAlbumPoster_impl(
-                selectedImageInfo.name ?: "트랙",
-                selectedImageInfo.artist ?: "아티스트"
-            )
-            if (albumInfo != null) {
-                Log.d("getting album post", "album < ${albumInfo} >")
-                val albumImageUrl = albumInfo.image.find { it.size == "extralarge" }?.url
-                withContext(Dispatchers.Main) {
-                    _getAlbumImage_st.value = albumImageUrl
-                }
-            } else {
-                Log.e("album info error", "fail to get info $")
-            }
-            Log.d("sj_vm(en) GETPOSTER", "Running on thread: ${Thread.currentThread().name}")
-        }
-    }
+//    fun getAlbumPoster_vm() {
+//        val selectedImageInfo = _selectedTrack_st.value ?: return
+//
+//        _getAlbumImage_st.value = null
+//
+//        viewModelScope.launch(Dispatchers.Default) {
+//            Log.d("sj_vm(st) GETPOSTER", "Running on thread: ${Thread.currentThread().name}")
+//
+//            val albumInfo = repository.getAlbumPoster_impl(
+//                selectedImageInfo.name ?: "트랙",
+//                selectedImageInfo.artist ?: "아티스트"
+//            )
+//            if (albumInfo != null) {
+//                Log.d("getting album post", "album < ${albumInfo} >")
+//                val albumImageUrl = albumInfo.image.find { it.size == "extralarge" }?.url
+//                withContext(Dispatchers.Main) {
+//                    _getAlbumImage_st.value = albumImageUrl
+//                }
+//            } else {
+//                Log.e("album info error", "fail to get info $")
+//            }
+//            Log.d("sj_vm(en) GETPOSTER", "Running on thread: ${Thread.currentThread().name}")
+//        }
+//    }
 
     // 1006 추가 로직 URL -> MAP으로
     fun fetchTrackAndUrl_vm(track : String) {
@@ -220,16 +210,20 @@ class MusicViewModel @Inject constructor(
 
     // 트랙 선택 시 trackId으로 memoentity 불러오기
     fun getMmUseID_vm(trackId: Int) {
+        Log.d("mem", "getMmUseID_vm called with trackId: $trackId")
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 memoRepository.getMemo_impl(trackId).collect() { mm ->
+                    Log.d("mem", "Fetched MemoEntity: $mm")
                     _memoContent_st.value = mm
+                    Log.d("mem", "_memoContent_st updated: ${_memoContent_st.value}")
                 }
             } catch (e: Exception) {
-                Log.e("test", "${e.message}")
+                Log.e("mem", "${e.message}")
             }
         }
     }
+
     fun loadTrackID_vm(trackEntity: TrackEntity) {
         _selectedTrackEntity_st.value = trackEntity
         getMmUseID_vm(trackEntity.trackId) // 자동 생성된 trackId로 MemoEntity 조회
