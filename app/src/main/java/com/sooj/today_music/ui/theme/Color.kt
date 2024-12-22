@@ -11,4 +11,5 @@ val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
 val searchBar = Color(0xFFF5EFE8)
+val textColor = Color(0xFF9A885C)
 

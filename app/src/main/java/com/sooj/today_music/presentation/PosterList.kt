@@ -28,6 +28,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -42,6 +43,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.sooj.today_music.R
+import com.sooj.today_music.ui.theme.searchBar
+import com.sooj.today_music.ui.theme.textColor
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -60,13 +63,14 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFEDEDE3))
+            .background(Color.White)
+//            .background(Color(0xFFEDEDE3))
             .padding(12.dp)
     ) {
         Column {
             Text(
                 text = "[총 ${loadTracks.size}]",
-                fontWeight = FontWeight.ExtraBold,
+                fontWeight = FontWeight.Normal,
                 fontFamily = FontFamily(Font(R.font.sc_dream_3))
             )
 
@@ -78,10 +82,10 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
             ) {
 
                 Text(
-                    text = "my daliy MUSIC record <3",
+                    text = "<3",
                     fontFamily = FontFamily(Font(R.font.paperlogy_7bold)),
                     fontStyle = FontStyle.Italic,
-                    fontSize = 21.sp,
+                    fontSize = 15.sp,
                     modifier = Modifier.clickable {
                         navController.navigate("write_post")
                     }
@@ -92,7 +96,7 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
 
             Bookmark(navController, musicViewModel = musicViewModel)
 
-        } // c1
+        }
     }
 }
 
@@ -108,9 +112,7 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
             Card(
                 Modifier
                     .fillMaxWidth()
-                    .padding(5.dp)
-//                    .border(3.dp, Color.LightGray, RoundedCornerShape(35.dp))
-                ,
+                    .padding(5.dp),
 
                 colors = CardDefaults.cardColors(containerColor = Color.Transparent) // 배경색 설정
             ) {
@@ -124,33 +126,48 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
                             musicViewModel.selectTrackEntity_vm(trackEntity) // img, artist, track
                             musicViewModel.loadTrackID_vm(trackEntity) // memo
                         },
-                    horizontalAlignment = Alignment.CenterHorizontally,
+//                    horizontalAlignment = Alignment.CenterHorizontally, // 수평 정렬
+                    horizontalAlignment = Alignment.Start, // 수평 정렬
 
                     ) {
                     // 1. YYMMDD
                     val saveAt = trackEntity.saveAt
-                    val dateFormat = SimpleDateFormat("MM월 dd일", Locale.getDefault())
+                    val dateFormat = SimpleDateFormat("MM / dd", Locale.getDefault())
                     val formattedDate = dateFormat.format(Date(saveAt))
                     Text(
                         text = "${formattedDate}",
-                        fontFamily = FontFamily(Font(R.font.opensans_semibold))
+                        fontFamily = FontFamily(Font(R.font.paperlogy_5medium)),
+                        fontSize = 10.sp
                     )
 
                     Spacer(modifier = Modifier.height(1.dp))
 
                     // 4. TRACK POSTER
-                    AsyncImage(
-                        model = trackEntity.imageUrl,
-                        contentDescription = "img",
+                    Box(
                         modifier = Modifier
-                            .size(120.dp) // 원하는 크기 설정
+                            .size(160.dp) // 크기 설정
+                            .shadow(
+                                elevation = 8.dp, // 그림자 높이
+                                shape = RoundedCornerShape(16.dp), // 그림자 모양
+                                clip = false // 그림자가 잘리지 않도록 설정
+                            )
                             .clip(RoundedCornerShape(16.dp)) // 둥근 모서리 적용
+                            .background(Color.White) // 이미지 배경색 (필요시)
                             .border(
                                 width = 2.dp,
                                 color = Color.Transparent, // 테두리 색상
                                 shape = RoundedCornerShape(16.dp) // 테두리 모양
                             )
-                    )
+                    ) {
+                        AsyncImage(
+                            model = trackEntity.imageUrl,
+                            contentDescription = "img",
+                            modifier = Modifier
+                                .fillMaxSize() // 부모 박스에 맞춤
+                                .clip(RoundedCornerShape(16.dp)) // 이미지 모양 일치
+                        )
+                    }
+
 
                     Spacer(modifier = Modifier.height(1.dp))
 
@@ -173,15 +190,13 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
                             text = it,
                             fontWeight = FontWeight.Medium,
                             fontFamily = FontFamily(Font(R.font.paperlogy_5medium)),
-                            textAlign = TextAlign.Center // 텍스트 중앙 정렬
+                            textAlign = TextAlign.Center, // 텍스트 중앙 정렬,
+                            color = textColor // 텍스트 색상 설정
+
                         )
                     }
 
                     Spacer(modifier = Modifier.height(3.dp))
-
-
-
-                    Spacer(modifier = Modifier.height(10.dp))
 
                 }
             } // card
