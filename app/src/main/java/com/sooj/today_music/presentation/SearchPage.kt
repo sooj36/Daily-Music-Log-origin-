@@ -48,6 +48,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
@@ -89,13 +90,10 @@ import kotlin.coroutines.coroutineContext
 @Composable
 fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewModel) {
     val searchList by musicViewModel.searchList_st.collectAsState() //
-//    val getAlbumImage = ""
     val getAlbumImg_Map by musicViewModel.getAlbumMap_st.collectAsState() // poster
     var text by remember {
         mutableStateOf("")
     }
-
-    //
     val endTime = remember { mutableStateOf(0L) }
     val loadTime = remember { mutableStateOf(0L) }
     val startTime by musicViewModel.startTime.collectAsState()
@@ -129,7 +127,6 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                 modifier = Modifier.padding(start = 8.dp, end = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-
                 BasicTextField(modifier = Modifier
                     .width(70.dp)
                     .weight(3f)
@@ -184,6 +181,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                     )
                 }
             } // row
+
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 modifier = Modifier
@@ -199,7 +197,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                             .fillMaxWidth()
                             .padding(5.dp)
                             .border(1.dp, Color.Transparent, RoundedCornerShape(70.dp)),
-                        colors = CardDefaults.cardColors(containerColor = Color(0xFFF9E5DA)) // 배경색 설정
+                        colors = CardDefaults.cardColors(containerColor = Color.Transparent) // 배경색 설정
                     ) {
                         Column(
                             modifier = Modifier
@@ -232,30 +230,30 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                             if (albumUrl != null) {
                                 AsyncImage(
                                     model = ImageRequest.Builder(LocalContext.current)
-                                        .data(
-                                            albumUrl
-                                        )
+                                        .data(albumUrl)
 //                                    .diskCachePolicy(CachePolicy.DISABLED)  // 캐싱 비활성화
                                     .diskCachePolicy(CachePolicy.ENABLED) // 캐싱 활성화
                                         .build(),
                                     contentDescription = "최종 이미지",
                                     onSuccess = { isLoading = false },
-                                    onError = { isLoading = false }
+                                    onError = { isLoading = false },
+                                    modifier = Modifier
+                                        .size(150.dp) // 원하는 크기로 설정
+                                        .clip(RoundedCornerShape(16.dp)) // 둥근 모서리 적용
+
                                 )
                             } else {
                                 CircularProgressIndicator(modifier = Modifier.size(48.dp))
                             }
 
-//
-
                             Spacer(modifier = Modifier.height(8.dp))
                             /** 트랙명 */
                             Text(
-                                text = track.name.toString(),
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.ExtraBold,
-                                fontFamily = FontFamily(Font(R.font.opensans_semibold)),
-                                modifier = Modifier.align(Alignment.CenterHorizontally) // 텍스트 중앙 정렬
+                                text = track.name,
+                                fontSize = 14.sp,
+//                                fontWeight = FontWeight.ExtraBold,
+                                fontFamily = FontFamily(Font(R.font.paperlogy_5medium)),
+                                modifier = Modifier.align(Alignment.Start) // 텍스트 중앙 정렬
                             )
 
                             Spacer(modifier = Modifier.height(2.dp))
@@ -263,10 +261,10 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                             /** 아티스트명 */
                             Text(
                                 text = track.artist.toString(),
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Medium,
-                                fontFamily = FontFamily(Font(R.font.opensans_semibold)),
-                                modifier = Modifier.align(Alignment.CenterHorizontally) // 텍스트 중앙 정렬
+                                fontSize = 14.sp,
+//                                fontWeight = FontWeight.Medium,
+                                fontFamily = FontFamily(Font(R.font.paperlogy_5medium)),
+                                modifier = Modifier.align(Alignment.Start) // 텍스트 중앙 정렬
                             )
                         }
                     } //card
@@ -275,10 +273,3 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
         }
     }
 }
-
-
-//@Composable
-//fun WritePostPreview() {
-//    val navController = rememberNavController()
-//    SearchPageScreen(navController, hiltViewModel())
-//}

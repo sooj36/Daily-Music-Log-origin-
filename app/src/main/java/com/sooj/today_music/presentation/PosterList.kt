@@ -81,7 +81,6 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.End
             ) {
-
                 Text(
                     text = "<3",
                     fontFamily = FontFamily(Font(R.font.paperlogy_7bold)),
@@ -91,7 +90,6 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
                         navController.navigate("write_post")
                     }
                 )
-
             }
             Spacer(modifier = Modifier.height(5.dp))
 
