@@ -19,8 +19,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ContentCut
+import androidx.compose.material.icons.outlined.DeleteOutline
 import androidx.compose.material.icons.outlined.LibraryMusic
 import androidx.compose.material.icons.outlined.SpeakerNotesOff
+import androidx.compose.material.icons.sharp.DeleteOutline
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
@@ -114,7 +116,7 @@ fun DetailPageScreen(
                         navController.popBackStack()
                     }) {
                         Image(
-                            imageVector = Icons.Outlined.ContentCut,
+                            imageVector = Icons.Sharp.DeleteOutline,
                             contentDescription = "delete",
                             Modifier.size(28.dp)
                         )

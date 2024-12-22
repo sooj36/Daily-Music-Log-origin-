@@ -71,7 +71,8 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
             Text(
                 text = "[총 ${loadTracks.size}]",
                 fontWeight = FontWeight.Normal,
-                fontFamily = FontFamily(Font(R.font.sc_dream_3))
+                fontFamily = FontFamily(Font(R.font.sc_dream_3)),
+                fontSize = 15.sp,
             )
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -92,7 +93,7 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
                 )
 
             }
-            Spacer(modifier = Modifier.height(25.dp))
+            Spacer(modifier = Modifier.height(5.dp))
 
             Bookmark(navController, musicViewModel = musicViewModel)
 
@@ -137,10 +138,10 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
                     Text(
                         text = "${formattedDate}",
                         fontFamily = FontFamily(Font(R.font.paperlogy_5medium)),
-                        fontSize = 10.sp
+                        fontSize = 12.sp
                     )
 
-                    Spacer(modifier = Modifier.height(1.dp))
+                    Spacer(modifier = Modifier.height(2.dp))
 
                     // 4. TRACK POSTER
                     Box(
@@ -177,12 +178,12 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
                             text = it,
                             fontWeight = FontWeight.SemiBold,
                             fontFamily = FontFamily(Font(R.font.paperlogy_5medium)),
-                            fontSize = 15.sp,
+                            fontSize = 13.sp,
 //                            textAlign = TextAlign.Left // 텍스트 중앙 정렬
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(2.dp))
+                    Spacer(modifier = Modifier.height(1.dp))
 
                     // 3. 아티스트 이름
                     trackEntity.artistName?.let {
@@ -191,7 +192,8 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
                             fontWeight = FontWeight.Medium,
                             fontFamily = FontFamily(Font(R.font.paperlogy_5medium)),
                             textAlign = TextAlign.Center, // 텍스트 중앙 정렬,
-                            color = textColor // 텍스트 색상 설정
+                            color = textColor, // 텍스트 색상 설정
+                            fontSize = 13.sp,
 
                         )
                     }

@@ -26,6 +26,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.LibraryMusic
 import androidx.compose.material.icons.outlined.Palette
@@ -143,18 +144,29 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                             modifier = Modifier.padding(8.dp)
                         ) {
                             if (text.isEmpty()) {
-                                Text(
-                                    text = "오늘의 노래를 검색하세요 !",
-                                    style = TextStyle(color = Color.DarkGray),
-                                    fontWeight = FontWeight.ExtraLight,
-                                    fontFamily = FontFamily(Font(R.font.paperlogy_4regular))
-                                )
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically, // 아이콘과 텍스트 세로 중앙 정렬
+                                    horizontalArrangement = Arrangement.Start // 아이콘과 텍스트가 왼쪽에 배치되도록
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Search, // 기본 검색 아이콘
+                                        contentDescription = "Search Icon", // 아이콘 설명
+                                        modifier = Modifier.padding(end = 8.dp) // 아이콘과 텍스트 사이에 여백 추가
+                                    )
+                                    Text(
+                                        text = "오늘의 노래를 검색하세요 !",
+                                        style = TextStyle(color = Color.DarkGray),
+                                        fontWeight = FontWeight.ExtraLight,
+                                        fontFamily = FontFamily(Font(R.font.paperlogy_4regular))
+                                    )
+
+                                }
+                                innerTextField() // 실제 텍스트 입력 필드
                             } else {
                             }
-                            innerTextField() // 실제 텍스트 입력 필드
                         }
-                    } // decorationBox
-                )
+                    }
+                ) // basic text field
 
                 Spacer(modifier = Modifier.width(6.dp))
 
@@ -205,59 +217,6 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-
-//                            //2 첫번째 데이터가 모두 로드
-//                            AsyncImage(
-//                                model = ImageRequest.Builder(LocalContext.current)
-//                                    .data(
-//                                        getAlbumImage
-//                                            ?: Icons.Outlined.Search // URL이 비어 있으면 기본 이미지 리소스를 사용
-//                                    )
-//                                    .diskCachePolicy(CachePolicy.DISABLED)
-//                                    .build(),
-//                                contentDescription = null,
-//                            )
-
-//                            Text(text = "Glide")
-//                            // Glide로 이미지 로드 상태 관리
-//                            var imageBitmap by remember { mutableStateOf<ImageBitmap?>(null) }
-//                            val context = LocalContext.current
-//
-//                            LaunchedEffect(albumUrl) {
-//                                if (albumUrl != null) {
-//                                    withContext(Dispatchers.IO) {
-//                                        val bitmap = Glide.with(context).asBitmap()
-//                                            .load(albumUrl) // 로드할 이미지 url 설정
-//                                            .into(object : CustomTarget<Bitmap>() {
-//                                                override fun onResourceReady(
-//                                                    resource: Bitmap,
-//                                                    transition: Transition<in Bitmap>?
-//                                                ) {
-//                                                    imageBitmap = resource.asImageBitmap()
-//                                                }
-//
-//                                                override fun onLoadCleared(placeholder: Drawable?) {
-//                                                    TODO("Not yet implemented")
-//                                                    // 이미지 로드 취소 된 경우
-//                                                }
-//                                            })
-////                                            .submit() // 비동기 이미지 로드 작업을 시작하고, RequestFutureTarge 객체 반환
-////                                            .get()
-////                                        withContext(Dispatchers.Main) {
-////                                            imageBitmap = bitmap.asImageBitmap()
-////                                        }
-//                                    }
-//                                }
-//                            }
-
-//                            // 이미지 UI 표시 (Glide)
-//                            if (imageBitmap != null) {
-//                                Image(bitmap = imageBitmap!!, contentDescription = "앨범 이미지")
-//
-//                            } else {
-//                                // 로딩 중일때,
-//                                CircularProgressIndicator(modifier = Modifier.size(48.dp))
-//                            }
 
                             //로딩 시간 설정
                             var isLoading by remember { mutableStateOf(true) }
@@ -317,9 +276,9 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
     }
 }
 
-@Preview
-@Composable
-fun WritePostPreview() {
-    val navController = rememberNavController()
-    SearchPageScreen(navController, hiltViewModel())
-}
+
+//@Composable
+//fun WritePostPreview() {
+//    val navController = rememberNavController()
+//    SearchPageScreen(navController, hiltViewModel())
+//}
