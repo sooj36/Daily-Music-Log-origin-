@@ -16,12 +16,13 @@ class MemoRepositoryImpl @Inject constructor(
     override suspend fun saveMemo_impl(memoEntity: MemoEntity) {
         withContext(Dispatchers.IO) {
             memoDao.insertMemo(memoEntity)
+
         }
         Log.d("sj insert_Memo", "Running on thread: ${Thread.currentThread().name}")
     }
 
-    override suspend fun getMemo_impl(trackId : Int): Flow<MemoEntity> {
-            return memoDao.getMemoByTrackId(trackId)
+    override suspend fun getMemo_impl(trackId: Int): Flow<MemoEntity> {
+        return memoDao.getMemoByTrackId(trackId)
     }
 
     override suspend fun editMemo_impl(memoEntity: MemoEntity) {
@@ -30,7 +31,7 @@ class MemoRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun deleteMemo_impl(trackid : Int) {
+    override suspend fun deleteMemo_impl(trackid: Int) {
         return withContext(Dispatchers.Default) {
             memoDao.deleteMemo(trackid)
         }

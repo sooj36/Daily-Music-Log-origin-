@@ -30,6 +30,7 @@ import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.LibraryMusic
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -76,6 +77,7 @@ import com.sooj.today_music.R
 import com.sooj.today_music.ui.theme.Pink40
 import com.sooj.today_music.ui.theme.Pink80
 import com.sooj.today_music.ui.theme.Purple40
+import com.sooj.today_music.ui.theme.searchBar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
@@ -105,7 +107,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFEDEDE3))
+            .background(Color.White)
     ) {
         Column {
             Spacer(modifier = Modifier.height(8.dp))
@@ -114,7 +116,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                 musicViewModel.clearSearchResults() // 검색 값 초기화
             }) {
                 Image(
-                    imageVector = Icons.Outlined.LibraryMusic,
+                    imageVector = Icons.Rounded.Menu,
                     contentDescription = "list",
                     Modifier.size(30.dp)
                 )
@@ -130,8 +132,8 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                 BasicTextField(modifier = Modifier
                     .width(70.dp)
                     .weight(3f)
-                    .border(color = Color.LightGray, width = 3.dp)
-                    .background(Color.LightGray),
+                    .border(color = searchBar, width = 3.dp)
+                    .background(searchBar),
                     value = text,
                     onValueChange = { text = it },
                     textStyle = TextStyle(color = Color.Black, fontSize = 15.sp),
@@ -174,7 +176,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                 columns = GridCells.Fixed(2),
                 modifier = Modifier
                     .fillMaxSize()
-                    .background((Pink40)),
+                    .background(Color.White),
             ) {
                 items(searchList.size) { index ->
                     val track = searchList[index] // track, artist

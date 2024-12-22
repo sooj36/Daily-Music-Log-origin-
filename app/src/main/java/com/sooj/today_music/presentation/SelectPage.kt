@@ -19,6 +19,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ArrowBackIosNew
+import androidx.compose.material.icons.outlined.Publish
 import androidx.compose.material.icons.outlined.SettingsBackupRestore
 import androidx.compose.material.icons.outlined.SystemUpdateAlt
 import androidx.compose.material3.Text
@@ -58,7 +60,7 @@ fun SelectPageScreen(navController: NavController, musicViewModel: MusicViewMode
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFEDEDE3))
+            .background(Color.White)
     ) {
         Column(
             modifier = Modifier
@@ -69,19 +71,19 @@ fun SelectPageScreen(navController: NavController, musicViewModel: MusicViewMode
                     .padding(top = 8.dp, start = 5.dp, end = 5.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Image(imageVector = Icons.Outlined.SettingsBackupRestore,
+                Image(imageVector = Icons.Outlined.ArrowBackIosNew,
                     contentDescription = "edit",
                     Modifier.clickable { navController.popBackStack() }
                         .size(30.dp))
 
-                Image(imageVector = Icons.Outlined.SystemUpdateAlt,
+                Image(imageVector = Icons.Outlined.Publish,
                     contentDescription = "getTrackData",
                     modifier = Modifier.size(30.dp).clickable {
                         musicViewModel.saveSelectedTrack_vm()
                         saveResult.value.let { success ->
                             try {
                                 if (success == true) {
-                                    Toast.makeText(context, "Track 저장 완", Toast.LENGTH_LONG).show()
+                                    Toast.makeText(context, "success save", Toast.LENGTH_LONG).show()
                                 } else {
                                     Toast.makeText(context, "DB 저장 실패 ${error("")}", Toast.LENGTH_LONG).show()
                                 }
