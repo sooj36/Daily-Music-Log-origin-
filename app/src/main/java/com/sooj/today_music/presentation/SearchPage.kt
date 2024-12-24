@@ -124,7 +124,8 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
             Spacer(modifier = Modifier.height(15.dp))
 
             Row(
-                modifier = Modifier.padding(start = 8.dp, end = 8.dp),
+                modifier = Modifier
+                    .padding(start = 8.dp, end = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 BasicTextField(modifier = Modifier

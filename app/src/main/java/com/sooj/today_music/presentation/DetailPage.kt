@@ -76,7 +76,8 @@ fun DetailPageScreen(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(scrollState)
-            .background(Color(0xFFEDEDE3))
+            .background(Color.White)
+//            .background(Color(0xFFEDEDE3))
     ) {
         Column {
             Row(

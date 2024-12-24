@@ -29,6 +29,7 @@ import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -66,7 +67,7 @@ fun EditDetailPageScreen(
             .fillMaxSize()
             .verticalScroll(scrollState)
             .padding(start = 8.dp, end = 8.dp)
-            .background(Color(0xFFEDEDE3))
+            .background(Color.White)
     ) {
         Column {
             Row(
@@ -87,7 +88,6 @@ fun EditDetailPageScreen(
                     navController.navigate("detail_page")
 
                     memoEntity?.let { memoViewModel.updateMemo_vm(memoEntity = it) }
-
 
                 }) {
                     Image(
@@ -140,7 +140,14 @@ fun EditDetailPageScreen(
                             mutableStateOf(memoEntity?.memoContent ?: " ")
                         }
                         text?.let {
-                            TextField(value = text!!, onValueChange = { text = it })
+                            TextField(
+                                value = text!!,
+                                onValueChange = { text = it },
+                                colors = TextFieldDefaults.textFieldColors(
+                                    containerColor = Color.Transparent,
+                                    focusedIndicatorColor = Color.Transparent,  // 포커스 됐을 때 밑줄 제거
+                                    unfocusedIndicatorColor = Color.Transparent // 포커스 해제됐을 때 밑줄 제거
+                                ))
                         }
                         memoEntity?.memoContent = text
                     }
