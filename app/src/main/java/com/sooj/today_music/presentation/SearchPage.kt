@@ -141,30 +141,29 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                         Box(
                             modifier = Modifier.padding(8.dp)
                         ) {
-                            if (text.isEmpty()) {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically, // 아이콘과 텍스트 세로 중앙 정렬
-                                    horizontalArrangement = Arrangement.Start // 아이콘과 텍스트가 왼쪽에 배치되도록
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.Search, // 기본 검색 아이콘
-                                        contentDescription = "Search Icon", // 아이콘 설명
-                                        modifier = Modifier.padding(end = 8.dp) // 아이콘과 텍스트 사이에 여백 추가
-                                    )
+
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically, // 아이콘과 텍스트 세로 중앙 정렬
+                                horizontalArrangement = Arrangement.Start // 아이콘과 텍스트가 왼쪽에 배치되도록
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Search, // 기본 검색 아이콘
+                                    contentDescription = "Search Icon", // 아이콘 설명
+                                    modifier = Modifier.padding(end = 8.dp) // 아이콘과 텍스트 사이에 여백 추가
+                                )
+                                if (text.isEmpty()) {
                                     Text(
                                         text = "오늘의 노래를 검색하세요 !",
                                         style = TextStyle(color = Color.DarkGray),
                                         fontWeight = FontWeight.ExtraLight,
                                         fontFamily = FontFamily(Font(R.font.paperlogy_4regular))
                                     )
-
                                 }
-                                innerTextField() // 실제 텍스트 입력 필드
-                            } else {
+                                innerTextField()
                             }
                         }
                     }
-                ) // basic text field
+                )
 
                 Spacer(modifier = Modifier.width(6.dp))
 
@@ -233,7 +232,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                                     model = ImageRequest.Builder(LocalContext.current)
                                         .data(albumUrl)
 //                                    .diskCachePolicy(CachePolicy.DISABLED)  // 캐싱 비활성화
-                                    .diskCachePolicy(CachePolicy.ENABLED) // 캐싱 활성화
+                                        .diskCachePolicy(CachePolicy.ENABLED) // 캐싱 활성화
                                         .build(),
                                     contentDescription = "최종 이미지",
                                     onSuccess = { isLoading = false },
