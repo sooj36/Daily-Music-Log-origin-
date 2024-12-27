@@ -50,6 +50,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
@@ -79,6 +80,7 @@ import com.sooj.today_music.R
 import com.sooj.today_music.ui.theme.Pink40
 import com.sooj.today_music.ui.theme.Pink80
 import com.sooj.today_music.ui.theme.Purple40
+import com.sooj.today_music.ui.theme.iconColor
 import com.sooj.today_music.ui.theme.searchBar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
@@ -147,9 +149,10 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                                 horizontalArrangement = Arrangement.Start // 아이콘과 텍스트가 왼쪽에 배치되도록
                             ) {
                                 Icon(
-                                    imageVector = Icons.Default.Search, // 기본 검색 아이콘
-                                    contentDescription = "Search Icon", // 아이콘 설명
-                                    modifier = Modifier.padding(end = 8.dp) // 아이콘과 텍스트 사이에 여백 추가
+                                    imageVector = Icons.Default.Search,
+                                    contentDescription = "Search Icon",
+                                    modifier = Modifier.padding(end = 8.dp)
+
                                 )
                                 if (text.isEmpty()) {
                                     Text(
@@ -177,10 +180,11 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                     Image(
                         imageVector = Icons.Outlined.Search,
                         contentDescription = "search",
-                        Modifier.size(35.dp)
+                        Modifier.size(35.dp),
+                        colorFilter = ColorFilter.tint(iconColor)
                     )
                 }
-            } // row
+            }
 
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),

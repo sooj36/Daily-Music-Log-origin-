@@ -1,5 +1,6 @@
 package com.sooj.today_music.presentation
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -18,6 +19,11 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.GenericShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Adb
+import androidx.compose.material.icons.outlined.MediaBluetoothOn
+import androidx.compose.material.icons.outlined.QueueMusic
+import androidx.compose.material.icons.outlined.SpeakerNotesOff
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
@@ -30,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
@@ -43,6 +50,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.sooj.today_music.R
+import com.sooj.today_music.ui.theme.iconColor
 import com.sooj.today_music.ui.theme.searchBar
 import com.sooj.today_music.ui.theme.textColor
 import java.text.SimpleDateFormat
@@ -81,14 +89,14 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.End
             ) {
-                Text(
-                    text = "<3",
-                    fontFamily = FontFamily(Font(R.font.paperlogy_7bold)),
-                    fontStyle = FontStyle.Italic,
-                    fontSize = 15.sp,
-                    modifier = Modifier.clickable {
-                        navController.navigate("write_post")
-                    }
+                Image(
+                    imageVector = Icons.Outlined.QueueMusic,
+                    contentDescription = "delete",
+                    Modifier
+                        .size(40.dp)
+                        .clickable {
+                            navController.navigate("write_post")},
+                    colorFilter = ColorFilter.tint(iconColor)
                 )
             }
             Spacer(modifier = Modifier.height(5.dp))
