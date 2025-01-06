@@ -9,6 +9,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 // 인터페이스를 구현한 Retrofit API 인스턴스
 
+
 interface ApiService_EndPoint {
     @GET("2.0/")
     suspend fun getTrackSearch(
@@ -16,7 +17,7 @@ interface ApiService_EndPoint {
         @Query("track") track: String = "",
         @Query("api_key") apiKey :String = BuildConfig.LAST_FM_API_KEY,
         @Query("format") format: String = "json",
-        @Query("limit") limit : Int = 150
+        @Query("limit") limit : Int = 8
     ): Response<MusicSearchModel_dc>
 
     @GET("2.0/")

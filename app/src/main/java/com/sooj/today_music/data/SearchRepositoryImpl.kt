@@ -23,7 +23,7 @@ class SearchRepositoryImpl @Inject constructor(
     private val memoDao: MemoDao
 ) : SearchRepository {
     override suspend fun getMusic_impl(track: String): List<Track> {
-        return withContext(Dispatchers.Main) {
+        return withContext(Dispatchers.IO) {
             Log.d("sj im GETMUSIC", "Running on thread: ${Thread.currentThread().name}")
             val searchResponse = musicApi.getTrackSearch(
                 "track.search", track, BuildConfig.LAST_FM_API_KEY, "json"
@@ -47,7 +47,7 @@ class SearchRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getAlbumPoster_impl(track: String, artist: String): Album? {
-        return withContext(Dispatchers.Main) {
+        return withContext(Dispatchers.IO) {
             Log.d("sj im GETPOSTER", "Running on thread: ${Thread.currentThread().name}")
             try {
                 //getpostinfo api 호출
@@ -70,7 +70,7 @@ class SearchRepositoryImpl @Inject constructor(
 
     @Transaction
     override suspend fun saveSelectedTrack_impl(trackEntity: TrackEntity, memoEntity: MemoEntity) {
-        withContext(Dispatchers.Main) {
+        withContext(Dispatchers.IO) {
             Log.d("sj im(st) SAVE", "Running on thread: ${Thread.currentThread().name}")
 //            trackDao.insertData(trackEntity) // 트랙만 저장됌
             val trackId = trackDao.insertData(trackEntity).toInt()
