@@ -9,6 +9,8 @@ plugins {
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
 
+    id("com.google.gms.google-services") version "4.4.2" apply false
+
 }
 
 val localProperties = Properties()
@@ -182,6 +184,18 @@ dependencies {
     implementation("androidx.paging:paging-compose:3.3.2")
 
 //    debugImplementation ("com.squareup.leakcanary:leakcanary-android:2.7")
+
+    // Import the Firebase BoM
+    implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
+
+
+    // TODO: Add the dependencies for Firebase products you want to use
+    // When using the BoM, don't specify versions in Firebase dependencies
+    implementation("com.google.firebase:firebase-analytics")
+
+    implementation(platform("androidx.compose:compose-bom:2024.02.00"))
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.ui:ui")
 
 }
 kapt {

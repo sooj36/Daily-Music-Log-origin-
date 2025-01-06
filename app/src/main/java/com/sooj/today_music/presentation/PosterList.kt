@@ -60,7 +60,7 @@ import java.util.Locale
 @Composable
 fun PosterListScreen(navController: NavController, musicViewModel: MusicViewModel) {
     // 저장된 트랙 개수를 불러오기
-    LaunchedEffect(Unit) {
+    LaunchedEffect(key1 = true) {
         musicViewModel.getAllTracks_vm()
     }
 
