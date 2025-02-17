@@ -32,6 +32,7 @@ import androidx.compose.material.icons.outlined.LibraryMusic
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.rounded.Menu
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -111,6 +112,7 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
             .background(Color.White)
     ) {
         Column {
+            CrashButton()
             Spacer(modifier = Modifier.height(8.dp))
             IconButton(onClick = {
                 navController.popBackStack()
@@ -275,5 +277,14 @@ fun SearchPageScreen(navController: NavController, musicViewModel: MusicViewMode
                 } // index
             }
         }
+    }
+}
+
+@Composable
+fun CrashButton() {
+    Button(onClick = {
+        throw RuntimeException("Test Crash from Compose") // Force a crash
+    }) {
+        Text("Test Crash")
     }
 }

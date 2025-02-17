@@ -8,7 +8,9 @@ plugins {
 
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
+    id("org.jetbrains.kotlin.plugin.compose")
 
+    id("com.google.firebase.crashlytics") version "3.0.3" apply false
 }
 
 val localProperties = Properties()
@@ -53,11 +55,14 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+    kotlin {
+        jvmToolchain(17)
+    }
     buildFeatures {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
+        kotlinCompilerExtensionVersion // = "1.4.3"
     }
     packaging {
         resources {
@@ -77,7 +82,8 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.4")
     implementation("androidx.activity:activity-compose:1.9.1")
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
-    implementation("androidx.compose.ui:ui")
+//    implementation("androidx.compose.ui:ui")
+    implementation ("androidx.compose.ui:ui:1.3.2") // Compose 의존성 추가
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
@@ -117,24 +123,24 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.2")
 
     // kapt
-    kapt("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.5.0")
+    kapt("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.6.0") // 0.5.0는 2.0 까지 밖에 안돼서 0.6.0으로 업데이트
 
     // dagger2
-    implementation("com.google.dagger:dagger:2.49")
-    implementation("com.google.dagger:dagger-android:2.40.5")
-    implementation("com.google.dagger:dagger-android-support:2.40.5")
-    kapt("com.google.dagger:dagger-compiler:2.44")
-    kapt("com.google.dagger:dagger-android-processor:2.40.5")
+    implementation("com.google.dagger:dagger:2.55") // 핵심 라이브러리 | 객체 생성, 의존성 주입 등 기본적인 기능 제공
+    implementation("com.google.dagger:dagger-android:2.55") // 안드환경에서 Dagger 쉽게 사용 도와주는 모듈
+    implementation("com.google.dagger:dagger-android-support:2.55")
+    kapt("com.google.dagger:dagger-compiler:2.55") // dagger 어노테이션 처리하여 필요한 코드 자동으로 생성하는 컴파일러
+    kapt("com.google.dagger:dagger-android-processor:2.55")
 
     // Hilt dependencies
-    implementation("com.google.dagger:hilt-android:2.49")
-    kapt("com.google.dagger:hilt-compiler:2.44")
+//    implementation("com.google.dagger:hilt-android:2.55")
+    kapt("com.google.dagger:hilt-compiler:2.55")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
     implementation("androidx.compose.runtime:runtime-livedata:1.6.8")
     //Dagger Hilt
-    implementation("com.google.dagger:hilt-android:2.44")
-    kapt("com.google.dagger:dagger-compiler:2.44")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+    implementation("com.google.dagger:hilt-android:2.55")
+//    kapt("com.google.dagger:dagger-compiler:2.55")
+//    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 
     //Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -183,6 +189,13 @@ dependencies {
 
 //    debugImplementation ("com.squareup.leakcanary:leakcanary-android:2.7")
 
+    // Import the BoM for the Firebase platform
+    implementation(platform("com.google.firebase:firebase-bom:33.8.0"))
+
+    // Add the dependencies for the Crashlytics and Analytics libraries
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation("com.google.firebase:firebase-crashlytics")
+    implementation("com.google.firebase:firebase-analytics")
 }
 kapt {
     correctErrorTypes = true
