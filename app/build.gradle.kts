@@ -74,6 +74,12 @@ android {
         buildConfig = true
     }
 
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
+
 }
 
 dependencies {
@@ -83,7 +89,7 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.9.1")
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
 //    implementation("androidx.compose.ui:ui")
-    implementation ("androidx.compose.ui:ui:1.3.2") // Compose 의존성 추가
+    implementation("androidx.compose.ui:ui:1.3.2") // Compose 의존성 추가
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
@@ -197,6 +203,21 @@ dependencies {
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation("com.google.firebase:firebase-crashlytics")
     implementation("com.google.firebase:firebase-analytics")
+
+    // 스포티파이
+    implementation("com.spotify.android:auth:1.2.5") // Maven dependency
+
+    // All other dependencies for your app should also be here:
+    implementation("androidx.browser:browser:1.0.0")
+//    implementation ("androidx.appcompat:appcompat:$appCompatVersion")
+
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar"))))
+//    implementation(project(":spotify-app-remote"))
+//    implementation(project(":spotify-auth"))
+//    implementation(project(":spotify-auth-store"))
+    implementation("com.google.code.gson:gson:2.8.6") // 필수 라이브러리
+
+
 }
 kapt {
     correctErrorTypes = true

@@ -15,4 +15,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "Today_Music"
 include(":app")
- 
+//include (":spotify-app-remote")
+//include (":spotify-auth")
+//include (":spotify-auth-store")
+
