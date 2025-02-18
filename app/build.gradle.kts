@@ -30,8 +30,12 @@ android {
         versionCode = 1
         versionName = "1.0"
 
+        buildConfigField("String", "SPOTIFY_CLIENT_ID", "\"${localProperties["SPOTIFY_CLIENT_ID"]}\"")
+        buildConfigField("String", "SPOTIFY_REDIRECT_URI", "\"${localProperties["SPOTIFY_REDIRECT_URI"]}\"")
+
         buildConfigField("String", "LAST_FM_API_KEY", "${localProperties["LAST_FM_API_KEY"]}")
 //        buildConfigField("String", "LAST_FM_API_KEY", "\"${localProperties["LAST_FM_API_KEY"]?.replace("\"", "")}\"")
+
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
