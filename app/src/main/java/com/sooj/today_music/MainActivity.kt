@@ -5,11 +5,9 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.collection.mutableIntFloatMapOf
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,7 +17,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.sooj.today_music.presentation.DetailPageScreen
 import com.sooj.today_music.presentation.EditDetailPageScreen
-import com.sooj.today_music.presentation.PosterListScreen
+import com.sooj.today_music.presentation.posterList.PosterListScreen
 import com.sooj.today_music.presentation.SearchPageScreen
 import com.sooj.today_music.presentation.MusicViewModel
 import com.sooj.today_music.presentation.SelectPageScreen
