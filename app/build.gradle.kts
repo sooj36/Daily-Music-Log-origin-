@@ -1,7 +1,6 @@
 import java.util.Properties
 import java.io.FileInputStream
 
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -30,12 +29,8 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        buildConfigField("String", "SPOTIFY_CLIENT_ID", "\"${localProperties["SPOTIFY_CLIENT_ID"]}\"")
-        buildConfigField("String", "SPOTIFY_REDIRECT_URI", "\"${localProperties["SPOTIFY_REDIRECT_URI"]}\"")
-
         buildConfigField("String", "LAST_FM_API_KEY", "${localProperties["LAST_FM_API_KEY"]}")
 //        buildConfigField("String", "LAST_FM_API_KEY", "\"${localProperties["LAST_FM_API_KEY"]?.replace("\"", "")}\"")
-
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -99,6 +94,7 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("androidx.media3:media3-extractor:1.4.0")
     implementation("com.google.firebase:protolite-well-known-types:18.0.0")
+    implementation("com.google.android.things:androidthings:1.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
@@ -198,28 +194,11 @@ dependencies {
     // optional - Jetpack Compose integration
     implementation("androidx.paging:paging-compose:3.3.2")
 
-//    debugImplementation ("com.squareup.leakcanary:leakcanary-android:2.7")
-
     // Import the BoM for the Firebase platform
     implementation(platform("com.google.firebase:firebase-bom:33.8.0"))
 
-    // Add the dependencies for the Crashlytics and Analytics libraries
-    // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation("com.google.firebase:firebase-crashlytics")
     implementation("com.google.firebase:firebase-analytics")
-
-    // 스포티파이
-    implementation("com.spotify.android:auth:1.2.5") // Maven dependency
-
-    // All other dependencies for your app should also be here:
-    implementation("androidx.browser:browser:1.0.0")
-//    implementation ("androidx.appcompat:appcompat:$appCompatVersion")
-
-    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar"))))
-//    implementation(project(":spotify-app-remote"))
-//    implementation(project(":spotify-auth"))
-//    implementation(project(":spotify-auth-store"))
-    implementation("com.google.code.gson:gson:2.8.6") // 필수 라이브러리
 
 
 }
