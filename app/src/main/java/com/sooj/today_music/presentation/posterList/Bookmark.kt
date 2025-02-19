@@ -1,8 +1,7 @@
-package com.sooj.today_music.presentation
+package com.sooj.today_music.presentation.posterList
 
 import android.content.Intent
 import android.net.Uri
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -19,24 +18,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.shape.GenericShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Adb
-import androidx.compose.material.icons.outlined.Cloud
-import androidx.compose.material.icons.outlined.MediaBluetoothOn
-import androidx.compose.material.icons.outlined.QueueMusic
-import androidx.compose.material.icons.outlined.SpeakerNotesOff
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -46,95 +35,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.sooj.today_music.R
-import com.sooj.today_music.ui.theme.iconColor
-import com.sooj.today_music.ui.theme.searchBar
+import com.sooj.today_music.presentation.MusicViewModel
 import com.sooj.today_music.ui.theme.textColor
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-@Composable
-fun PosterListScreen(navController: NavController, musicViewModel: MusicViewModel) {
-    // 저장된 트랙 개수를 불러오기
-    LaunchedEffect(key1 = true) {
-        musicViewModel.getAllTracks_vm()
-    }
-
-    /** 2) 앨범 포스터 가져오기 */
-    val loadTracks by musicViewModel.getAllSavedTracks_st
-
-
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
-//            .background(Color(0xFFEDEDE3))
-            .padding(12.dp)
-    ) {
-        Column {
-            Text(
-                text = "[총 ${loadTracks.size}]",
-                fontWeight = FontWeight.Normal,
-                fontFamily = FontFamily(Font(R.font.sc_dream_3)),
-                fontSize = 15.sp,
-            )
-
-            Spacer(modifier = Modifier.height(20.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.End
-            ) {
-                Image(
-                    imageVector = Icons.Outlined.Cloud,
-                    contentDescription = "YOUTUBE",
-                    Modifier
-                        .size(40.dp)
-                        .clickable {
-                            //
-//                            youtube 검색 결과로 이동 test
-//                            val query = "day6 happy"
-//                            val url = "https://www.youtube.com/results?search_query=$query"
-//                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-//                            navController.context.startActivity(intent)
-                                   },
-                    colorFilter = ColorFilter.tint(iconColor)
-                )
-
-                Image(
-                    imageVector = Icons.Outlined.QueueMusic,
-                    contentDescription = "delete",
-                    Modifier
-                        .size(40.dp)
-                        .clickable {
-                            navController.navigate("write_post")},
-                    colorFilter = ColorFilter.tint(iconColor)
-                )
-            }
-            Spacer(modifier = Modifier.height(5.dp))
-
-            Bookmark(navController, musicViewModel = musicViewModel)
-
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
     // 룸에서 가져온 데이터
@@ -168,7 +84,7 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
 //                    horizontalAlignment = Alignment.CenterHorizontally, // 수평 정렬
                     horizontalAlignment = Alignment.Start, // 수평 정렬
 
-                    ) {
+                ) {
                     // 1. YYMMDD
                     val saveAt = trackEntity.saveAt
                     val dateFormat = SimpleDateFormat("MM / dd", Locale.getDefault())
@@ -234,7 +150,7 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
                             color = textColor, // 텍스트 색상 설정
                             fontSize = 13.sp,
 
-                        )
+                            )
                     }
 
                     Spacer(modifier = Modifier.height(3.dp))
@@ -267,20 +183,32 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
                                     musicViewModel.selectTrackEntity_vm(trackEntity)
                                     musicViewModel.loadTrackID_vm(trackEntity)
                                     showDialog = false
-                                }) {
-                                    Text("Detail Page")
+                                },
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = Color.Blue, // 버튼 배경색
+                                        contentColor = Color.White // 버튼 텍스트 색상
+                                    ) ){
+                                    Text("메모 작성")
                                 }
+                            }
 
-                                Button(onClick = {
-                                    // YouTube 검색
-                                    val query = "${trackEntity.trackName} ${trackEntity.artistName}"
-                                    val url = "https://www.youtube.com/results?search_query=${Uri.encode(query)}"
-                                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                                    navController.context.startActivity(intent)
-                                    showDialog = false
-                                }) {
-                                    Text("YouTube 검색")
-                                }
+                            Spacer(modifier = Modifier.height(3.dp))
+
+                            Button(onClick = {
+                                // YouTube 검색
+                                val query = "${trackEntity.trackName} ${trackEntity.artistName}"
+                                val url = "https://www.youtube.com/results?search_query=${Uri.encode(query)}"
+                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                                navController.context.startActivity(intent)
+                                showDialog = false
+                            },
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = Color.Gray, // 버튼 배경색
+                                    contentColor = Color.White // 버튼 텍스트 색상
+                                )
+
+                            ) {
+                                Text("YouTube 검색")
                             }
                         }
                     }
@@ -288,12 +216,4 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
             }
         }
     }
-}
-
-
-@Preview
-@Composable
-fun PosterListPreview() {
-    val navController = rememberNavController()
-    PosterListScreen(navController, hiltViewModel())
 }
