@@ -30,6 +30,8 @@ android {
         versionCode = 1
         versionName = "1.0"
 
+        buildConfigField("String", "YOUTUBE_API_KEY", "${localProperties["YOUTUBE_API_KEY"]}")
+
         buildConfigField("String", "LAST_FM_API_KEY", "${localProperties["LAST_FM_API_KEY"]}")
 //        buildConfigField("String", "LAST_FM_API_KEY", "\"${localProperties["LAST_FM_API_KEY"]?.replace("\"", "")}\"")
 
@@ -196,6 +198,12 @@ dependencies {
     implementation(platform("androidx.compose:compose-bom:2024.02.00"))
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.ui:ui")
+
+    //
+//    implementation ("com.google.android.exoplayer:exoplayer:2.19.1") // ExoPlayer 버전
+//    implementation ("com.google.api-client:google-api-client-android:1.34.0") // Google API Client
+//    implementation ("com.google.apis:google-api-services-youtube:v3-rev20211004-1.34.0") // YouTube API
+
 
 }
 kapt {

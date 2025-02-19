@@ -1,5 +1,7 @@
 package com.sooj.today_music.presentation
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -21,16 +23,24 @@ import androidx.compose.foundation.shape.GenericShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Adb
+import androidx.compose.material.icons.outlined.Cloud
 import androidx.compose.material.icons.outlined.MediaBluetoothOn
 import androidx.compose.material.icons.outlined.QueueMusic
 import androidx.compose.material.icons.outlined.SpeakerNotesOff
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -45,6 +55,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -90,6 +101,22 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
                 horizontalArrangement = Arrangement.End
             ) {
                 Image(
+                    imageVector = Icons.Outlined.Cloud,
+                    contentDescription = "YOUTUBE",
+                    Modifier
+                        .size(40.dp)
+                        .clickable {
+                            //
+//                            youtube 검색 결과로 이동 test
+//                            val query = "day6 happy"
+//                            val url = "https://www.youtube.com/results?search_query=$query"
+//                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+//                            navController.context.startActivity(intent)
+                                   },
+                    colorFilter = ColorFilter.tint(iconColor)
+                )
+
+                Image(
                     imageVector = Icons.Outlined.QueueMusic,
                     contentDescription = "delete",
                     Modifier
@@ -107,10 +134,13 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
     // 룸에서 가져온 데이터
     val getAllSaveTracks by musicViewModel.getAllSavedTracks_st
+
+    var showDialog by remember { mutableStateOf(false) }
 
     // 그리드 뷰
     LazyVerticalGrid(columns = GridCells.Fixed(2)) {
@@ -128,10 +158,12 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
                         .fillMaxWidth()
                         .padding(5.dp)
                         .clickable {
-                            navController.navigate("detail_page")
-                            // 데이터 전달
-                            musicViewModel.selectTrackEntity_vm(trackEntity) // img, artist, track
-                            musicViewModel.loadTrackID_vm(trackEntity) // memo
+
+                            showDialog = true
+//                            navController.navigate("detail_page")
+//                            // 데이터 전달
+//                            musicViewModel.selectTrackEntity_vm(trackEntity) // img, artist, track
+//                            musicViewModel.loadTrackID_vm(trackEntity) // memo
                         },
 //                    horizontalAlignment = Alignment.CenterHorizontally, // 수평 정렬
                     horizontalAlignment = Alignment.Start, // 수평 정렬
@@ -208,6 +240,51 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
 
                 }
             } // card
+
+            if (showDialog) {
+                Dialog(onDismissRequest = { showDialog = false}) {
+                    Surface (
+                        shape = RoundedCornerShape(9.dp),
+                        modifier = Modifier.padding(18.dp),
+                        color = Color.White
+                    ) {
+                        Column(  modifier = Modifier.padding(16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(text = "${trackEntity.artistName}의 \n ${trackEntity.trackName}",
+                                textAlign = TextAlign.Center)
+
+                            Spacer(modifier = Modifier.height(20.dp))
+
+                            Row(
+                                horizontalArrangement = Arrangement.SpaceEvenly,
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Button(onClick = {
+                                    // Detail Page로 이동
+                                    navController.navigate("detail_page")
+                                    musicViewModel.selectTrackEntity_vm(trackEntity)
+                                    musicViewModel.loadTrackID_vm(trackEntity)
+                                    showDialog = false
+                                }) {
+                                    Text("Detail Page")
+                                }
+
+                                Button(onClick = {
+                                    // YouTube 검색
+//                                    val query = "${trackEntity.trackName} ${trackEntity.artistName}"
+//                                    val url = "https://www.youtube.com/results?search_query=${Uri.encode(query)}"
+//                                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+//                                    navController.context.startActivity(intent)
+                                    showDialog = false
+                                }) {
+                                    Text("YouTube 검색")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
