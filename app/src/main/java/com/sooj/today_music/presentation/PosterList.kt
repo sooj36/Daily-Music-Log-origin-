@@ -217,7 +217,8 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
                             fontWeight = FontWeight.SemiBold,
                             fontFamily = FontFamily(Font(R.font.paperlogy_5medium)),
                             fontSize = 13.sp,
-//                            textAlign = TextAlign.Left // 텍스트 중앙 정렬
+                            textAlign = TextAlign.Center
+
                         )
                     }
 
@@ -272,10 +273,10 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
 
                                 Button(onClick = {
                                     // YouTube 검색
-//                                    val query = "${trackEntity.trackName} ${trackEntity.artistName}"
-//                                    val url = "https://www.youtube.com/results?search_query=${Uri.encode(query)}"
-//                                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-//                                    navController.context.startActivity(intent)
+                                    val query = "${trackEntity.trackName} ${trackEntity.artistName}"
+                                    val url = "https://www.youtube.com/results?search_query=${Uri.encode(query)}"
+                                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                                    navController.context.startActivity(intent)
                                     showDialog = false
                                 }) {
                                     Text("YouTube 검색")
