@@ -3,6 +3,7 @@ package com.sooj.today_music.domain
 import com.sooj.today_music.BuildConfig
 import com.sooj.today_music.room.MemoEntity
 import com.sooj.today_music.room.TrackEntity
+import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
 interface SearchRepository {
@@ -12,7 +13,8 @@ interface SearchRepository {
 
     suspend fun saveSelectedTrack_impl(trackEntity: TrackEntity, memoEntity: MemoEntity)
 
-    suspend fun getAllTracks_impl() : List<TrackEntity>
+    fun getAllTracks_impl() : Flow<List<TrackEntity>>
+    // suspend 한번만 값을 반환
 
     suspend fun deleteTrack_impl(trackEntity: TrackEntity)
 

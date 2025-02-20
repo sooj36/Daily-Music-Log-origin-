@@ -36,7 +36,7 @@ interface MemoDao {
 interface TrackDao {
 
     @Query("SELECT * FROM trackentity") // 모든 트랙 조회
-    suspend fun getAllData(): Flow<List<TrackEntity>>
+    fun getAllData(): Flow<List<TrackEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertData(trackEntity: TrackEntity): Long
