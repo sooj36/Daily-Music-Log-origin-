@@ -49,9 +49,9 @@ class MusicViewModel @Inject constructor(
     private val _getAlbumMap_st = MutableStateFlow<Map<String,String?>>(emptyMap())
     val getAlbumMap_st: StateFlow<Map<String,String?>> get() = _getAlbumMap_st.asStateFlow()
 
-    /** 모든 트랙 데이터 상태 관리 */
-    private val _getAllSavedTracks_st = mutableStateOf<List<TrackEntity>>(emptyList())
-    val getAllSavedTracks_st: State<List<TrackEntity>> get() = _getAllSavedTracks_st
+    /** 모든 트랙 데이터 상태 관리 */ // StateFlow 로 변경 */
+    private val _getAllSavedTracks_st = MutableStateFlow<List<TrackEntity>>(emptyList())
+    val getAllSavedTracks_st: StateFlow<List<TrackEntity>> = _getAllSavedTracks_st.asStateFlow()
 
     private val _selectedTrackEntity_st = MutableStateFlow<TrackEntity?>(null)
     val selectedTrackEntity_st: StateFlow<TrackEntity?> get() = _selectedTrackEntity_st.asStateFlow()
@@ -107,32 +107,6 @@ class MusicViewModel @Inject constructor(
         _selectedTrack_st.value = convertTrack
         Log.d("select Track", "Selected track from entity updated: ${_selectedTrack_st.value}")
     }
-
-    // 선택한 트랙으로 앨범포스터 가져오기
-//    fun getAlbumPoster_vm() {
-//        val selectedImageInfo = _selectedTrack_st.value ?: return
-//
-//        _getAlbumImage_st.value = null
-//
-//        viewModelScope.launch(Dispatchers.Default) {
-//            Log.d("sj_vm(st) GETPOSTER", "Running on thread: ${Thread.currentThread().name}")
-//
-//            val albumInfo = repository.getAlbumPoster_impl(
-//                selectedImageInfo.name ?: "트랙",
-//                selectedImageInfo.artist ?: "아티스트"
-//            )
-//            if (albumInfo != null) {
-//                Log.d("getting album post", "album < ${albumInfo} >")
-//                val albumImageUrl = albumInfo.image.find { it.size == "extralarge" }?.url
-//                withContext(Dispatchers.Main) {
-//                    _getAlbumImage_st.value = albumImageUrl
-//                }
-//            } else {
-//                Log.e("album info error", "fail to get info $")
-//            }
-//            Log.d("sj_vm(en) GETPOSTER", "Running on thread: ${Thread.currentThread().name}")
-//        }
-//    }
 
     // 1006 추가 로직 URL -> MAP으로
     fun fetchTrackAndUrl_vm(track : String) {
