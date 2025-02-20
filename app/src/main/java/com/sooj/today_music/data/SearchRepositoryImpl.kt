@@ -13,6 +13,7 @@ import com.sooj.today_music.room.MemoEntity
 import com.sooj.today_music.room.TrackDao
 import com.sooj.today_music.room.TrackEntity
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -82,11 +83,12 @@ class SearchRepositoryImpl @Inject constructor(
         Log.d("sj im(en) SAVE", "Running on thread: ${Thread.currentThread().name}")
     }
 
-    override suspend fun getAllTracks_impl(): List<TrackEntity> {
+    override fun getAllTracks_impl(): Flow<List<TrackEntity>> {
         Log.d("sj im GETALL", "Running on thread: ${Thread.currentThread().name}")
-        return withContext(Dispatchers.IO) {
-            trackDao.getAllData()
-        }
+//        return withContext(Dispatchers.IO) {
+//            trackDao.getAllData()
+//        }
+        return trackDao.getAllData()
         Log.d("sj im(beh) GETALL", "Running on thread: ${Thread.currentThread().name}")
     }
 

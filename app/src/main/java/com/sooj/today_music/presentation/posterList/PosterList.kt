@@ -33,6 +33,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -66,13 +67,13 @@ import java.util.Locale
 @Composable
 fun PosterListScreen(navController: NavController, musicViewModel: MusicViewModel) {
     // 저장된 트랙 개수를 불러오기
-    LaunchedEffect(key1 = true) {
-        Log.d("soj", "LaunchedEffect triggered in PosterListScreen")
-        musicViewModel.getAllTracks_vm()
-    }
+//    LaunchedEffect(key1 = true) {
+//        Log.d("soj", "LaunchedEffect triggered in PosterListScreen")
+//        musicViewModel.getAllSavedTracks_st
+//    }
 
     /** 2) 앨범 포스터 가져오기 */
-    val loadTracks by musicViewModel.getAllSavedTracks_st
+    val loadTracks by musicViewModel.getAllSavedTracks_st.collectAsState()
 
     Box(
         modifier = Modifier

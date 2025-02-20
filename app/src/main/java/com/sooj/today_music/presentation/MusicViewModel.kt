@@ -12,12 +12,15 @@ import com.sooj.today_music.domain.Track
 import com.sooj.today_music.room.MemoEntity
 import com.sooj.today_music.room.TrackEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -49,9 +52,9 @@ class MusicViewModel @Inject constructor(
     private val _getAlbumMap_st = MutableStateFlow<Map<String,String?>>(emptyMap())
     val getAlbumMap_st: StateFlow<Map<String,String?>> get() = _getAlbumMap_st.asStateFlow()
 
-    /** 모든 트랙 데이터 상태 관리 */ // StateFlow 로 변경 */
-    private val _getAllSavedTracks_st = MutableStateFlow<List<TrackEntity>>(emptyList())
-    val getAllSavedTracks_st: StateFlow<List<TrackEntity>> = _getAllSavedTracks_st.asStateFlow()
+//    /** 모든 트랙 데이터 상태 관리 */ // StateFlow 로 변경 */
+//    private val _getAllSavedTracks_st = MutableStateFlow<List<TrackEntity>>(emptyList())
+//    val getAllSavedTracks_st: StateFlow<List<TrackEntity>> = _getAllSavedTracks_st.asStateFlow()
 
     private val _selectedTrackEntity_st = MutableStateFlow<TrackEntity?>(null)
     val selectedTrackEntity_st: StateFlow<TrackEntity?> get() = _selectedTrackEntity_st.asStateFlow()
@@ -133,17 +136,26 @@ class MusicViewModel @Inject constructor(
     }
 
     // Dao에 저장된 데이터 불러오는 메서드
-    fun getAllTracks_vm() {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                _getAllSavedTracks_st.value = repository.getAllTracks_impl()
-                Log.d("sj--call all data", "tracks load ${_getAllSavedTracks_st.value.size} gut ")
-            } catch (e: Exception) {
-                Log.e("sj--call data_error", "트랙s 로드 ${e.message} 오류")
-            }
-            Log.d("sj vm GETALL", "Running on thread: ${Thread.currentThread().name}")
-        }
-    }
+//    fun getAllTracks_vm() {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            try {
+//                _getAllSavedTracks_st.value = repository.getAllTracks_impl()
+//                Log.d("sj--call all data", "tracks load ${_getAllSavedTracks_st.value.size} gut ")
+//            } catch (e: Exception) {
+//                Log.e("sj--call data_error", "트랙s 로드 ${e.message} 오류")
+//            }
+//            Log.d("sj vm GETALL", "Running on thread: ${Thread.currentThread().name}")
+//        }
+//    }
+
+    // Dao에 저장된 데이터 불러오는 메서드_리펙토링
+    val getAllSavedTracks_st: StateFlow<List<TrackEntity>> = repository.getAllTracks_impl()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Lazily, // UI가 구독할 때만 실행됨
+            initialValue = emptyList() // 초기값 설정
+        )
+
 
     // 선택된 트랙을 데이터베이스에 저장
     /////////////////////////////////////////수정할 부분
