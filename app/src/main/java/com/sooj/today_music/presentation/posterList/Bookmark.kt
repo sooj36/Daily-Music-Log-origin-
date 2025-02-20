@@ -2,6 +2,7 @@ package com.sooj.today_music.presentation.posterList
 
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -53,14 +54,20 @@ import java.util.Locale
 
 @Composable
 fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
+    Log.d("soj", "Bookmark Composable recomposed")
     // 룸에서 가져온 데이터
     val getAllSaveTracks by musicViewModel.getAllSavedTracks_st
+//        .distinctUntilChanged()
+//        .collectAsState(initial = emptyList())
+//    val getAllSaveTracks by rememberUpdatedState(newValue = musicViewModel.getAllSavedTracks_st)
+
 
     var showDialog by remember { mutableStateOf(false) }
 
     // 그리드 뷰
     LazyVerticalGrid(columns = GridCells.Fixed(2)) {
         items(getAllSaveTracks) { trackEntity ->
+            Log.d("soj", "리컴포지션 아이템 : ${trackEntity.artistName}")
 
             Card(
                 Modifier
@@ -74,7 +81,6 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
                         .fillMaxWidth()
                         .padding(5.dp)
                         .clickable {
-
                             showDialog = true
 //                            navController.navigate("detail_page")
 //                            // 데이터 전달
@@ -159,6 +165,7 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
             } // card
 
             if (showDialog) {
+                Log.d("soj","다이어로그 ${trackEntity.trackName}")
                 Dialog(onDismissRequest = { showDialog = false}) {
                     Surface (
                         shape = RoundedCornerShape(9.dp),

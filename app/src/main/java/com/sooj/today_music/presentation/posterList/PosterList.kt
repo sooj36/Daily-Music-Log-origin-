@@ -2,6 +2,7 @@ package com.sooj.today_music.presentation.posterList
 
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -66,12 +67,12 @@ import java.util.Locale
 fun PosterListScreen(navController: NavController, musicViewModel: MusicViewModel) {
     // 저장된 트랙 개수를 불러오기
     LaunchedEffect(key1 = true) {
+        Log.d("soj", "LaunchedEffect triggered in PosterListScreen")
         musicViewModel.getAllTracks_vm()
     }
 
     /** 2) 앨범 포스터 가져오기 */
     val loadTracks by musicViewModel.getAllSavedTracks_st
-
 
     Box(
         modifier = Modifier
