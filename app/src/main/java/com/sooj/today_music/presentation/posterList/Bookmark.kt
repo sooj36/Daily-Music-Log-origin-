@@ -48,6 +48,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.sooj.today_music.R
 import com.sooj.today_music.presentation.MusicViewModel
+import com.sooj.today_music.room.TrackEntity
 import com.sooj.today_music.ui.theme.textColor
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -60,6 +61,7 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
     val getAllSaveTracks by musicViewModel.getAllSavedTracks_st.collectAsState()
 
     var showDialog by remember { mutableStateOf(false) }
+    var selectedTrack by remember { mutableStateOf<TrackEntity?>(null) } // 선택된 아이템 저장
 
     // 그리드 뷰
     LazyVerticalGrid(columns = GridCells.Fixed(2)) {
@@ -78,6 +80,8 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
                         .fillMaxWidth()
                         .padding(5.dp)
                         .clickable {
+                            // 선택 트랙 저장 후, 다이얼로그 표시
+                            selectedTrack = trackEntity
                             showDialog = true
 //                            navController.navigate("detail_page")
 //                            // 데이터 전달
@@ -160,9 +164,10 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
 
                 }
             } // card
-
+        }
+    }
             if (showDialog) {
-                Log.d("soj","다이어로그 ${trackEntity.trackName}")
+                Log.d("soj","다이어로그 ${selectedTrack?.trackName}")
                 Dialog(onDismissRequest = { showDialog = false}) {
                     Surface (
                         shape = RoundedCornerShape(9.dp),
@@ -172,7 +177,7 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
                         Column(  modifier = Modifier.padding(16.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Text(text = "${trackEntity.artistName}의 \n ${trackEntity.trackName}",
+                            Text(text = "${selectedTrack?.artistName}의 \n ${selectedTrack?.trackName}",
                                 textAlign = TextAlign.Center)
 
                             Spacer(modifier = Modifier.height(20.dp))
@@ -184,8 +189,8 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
                                 Button(onClick = {
                                     // Detail Page로 이동
                                     navController.navigate("detail_page")
-                                    musicViewModel.selectTrackEntity_vm(trackEntity)
-                                    musicViewModel.loadTrackID_vm(trackEntity)
+                                    musicViewModel.selectTrackEntity_vm(selectedTrack!!)
+                                    musicViewModel.loadTrackID_vm(selectedTrack!!)
                                     showDialog = false
                                 },
                                     colors = ButtonDefaults.buttonColors(
@@ -200,7 +205,7 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
 
                             Button(onClick = {
                                 // YouTube 검색
-                                val query = "${trackEntity.trackName} ${trackEntity.artistName}"
+                                val query = "${selectedTrack?.trackName} ${selectedTrack?.artistName}"
                                 val url = "https://www.youtube.com/results?search_query=${Uri.encode(query)}"
                                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
                                 navController.context.startActivity(intent)
@@ -217,7 +222,6 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
                         }
                     }
                 }
-            }
-        }
-    }
+            } // dialog
+
 }
