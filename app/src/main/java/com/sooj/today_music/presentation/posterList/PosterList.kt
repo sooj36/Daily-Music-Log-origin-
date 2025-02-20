@@ -33,6 +33,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -72,16 +73,24 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
 //        musicViewModel.getAllSavedTracks_st
 //    }
 
+    SideEffect {
+        Log.d("soj", "!사이드이펙트!")
+    }
+
     /** 2) 앨범 포스터 가져오기 */
     val loadTracks by musicViewModel.getAllSavedTracks_st.collectAsState()
 
     Box(
+
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
 //            .background(Color(0xFFEDEDE3))
             .padding(12.dp)
     ) {
+        SideEffect {
+            Log.d("soj", "!사이드이펙트_box!")
+        }
         Column {
             Text(
                 text = "[총 ${loadTracks.size}]",

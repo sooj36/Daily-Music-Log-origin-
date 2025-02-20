@@ -27,6 +27,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -59,6 +60,11 @@ import java.util.Locale
 
 @Composable
 fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
+
+    SideEffect {
+        Log.d("soj", "!사이드이펙트_bookmark!")
+    }
+
     Log.d("soj", "Bookmark Composable recomposed")
     // 룸에서 가져온 데이터
     val getAllSaveTracks by musicViewModel.getAllSavedTracks_st.collectAsState()
@@ -75,12 +81,15 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
 
             Card(
                 Modifier
-                    .recomposeHighlighter()
+//                    .recomposeHighlighter()
                     .fillMaxWidth()
                     .padding(5.dp),
 
                 colors = CardDefaults.cardColors(containerColor = Color.Transparent) // 배경색 설정
             ) {
+                SideEffect {
+                    Log.d("soj", "!사이드이펙트_grid!")
+                }
                 Column(
                     Modifier
                         .fillMaxWidth()
