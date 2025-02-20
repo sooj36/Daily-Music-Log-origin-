@@ -31,6 +31,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,11 +49,13 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.sooj.today_music.R
 import com.sooj.today_music.presentation.MusicViewModel
+import com.sooj.today_music.presentation.recomposeHighlighter
 import com.sooj.today_music.room.TrackEntity
 import com.sooj.today_music.ui.theme.textColor
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+
 
 @Composable
 fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
@@ -60,6 +63,8 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
     // 룸에서 가져온 데이터
     val getAllSaveTracks by musicViewModel.getAllSavedTracks_st.collectAsState()
 
+    // 다이얼로그 닫힐 때, 불필요한 상태 변경 방지(상태 유지) (rememberSaveable)
+    // var showDialog by rememberSaveable { mutableStateOf(false) }
     var showDialog by remember { mutableStateOf(false) }
     var selectedTrack by remember { mutableStateOf<TrackEntity?>(null) } // 선택된 아이템 저장
 
@@ -70,6 +75,7 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
 
             Card(
                 Modifier
+                    .recomposeHighlighter()
                     .fillMaxWidth()
                     .padding(5.dp),
 
@@ -166,12 +172,15 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
             } // card
         }
     }
+
             if (showDialog) {
                 Log.d("soj","다이어로그 ${selectedTrack?.trackName}")
                 Dialog(onDismissRequest = { showDialog = false}) {
                     Surface (
                         shape = RoundedCornerShape(9.dp),
-                        modifier = Modifier.padding(18.dp),
+                        modifier = Modifier
+                            .padding(18.dp),
+//                            .recomposeHighlighter(),
                         color = Color.White
                     ) {
                         Column(  modifier = Modifier.padding(16.dp),
