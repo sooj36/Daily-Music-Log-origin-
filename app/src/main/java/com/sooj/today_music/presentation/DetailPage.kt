@@ -31,6 +31,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -53,20 +54,20 @@ fun DetailPageScreen(
     musicViewModel: MusicViewModel = hiltViewModel(),
     memoViewModel: MemoViewModel = hiltViewModel(),
 ) {
-
     val trackClick by musicViewModel.selectedTrackEntity_st.collectAsState()
+    val currentClick = rememberUpdatedState(trackClick)
 
-    // 선택된 트랙의 trackid로 memoentity 불러오기
     LaunchedEffect(trackClick) {
         trackClick?.let { te ->
             musicViewModel.getMmUseID_vm(te.trackId)
-            Log.d("mem", "getMmUseID_vm${trackClick}")
+            Log.d("mem", "선택된 트랙 ID를 MEM엔티티로 ${trackClick}")
         }
     }
 
     //memoentity감지
     val memoEntity by musicViewModel.memoContent_st.collectAsState()
-    Log.d("mem", "memoEntity?.trackId${memoEntity?.trackId}")
+    Log.d("mem", "FLOWSTATE로 메모엔티티 가져옴 ${memoEntity?.trackId}")
+
     /** 클릭한 트랙 가져오기 */
     val clickedTrack by musicViewModel.selectedTrack_st.collectAsState()
 

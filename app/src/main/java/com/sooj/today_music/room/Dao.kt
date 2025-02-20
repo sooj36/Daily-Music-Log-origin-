@@ -40,6 +40,7 @@ interface TrackDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertData(trackEntity: TrackEntity): Long
+    // Long 반환 -> DB에 새 코드 삽입될 때, 생성된 행(ROW)의 ID 반환
 
     @Delete
     suspend fun deleteData(trackEntity: TrackEntity)

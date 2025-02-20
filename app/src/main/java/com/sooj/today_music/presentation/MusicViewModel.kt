@@ -196,16 +196,16 @@ class MusicViewModel @Inject constructor(
 
     // 트랙 선택 시 trackId으로 memoentity 불러오기
     fun getMmUseID_vm(trackId: Int) {
-        Log.d("mem", "getMmUseID_vm called with trackId: $trackId")
+        Log.d("mem", "트랙 선택시 ID로 MEM엔티티 불러옴_VM: $trackId")
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 memoRepository.getMemo_impl(trackId).collect() { mm ->
-                    Log.d("mem", "Fetched MemoEntity: $mm")
+                    Log.d("mem", "가져온 MEM엔티티 데이터: $mm")
                     _memoContent_st.value = mm
-                    Log.d("mem", "_memoContent_st updated: ${_memoContent_st.value}")
+                    Log.d("mem", "_memoContent_st 값 업데이트 : ${_memoContent_st.value}")
                 }
             } catch (e: Exception) {
-                Log.e("mem", "${e.message}")
+                Log.e("mem", "오류 발생 ${e.message}")
             }
         }
     }
