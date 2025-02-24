@@ -85,9 +85,12 @@ fun EditDetailPageScreen(
 
                 // update dao 로
                 IconButton(onClick = {
-                    navController.navigate("detail_page")
 
                     memoEntity?.let { memoViewModel.updateMemo_vm(memoEntity = it) }
+                    navController.navigate("detail_page") {
+                        launchSingleTop = true
+                        popUpTo("detail_page") { inclusive = true }
+                    }
 
                 }) {
                     Image(
@@ -147,7 +150,8 @@ fun EditDetailPageScreen(
                                     containerColor = Color.Transparent,
                                     focusedIndicatorColor = Color.Transparent,  // 포커스 됐을 때 밑줄 제거
                                     unfocusedIndicatorColor = Color.Transparent // 포커스 해제됐을 때 밑줄 제거
-                                ))
+                                )
+                            )
                         }
                         memoEntity?.memoContent = text
                     }

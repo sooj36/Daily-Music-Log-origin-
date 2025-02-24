@@ -32,7 +32,10 @@ fun Modifier.recomposeHighlighter(): Modifier = composed {
 
     val (color, strokeWidth) = when (totalCompositions) {
         1L -> Color.Blue to 1.dp
-        2L -> Color(0xFFFFA500) to 2.dp // 주황색
+        2L -> Color(0xFFFF214B) to 2.dp // 빨
+        3L -> Color(0xFFFF9800) to 3.dp // 주
+        4L -> Color(0xFFFFEB3B) to 4.dp // 노
+        5L -> Color.Green to 5.dp // 초
         else -> {
             val progress = (totalCompositions - 3).coerceAtMost(100).toFloat() / 100f
             val dynamicColor = Color.Yellow.copy(alpha = 0.8f).lerpTo(

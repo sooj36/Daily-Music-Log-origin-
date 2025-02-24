@@ -58,10 +58,10 @@ import java.util.Locale
 
 
 @Composable
-fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
+fun Bookmark(navController: NavController, musicViewModel: MusicViewModel, tracks : List<TrackEntity>) {
     Log.d("soj", "Bookmark Composable recomposed")
     // 룸에서 가져온 데이터
-    val getAllSaveTracks by musicViewModel.getAllSavedTracks_st.collectAsState()
+//    val getAllSaveTracks by musicViewModel.getAllSavedTracks_st.collectAsState() // #매번 새로 RECOM 되는 이유
 
     // 다이얼로그 닫힐 때, 불필요한 상태 변경 방지(상태 유지) (rememberSaveable)
     // var showDialog by rememberSaveable { mutableStateOf(false) }
@@ -70,7 +70,7 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel) {
 
     // 그리드 뷰
     LazyVerticalGrid(columns = GridCells.Fixed(2)) {
-        items(getAllSaveTracks) { trackEntity ->
+        items(tracks) { trackEntity ->
             Log.d("soj", "리컴포지션 아이템 : ${trackEntity.artistName}")
 
             Card(

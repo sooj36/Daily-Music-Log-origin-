@@ -58,6 +58,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.sooj.today_music.R
 import com.sooj.today_music.presentation.MusicViewModel
+import com.sooj.today_music.room.TrackEntity
 import com.sooj.today_music.ui.theme.iconColor
 import com.sooj.today_music.ui.theme.textColor
 import java.text.SimpleDateFormat
@@ -120,11 +121,12 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
             }
             Spacer(modifier = Modifier.height(5.dp))
 
-            Bookmark(navController, musicViewModel = musicViewModel)
+            Bookmark(navController, musicViewModel = musicViewModel, loadTracks)
 
         }
     }
 }
+
 
 @Preview
 @Composable
