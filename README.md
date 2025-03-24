@@ -12,7 +12,7 @@
 ## ▷ 소개
 - 오늘의 노래를 검색하고 간단한 메모와 함께 저장할 수 있는 어플
 
-
+![Image](https://github.com/user-attachments/assets/90e83e9c-6216-443a-abbe-4848d329ed0a)
 
 ![Image](https://github.com/user-attachments/assets/9bc681c1-58df-4734-81c9-a243fe506e29)
 
