@@ -38,14 +38,4 @@
 
 ![Image](https://github.com/user-attachments/assets/77932c08-2fa7-4aa5-aeec-388d1fcc1869)
 
- 
-
-##### UI (User Interface) : Compose , Coil
-##### 아키텍처 (Architecture) : Clean Architecture, MVVM (Model-View-ViewModel)
-##### 네트워킹 (Networking) : REST API, Retrofit2, OkHttp3
-##### 데이터 관리 (Data Management) : Room
-##### 비동기 처리 및 데이터 흐름 (Asynchronous Processing and Data Flow) :Coroutines/Flow
-##### 의존성 주입 (Dependency Injection) :Dagger Hilt
-
-
 
