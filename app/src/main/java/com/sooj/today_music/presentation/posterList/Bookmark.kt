@@ -75,7 +75,6 @@ fun Bookmark(navController: NavController, musicViewModel: MusicViewModel, track
 
             Card(
                 Modifier
-                    .recomposeHighlighter()
                     .fillMaxWidth()
                     .padding(5.dp),
 

@@ -13,7 +13,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-@Stable
 fun Modifier.recomposeHighlighter(): Modifier = composed {
     var totalCompositions by remember { mutableStateOf(0L) }
     var timerJob by remember { mutableStateOf<Job?>(null) }
