@@ -32,6 +32,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -70,7 +71,7 @@ fun PosterListScreen(navController: NavController, musicViewModel: MusicViewMode
     }
 
     /** 2) 앨범 포스터 가져오기 */
-    val loadTracks by musicViewModel.getAllSavedTracks_st
+    val loadTracks by musicViewModel.getAllSavedTracks_st.collectAsState()
 
 
     Box(
