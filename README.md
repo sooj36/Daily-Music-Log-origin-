@@ -15,6 +15,29 @@
 ## ▷ 소개
 - 오늘의 노래를 검색하고 간단한 메모와 함께 저장할 수 있는 어플
 
+## ▷ Local Setup
+
+프로젝트 루트에 `local.properties` 파일을 만들고 로컬 Android SDK 경로와 API 키를 설정합니다.
+실제 키 값은 커밋하지 않고, 아래처럼 개인 로컬 환경에만 저장합니다.
+
+```properties
+sdk.dir=/Users/your-name/Library/Android/sdk
+YOUTUBE_API_KEY="your-youtube-api-key"
+LAST_FM_API_KEY="your-last-fm-api-key"
+```
+
+유닛 테스트 실행:
+
+```bash
+./gradlew testDebugUnitTest --no-daemon --console=plain
+```
+
+디버그 APK 빌드:
+
+```bash
+./gradlew assembleDebug --no-daemon --console=plain
+```
+
 
 
 ------------
@@ -185,6 +208,5 @@ mapNotNull은 결과를 List로 묶기에 반환 값이 List<List<Track2>>가 �
 ##### 데이터 관리 (Data Management) : Room
 ##### 비동기 처리 및 데이터 흐름 (Asynchronous Processing and Data Flow) :Coroutines/Flow
 ##### 의존성 주입 (Dependency Injection) :Dagger Hilt
-
 
 
