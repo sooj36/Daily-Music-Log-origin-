@@ -1,16 +1,12 @@
 package com.sooj.today_music.presentation
 
 import android.util.Log
-import androidx.compose.runtime.State
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sooj.today_music.domain.MemoRepository
-import com.sooj.today_music.room.MemoDao
 import com.sooj.today_music.room.MemoEntity
-import com.sooj.today_music.room.TrackEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,15 +15,27 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MemoViewModel @Inject constructor(
-    private val memoRepository: MemoRepository,
-) : ViewModel() {
+class MemoViewModel : ViewModel {
+    private val memoRepository: MemoRepository
+    private val ioDispatcher: CoroutineDispatcher
+
+    @Inject constructor(
+        memoRepository: MemoRepository,
+    ) : this(memoRepository, Dispatchers.IO)
+
+    internal constructor(
+        memoRepository: MemoRepository,
+        ioDispatcher: CoroutineDispatcher
+    ) : super() {
+        this.memoRepository = memoRepository
+        this.ioDispatcher = ioDispatcher
+    }
 
     private val _memoListState = MutableStateFlow("")
     val memoListState : StateFlow<String> get() = _memoListState.asStateFlow()
 
     fun insertMemo_vm(memoEntity: MemoEntity) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(ioDispatcher) {
             try {
                 memoRepository.saveMemo_impl(memoEntity)
 //                _memoListState.value = _memoListState.value + memoEntity
@@ -39,7 +47,7 @@ class MemoViewModel @Inject constructor(
     }
 
     fun updateMemo_vm(memoEntity: MemoEntity) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(ioDispatcher) {
             try {
                 memoRepository.editMemo_impl(memoEntity)
             } catch (e : Exception) {
@@ -50,7 +58,7 @@ class MemoViewModel @Inject constructor(
 
 
     fun deleteMemo_vm(trackId:Int) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(ioDispatcher) {
             try {
               memoRepository.deleteMemo_impl(trackId)
 
