@@ -61,6 +61,9 @@ fun EditDetailPageScreen(
     val memoEntity by musicViewModel.memoContent_st.collectAsState()
 
     val scrollState = rememberScrollState()
+    var text by remember(memoEntity?.trackId) {
+        mutableStateOf(memoEntity?.memoContent.orEmpty())
+    }
 
     Box(
         modifier = Modifier
@@ -85,9 +88,10 @@ fun EditDetailPageScreen(
 
                 // update dao 로
                 IconButton(onClick = {
-                    navController.navigate("detail_page")
-
-                    memoEntity?.let { memoViewModel.updateMemo_vm(memoEntity = it) }
+                    memoEntity?.let { memo ->
+                        memoViewModel.updateMemo_vm(memo.copy(memoContent = text))
+                        navController.navigate("detail_page")
+                    }
 
                 }) {
                     Image(
@@ -136,20 +140,15 @@ fun EditDetailPageScreen(
                     Spacer(modifier = Modifier.height(15.dp))
 
                     Card {
-                        var text by remember {
-                            mutableStateOf(memoEntity?.memoContent ?: " ")
-                        }
-                        text?.let {
-                            TextField(
-                                value = text!!,
-                                onValueChange = { text = it },
-                                colors = TextFieldDefaults.textFieldColors(
-                                    containerColor = Color.Transparent,
-                                    focusedIndicatorColor = Color.Transparent,  // 포커스 됐을 때 밑줄 제거
-                                    unfocusedIndicatorColor = Color.Transparent // 포커스 해제됐을 때 밑줄 제거
-                                ))
-                        }
-                        memoEntity?.memoContent = text
+                        TextField(
+                            value = text,
+                            onValueChange = { text = it },
+                            colors = TextFieldDefaults.textFieldColors(
+                                containerColor = Color.Transparent,
+                                focusedIndicatorColor = Color.Transparent,  // 포커스 됐을 때 밑줄 제거
+                                unfocusedIndicatorColor = Color.Transparent // 포커스 해제됐을 때 밑줄 제거
+                            )
+                        )
                     }
 
 //                    var text2 by remember {
