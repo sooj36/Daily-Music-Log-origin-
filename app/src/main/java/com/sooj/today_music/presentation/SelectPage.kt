@@ -25,7 +25,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -48,11 +47,9 @@ import com.sooj.today_music.presentation.posterList.PosterListScreen
 fun SelectPageScreen(navController: NavController, musicViewModel: MusicViewModel) {
     val selectedTrack by musicViewModel.selectedTrack_st.collectAsState()
     val context = LocalContext.current // localcontext로 context 가져오기
-    val saveResult = musicViewModel.saveResult_st.collectAsState()
 
-    val getUrl by musicViewModel.getAlbumMap_st.collectAsState()
-    val test = getUrl[selectedTrack?.name]
-    val imgURL = remember { test }
+    val albumUrls by musicViewModel.getAlbumMap_st.collectAsState()
+    val imgURL = selectedTrack?.name?.let { albumUrls[it] }
 
     Box(
         modifier = Modifier
@@ -76,19 +73,13 @@ fun SelectPageScreen(navController: NavController, musicViewModel: MusicViewMode
                 Image(imageVector = Icons.Outlined.Publish,
                     contentDescription = "getTrackData",
                     modifier = Modifier.size(30.dp).clickable {
-                        musicViewModel.saveSelectedTrack_vm()
-                        saveResult.value.let { success ->
-                            try {
-                                if (success == true) {
-                                    Toast.makeText(context, "success save", Toast.LENGTH_LONG).show()
-                                } else {
-                                    Toast.makeText(context, "DB 저장 실패 ${error("")}", Toast.LENGTH_LONG).show()
-                                }
-                            } catch (e: Exception) {
-                                Toast.makeText(context, "-> ${e.message} <-", Toast.LENGTH_LONG).show()
-                                Log.e("@save result", "save result ${e.message}")
-                            }
+                        if (imgURL == null) {
+                            Toast.makeText(context, "앨범 이미지를 불러오는 중입니다", Toast.LENGTH_LONG).show()
+                            return@clickable
                         }
+
+                        musicViewModel.saveSelectedTrack_vm()
+                        Toast.makeText(context, "success save", Toast.LENGTH_LONG).show()
                         navController.navigate("poster_list")
                     }
                 )
